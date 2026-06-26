@@ -88,5 +88,34 @@
 
 <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
 
+<div class="music-player" id="musicPlayer">
+
+  <button id="foldBtn" class="music-fold">❌</button>
+
+  <div class="music-cover" id="musicCover">
+    <img src="Personalization/player icon.png">
+  </div>
+
+  <div class="music-title" id="musicTitle">奶酪</div>
+
+  <div class="music-artist">未知歌手</div>
+
+  <input type="range" id="progress">
+
+  <div class="music-time">
+    <span id="currentTime">00:00</span>
+    <span id="duration">00:00</span>
+  </div>
+
+  <div class="music-control">
+    <button id="prevBtn">⏮</button>
+    <button id="playBtn">▶</button>
+    <button id="nextBtn">⏭</button>
+  </div>
+
+  <audio id="audio"></audio>
+
+</div>
+  
 </body>
 </html>
