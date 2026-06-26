@@ -1,0 +1,21 @@
+body {
+  margin: 0;
+  font-family: Arial;
+  background: #111;
+  color: white;
+}
+
+.music-player {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #222;
+  padding: 10px;
+}
+
+.music-fold {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+}
