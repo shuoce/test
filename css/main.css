@@ -1,21 +1,463 @@
-body {
-  margin: 0;
-  font-family: Arial;
-  background: #111;
-  color: white;
+/* =========================
+   全局初始化
+========================= */
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:"Microsoft YaHei",sans-serif;
 }
 
-.music-player {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: #222;
-  padding: 10px;
+body{
+min-height:100vh;
+color:#fff;
+overflow-x:hidden;
 }
 
-.music-fold {
-  position: absolute;
-  right: 10px;
-  top: 10px;
+/* =========================
+   背景
+========================= */
+body::before{
+content:"";
+position:fixed;
+inset:0;
+background:url("../background.jpg") center center no-repeat;
+background-size:cover;
+filter:blur(12px);
+transform:scale(1.1);
+z-index:-2;
 }
+
+body::after{
+content:"";
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.45);
+z-index:-1;
+}
+
+/* =========================
+   粒子背景
+========================= */
+#particles-js{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+z-index:-1;
+pointer-events:none;
+}
+
+/* =========================
+   容器
+========================= */
+.container{
+max-width:1100px;
+margin:40px auto;
+padding:25px;
+}
+
+.panel{
+position:relative;
+z-index:2;
+background:rgba(255,255,255,.08);
+backdrop-filter:blur(20px);
+border:1px solid rgba(255,255,255,.12);
+border-radius:30px;
+padding:40px;
+box-shadow:0 8px 40px rgba(0,0,0,.25);
+}
+
+/* =========================
+   头部
+========================= */
+.header{
+text-align:center;
+margin-bottom:30px;
+}
+
+.header h1{
+font-size:42px;
+letter-spacing:3px;
+margin-bottom:10px;
+}
+
+.time{
+font-size:42px;
+font-weight:bold;
+}
+
+.date{
+opacity:.8;
+margin-top:8px;
+}
+
+.weather{
+margin-top:10px;
+font-size:15px;
+opacity:.9;
+}
+
+.welcome{
+margin-top:12px;
+font-size:14px;
+opacity:.75;
+letter-spacing:1px;
+}
+
+/* =========================
+   搜索
+========================= */
+.search-box{
+margin:35px auto;
+max-width:700px;
+}
+
+.search-form{
+display:flex;
+gap:10px;
+}
+
+.search-form select,
+.search-form input{
+padding:15px;
+border:none;
+border-radius:14px;
+background:rgba(255,255,255,.15);
+color:white;
+outline:none;
+}
+
+.search-form option{
+color:black;
+}
+
+.search-form input::placeholder{
+color:#ddd;
+}
+
+.search-form button{
+padding:15px 25px;
+border:none;
+border-radius:14px;
+cursor:pointer;
+font-weight:bold;
+background:#4fc3f7;
+}
+
+/* =========================
+   卡片
+========================= */
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+gap:18px;
+}
+
+.card{
+text-decoration:none;
+color:white;
+background:rgba(255,255,255,.08);
+border:1px solid rgba(255,255,255,.08);
+border-radius:20px;
+padding:22px;
+text-align:center;
+transition:.25s;
+}
+
+.card:hover{
+transform:translateY(-6px);
+background:rgba(255,255,255,.15);
+}
+
+.card i{
+font-size:34px;
+margin-bottom:12px;
+display:block;
+}
+
+.card-title{
+font-size:18px;
+font-weight:bold;
+}
+
+.card-desc{
+font-size:13px;
+opacity:.75;
+margin-top:5px;
+}
+
+/* =========================
+   主题切换
+========================= */
+.theme-switch{
+position:fixed;
+top:20px;
+right:20px;
+z-index:999;
+display:flex;
+gap:8px;
+}
+
+.theme-switch button{
+border:none;
+padding:10px 12px;
+border-radius:12px;
+cursor:pointer;
+background:rgba(255,255,255,.15);
+color:white;
+font-size:18px;
+backdrop-filter:blur(10px);
+}
+
+.theme-switch button:hover{
+background:rgba(255,255,255,.3);
+}
+
+/* =========================
+   Quote
+========================= */
+.quote-box{
+margin-top:25px;
+padding:18px;
+border-radius:16px;
+background:rgba(255,255,255,.08);
+border:1px solid rgba(255,255,255,.08);
+text-align:center;
+line-height:1.8;
+font-size:15px;
+}
+
+/* =========================
+   Footer
+========================= */
+.footer{
+text-align:center;
+margin-top:30px;
+opacity:.6;
+font-size:13px;
+}
+
+/* =========================
+   折叠
+========================= */
+.fold-header{
+display:flex;
+align-items:center;
+gap:10px;
+margin:20px 0;
+font-size:20px;
+font-weight:bold;
+cursor:pointer;
+user-select:none;
+}
+
+.fold-arrow{
+transition:.25s;
+}
+
+.fold-arrow.open{
+transform:rotate(90deg);
+}
+
+.fold-content{
+overflow:hidden;
+max-height:0;
+transition:max-height .35s ease;
+}
+
+.fold-content.show{
+max-height:2000px;
+}
+
+/* =========================
+   头像
+========================= */
+#avatar{
+width:90px;
+height:90px;
+display:block;
+margin:0 auto 18px;
+border-radius:50%;
+object-fit:cover;
+border:3px solid rgba(255,255,255,.25);
+box-shadow:0 0 20px rgba(79,195,247,.5);
+}
+
+/* =========================
+   音乐播放器
+========================= */
+.music-player{
+position:fixed;
+right:24px;
+bottom:24px;
+width:360px;
+padding:22px;
+border-radius:24px;
+background:rgba(255,255,255,.08);
+backdrop-filter:blur(30px);
+border:1px solid rgba(255,255,255,.18);
+box-shadow:0 12px 40px rgba(0,0,0,.35);
+z-index:9999;
+}
+
+.music-player.hide{
+transform:translateY(150%);
+opacity:0;
+pointer-events:none;
+}
+
+.music-cover{
+width:76px;
+height:76px;
+margin:auto;
+border-radius:50%;
+overflow:hidden;
+margin-bottom:15px;
+}
+
+.music-cover img{
+width:100%;
+height:100%;
+object-fit:cover;
+}
+
+.music-title{
+text-align:center;
+font-size:18px;
+font-weight:bold;
+margin-bottom:5px;
+}
+
+.music-artist{
+text-align:center;
+font-size:13px;
+opacity:.75;
+margin-bottom:15px;
+}
+
+#progress{
+width:100%;
+accent-color:#4fc3f7;
+cursor:pointer;
+}
+
+.music-time{
+display:flex;
+justify-content:space-between;
+font-size:12px;
+opacity:.75;
+margin-top:6px;
+}
+
+.music-control{
+display:flex;
+justify-content:center;
+gap:18px;
+margin-top:18px;
+}
+
+.music-control button{
+width:52px;
+height:52px;
+border:none;
+border-radius:50%;
+background:rgba(255,255,255,.12);
+color:#fff;
+font-size:22px;
+cursor:pointer;
+transition:.25s;
+}
+
+.music-fold{
+position:absolute;
+top:10px;
+left:10px;
+width:30px;
+height:30px;
+border:none;
+border-radius:50%;
+background:rgba(255,255,255,.15);
+color:white;
+cursor:pointer;
+}
+
+.music-close{
+position:absolute;
+top:10px;
+right:12px;
+width:30px;
+height:30px;
+border:none;
+border-radius:50%;
+background:rgba(255,255,255,.15);
+color:#fff;
+cursor:pointer;
+}
+
+/* =========================
+   主题模式
+========================= */
+.transparent-mode .panel,
+.transparent-mode .card,
+.transparent-mode .quote-box{
+background:rgba(255,255,255,.03);
+}
+
+.dark-mode .panel,
+.dark-mode .card,
+.dark-mode .quote-box{
+background:rgba(0,0,0,.55);
+}
+
+.light-mode{
+color:#222;
+}
+
+.light-mode .panel{
+background:rgba(255,255,255,.75);
+}
+
+.light-mode .card{
+background:rgba(255,255,255,.65);
+color:#222;
+}
+
+.light-mode .quote-box{
+background:rgba(255,255,255,.65);
+color:#222;
+}
+
+.light-mode .footer,
+.light-mode .date{
+color:#222;
+}
+
+/* =========================
+   响应式
+========================= */
+@media(max-width:768px){
+
+.panel{
+padding:25px;
+}
+
+.time{
+font-size:30px;
+}
+
+.header h1{
+font-size:30px;
+}
+
+.search-form{
+flex-direction:column;
+}
+
+.music-player{
+width:92%;
+right:4%;
+bottom:12px;
+}
+  }
