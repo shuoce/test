@@ -192,12 +192,12 @@ border:3px solid rgba(255,255,255,.25);
 ========================= */
 
 .theme-switch{
-    position:fixed;
-    top:20px;
-    right:20px;
+    position:absolute;
+    top:25px;
+    right:25px;
     display:flex;
     gap:10px;
-    z-index:99999;
+    z-index:10;
 }
 
 .theme-switch button{
