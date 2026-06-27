@@ -21,25 +21,39 @@ const foldBtn = document.getElementById("foldBtn"); // ❗关键补上
 canvas.width = 320;
 canvas.height = 60;
 
-// =====================
-// 折叠功能（修复核心）
-// =====================
-let folded = false;
+//折叠
+window.addEventListener("DOMContentLoaded", () => {
 
-if (foldBtn && musicPlayer) {
-    foldBtn.onclick = () => {
+    const musicPlayer = document.getElementById("musicPlayer");
+    const foldBtn = document.getElementById("foldBtn");
+
+    console.log("foldBtn:", foldBtn);
+    console.log("musicPlayer:", musicPlayer);
+
+    if(!musicPlayer || !foldBtn){
+        console.log("❌ 元素没找到（HTML id错误或JS未加载）");
+        return;
+    }
+
+    let folded = false;
+
+    // ❗防止旧onclick冲突（关键！）
+    foldBtn.replaceWith(foldBtn.cloneNode(true));
+
+    const newFoldBtn = document.getElementById("foldBtn");
+
+    newFoldBtn.onclick = () => {
 
         folded = !folded;
 
         musicPlayer.classList.toggle("folded", folded);
 
-        // 隐藏Pro Max元素
-        if(volume) volume.style.display = folded ? "none" : "block";
-        if(canvas) canvas.style.display = folded ? "none" : "block";
+        console.log("fold状态:", folded);
 
-        foldBtn.innerText = folded ? "←" : "❌";
+        newFoldBtn.innerText = folded ? "←" : "❌";
     };
-}
+
+});
 
 // =====================
 // 播放列表
