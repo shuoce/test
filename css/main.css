@@ -249,7 +249,7 @@ border:3px solid rgba(255,255,255,.25);
 }
 
 /* =========================
-   音乐播放器（稳定版）
+   音乐播放器（修复稳定版）
 ========================= */
 .music-player{
 position:fixed;
@@ -263,6 +263,7 @@ backdrop-filter:blur(30px);
 border:1px solid rgba(255,255,255,.18);
 z-index:9999;
 transition:.3s;
+overflow:hidden;
 }
 
 /* 封面 */
@@ -314,7 +315,7 @@ cursor:pointer;
 }
 
 /* =========================
-   折叠播放器（重点修复）
+   折叠播放器（最终稳定修复）
 ========================= */
 .music-player.folded{
 width:90px !important;
@@ -324,7 +325,6 @@ border-radius:50% !important;
 display:flex;
 align-items:center;
 justify-content:center;
-overflow:hidden;
 }
 
 .music-player.folded .music-title,
@@ -344,9 +344,7 @@ margin:0;
 /* =========================
    主题
 ========================= */
-.light-mode{
-color:#222;
-}
+.light-mode{ color:#222; }
 
 .light-mode .panel{
 background:rgba(255,255,255,.75);
