@@ -128,59 +128,68 @@ document.getElementById("hitokoto").innerText =
 
 
 // =========================
-// 🎨 主题系统（升级版）
+// 🎨 主题系统（稳定升级版）
 // =========================
 
-const themes = {
-    glass: "glass",
-    dark: "dark",
-    light: "light"
-};
+const THEMES = ["glass", "dark", "light"];
 
-// 读取本地主题
+// 读取主题
 let currentTheme = localStorage.getItem("theme") || "glass";
 
 // 应用主题
-function applyTheme(theme){
-    document.body.classList.remove("glass","dark","light");
-    document.body.classList.add(theme);
-    localStorage.setItem("theme", theme);
+function applyTheme(theme) {
+    const body = document.body;
 
-    updateButtons(theme);
+    // 防止重复 class
+    body.classList.remove("glass", "dark", "light");
+    body.classList.add(theme);
+
+    localStorage.setItem("theme", theme);
+    currentTheme = theme;
+
+    syncButtons();
 }
 
-// 按钮状态同步
-function updateButtons(theme){
+// 按钮同步（防止 null 报错）
+function syncButtons() {
     const glassBtn = document.getElementById("glassBtn");
     const modeBtn = document.getElementById("modeBtn");
 
-    if(!glassBtn || !modeBtn) return;
+    if (glassBtn) {
+        glassBtn.innerText = currentTheme === "glass" ? "🧊" : "👁️";
+    }
 
-    glassBtn.innerText = (theme === "glass") ? "🧊" : "👁️";
-    modeBtn.innerText = (theme === "dark") ? "🌙" : "☀️";
+    if (modeBtn) {
+        modeBtn.innerText = currentTheme === "dark" ? "🌙" : "☀️";
+    }
 }
 
-// 玻璃 / 透明切换（升级为循环）
-document.getElementById("glassBtn").onclick = () => {
-    if(currentTheme === "glass"){
-        currentTheme = "dark";
-    }else if(currentTheme === "dark"){
-        currentTheme = "light";
-    }else{
-        currentTheme = "glass";
+// 初始化（关键）
+window.addEventListener("DOMContentLoaded", () => {
+
+    // 应用默认主题
+    applyTheme(currentTheme);
+
+    const glassBtn = document.getElementById("glassBtn");
+    const modeBtn = document.getElementById("modeBtn");
+
+    // 按钮1：glass / dark / light 循环
+    if (glassBtn) {
+        glassBtn.addEventListener("click", () => {
+            let index = THEMES.indexOf(currentTheme);
+            index = (index + 1) % THEMES.length;
+            applyTheme(THEMES[index]);
+        });
     }
-    applyTheme(currentTheme);
-};
 
-// 明暗切换（快捷键）
-document.getElementById("modeBtn").onclick = () => {
-    currentTheme = (currentTheme === "dark") ? "light" : "dark";
-    applyTheme(currentTheme);
-};
-
-// 初始化
-applyTheme(currentTheme);
-
+    // 按钮2：dark / light 快捷切换
+    if (modeBtn) {
+        modeBtn.addEventListener("click", () => {
+            currentTheme = (currentTheme === "dark") ? "light" : "dark";
+            applyTheme(currentTheme);
+        });
+    }
+});
 // =========================
 // 运行时间
 // =========================
