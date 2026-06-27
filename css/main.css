@@ -83,13 +83,6 @@ body::after{
     border:3px solid rgba(255,255,255,.25);
 }
 
-@media (max-width:768px){
-    #avatar{
-        width:70px;
-        height:70px;
-    }
-}
-
 .header h1{
     font-size:42px;
     margin-bottom:10px;
@@ -249,7 +242,6 @@ body::after{
 /* =========================
    音乐播放器
 ========================= */
-
 .music-player{
     position:fixed;
     right:30px;
@@ -264,13 +256,8 @@ body::after{
     box-shadow:0 15px 40px rgba(0,0,0,.35);
     transition:all .35s ease;
     z-index:99999;
-    
     overflow:hidden;
 }
-
-
-
-/* 关闭按钮 */
 
 .music-fold{
     position:absolute;
@@ -292,36 +279,25 @@ body::after{
     transform:rotate(90deg);
 }
 
-
 /* =========================
-   频谱区域
+   视觉区域
 ========================= */
-
 .visual-area{
     position:relative;
     width:240px;
     height:240px;
     margin:10px auto 20px;
-
     display:flex;
     align-items:center;
     justify-content:center;
 }
 
-
-/* =========================
-   黑胶（支持圆形频谱）
-========================= */
-
 #vinyl{
     position:absolute;
-
     width:90px;
     height:90px;
-
     border-radius:50%;
     overflow:hidden;
-
     box-shadow:0 0 20px rgba(255,255,255,.18);
     z-index:2;
 }
@@ -338,17 +314,13 @@ body::after{
 }
 
 @keyframes spin{
-    from{
-        transform:rotate(0deg);
-    }
-    to{
-        transform:rotate(360deg);
-    }
+    from{transform:rotate(0deg);}
+    to{transform:rotate(360deg);}
 }
 
-
-/* 标题 */
-
+/* =========================
+   音乐信息
+========================= */
 .music-title{
     text-align:center;
     font-size:19px;
@@ -361,8 +333,6 @@ body::after{
     opacity:.75;
     margin:5px 0 15px;
 }
-
-/* 进度 */
 
 .progress{
     width:100%;
@@ -378,8 +348,9 @@ body::after{
     opacity:.7;
 }
 
-/* 控制 */
-
+/* =========================
+   控制
+========================= */
 .music-control{
     display:flex;
     justify-content:center;
@@ -408,8 +379,6 @@ body::after{
     background:#4fc3f7;
 }
 
-/* 音量 */
-
 .volume-slider{
     width:100%;
     margin-top:15px;
@@ -417,26 +386,23 @@ body::after{
 }
 
 /* =========================
-   圆形频谱 Canvas
+   Canvas
 ========================= */
-
 #visualizer{
     position:absolute;
     left:50%;
     top:50%;
-
     width:240px;
     height:240px;
-
     transform:translate(-50%,-50%);
     pointer-events:none;
     background:transparent;
     z-index:1;
 }
 
-
-/* 折叠 */
-
+/* =========================
+   折叠状态
+========================= */
 .music-player.folded{
     width:82px;
     height:82px;
@@ -450,7 +416,6 @@ body::after{
 .music-player.folded #vinyl{
     width:58px;
     height:58px;
-    margin:0;
 }
 
 .music-player.folded .music-title,
@@ -471,17 +436,33 @@ body::after{
     font-size:12px;
 }
 
-/* 防止隐藏 */
-
-#musicPlayer{
-    display:block;
-}
-
 /* =========================
-   手机迷你播放器
+   手机端（唯一版本）
 ========================= */
-
 @media (max-width:768px){
+
+    #avatar{width:70px;height:70px;}
+
+    .container{padding:15px;}
+
+    .panel{padding:20px;border-radius:20px;}
+
+    .time{font-size:32px;}
+
+    .header h1{font-size:28px;}
+
+    .search-form{flex-direction:column;}
+
+    .search-form input,
+    .search-form select,
+    .search-form button{
+        width:100%;
+    }
+
+    .grid{
+        grid-template-columns:repeat(2,1fr);
+        gap:12px;
+    }
 
     .music-player{
         width:150px;
@@ -490,6 +471,10 @@ body::after{
         bottom:8px;
         border-radius:16px;
     }
+
+    .music-title{font-size:13px;}
+    .music-btn{width:30px;height:30px;font-size:13px;}
+    .music-control{gap:8px;}
 
     .music-fold{
         width:22px;
@@ -502,180 +487,5 @@ body::after{
     #vinyl{
         width:56px;
         height:56px;
-        margin:0 auto 8px;
-    }
-
-    .music-title{
-        font-size:13px;
-        white-space:nowrap;
-        overflow:hidden;
-        text-overflow:ellipsis;
-    }
-
-    .music-artist{
-        font-size:10px;
-        margin-bottom:8px;
-    }
-
-    .progress{
-        height:4px;
-    }
-
-    .music-time{
-        font-size:9px;
-    }
-
-    .music-control{
-        gap:8px;
-        margin-top:8px;
-    }
-
-    .music-btn{
-        width:30px;
-        height:30px;
-        font-size:13px;
-    }
-
-    .volume-slider{
-        margin-top:6px;
-    }
-
-
-    .music-player.folded{
-        width:52px;
-        height:52px;
-        padding:4px;
-    }
-
-    .music-player.folded #vinyl{
-        width:36px;
-        height:36px;
-    }
-
-    .music-player.folded .music-fold{
-        width:18px;
-        height:18px;
-        font-size:9px;
-        top:2px;
-        right:2px;
     }
 }
-
-/* =========================
-   手机端（播放器迷你版）
-========================= */
-@media screen and (max-width:768px){
-
-    .container{
-        padding:15px;
-    }
-
-    .panel{
-        padding:20px;
-        border-radius:20px;
-    }
-
-    .time{
-        font-size:30px;
-    }
-
-    .header h1{
-        font-size:30px;
-    }
-
-    .search-box{
-        padding:0;
-    }
-
-    .search-form{
-        flex-direction:column;
-    }
-
-    .search-form input,
-    .search-form select,
-    .search-form button{
-        width:100%;
-    }
-
-    /* ===== 迷你播放器 ===== */
-
-    .music-player{
-        width:150px;
-        padding:8px;
-        right:8px;
-        bottom:8px;
-        border-radius:16px;
-    }
-
-    .music-fold{
-        width:20px;
-        height:20px;
-        top:5px;
-        right:5px;
-        font-size:10px;
-    }
-
-    #vinyl{
-        width:55px;
-        height:55px;
-        margin:2px auto 6px;
-    }
-
-    .music-title{
-        font-size:12px;
-        margin-bottom:2px;
-        white-space:nowrap;
-        overflow:hidden;
-        text-overflow:ellipsis;
-    }
-
-    .music-artist{
-        font-size:9px;
-        margin-bottom:6px;
-    }
-
-    .progress{
-        height:4px;
-    }
-
-    .music-time{
-        font-size:8px;
-        margin-top:2px;
-    }
-
-    .music-control{
-        gap:6px;
-        margin-top:6px;
-    }
-
-    .music-btn{
-        width:28px;
-        height:28px;
-        font-size:12px;
-    }
-
-    .volume-slider{
-        margin-top:5px;
-    }
-
-    /* 折叠 */
-
-    .music-player.folded{
-        width:50px;
-        height:50px;
-        padding:4px;
-    }
-
-    .music-player.folded #vinyl{
-        width:34px;
-        height:34px;
-    }
-
-    .music-player.folded .music-fold{
-        width:16px;
-        height:16px;
-        top:2px;
-        right:2px;
-        font-size:8px;
-    }
-
