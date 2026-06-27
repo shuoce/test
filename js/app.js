@@ -1,18 +1,29 @@
-// ===== 搜索 =====
+// =========================
+// 搜索功能
+// =========================
 function doSearch(e){
 e.preventDefault();
 
-const keyword = encodeURIComponent(document.getElementById("keyword").value);
+const keyword = encodeURIComponent(
+document.getElementById("keyword").value
+);
+
 const engine = document.getElementById("engine").value;
 
-let url = engine === "google"
-? "https://www.google.com/search?q=" + keyword
-: "https://www.bing.com/search?q=" + keyword;
+let url = "";
+
+if(engine === "google"){
+url = "https://www.google.com/search?q=" + keyword;
+}else{
+url = "https://www.bing.com/search?q=" + keyword;
+}
 
 window.open(url,"_blank");
 }
 
-// ===== 时间 =====
+// =========================
+// 时间 + 日期
+// =========================
 function updateTime(){
 const now = new Date();
 
@@ -20,71 +31,175 @@ document.getElementById("time").innerText =
 now.toLocaleTimeString("zh-CN",{hour12:false});
 
 document.getElementById("date").innerText =
-now.toLocaleDateString("zh-CN",{year:"numeric",month:"long",day:"numeric",weekday:"long"});
+now.toLocaleDateString("zh-CN",{
+year:"numeric",
+month:"long",
+day:"numeric",
+weekday:"long"
+});
 }
+
 setInterval(updateTime,1000);
 updateTime();
 
-// ===== 天气 =====
+// =========================
+// 天气
+// =========================
 fetch("https://wttr.in/?format=j1")
-.then(r=>r.json())
+.then(res=>res.json())
 .then(data=>{
 const temp = data.current_condition[0].temp_C;
 let desc = data.current_condition[0].weatherDesc[0].value;
-document.getElementById("weather").innerText = `${temp}°C ${desc}`;
+
+const weatherMap = {
+"Sunny":"晴天",
+"Clear":"晴朗",
+"Cloudy":"多云",
+"Partly cloudy":"局部多云",
+"Light rain":"小雨",
+"Moderate rain":"中雨",
+"Heavy rain":"大雨",
+"Thunderstorm":"雷暴",
+"Mist":"薄雾",
+"Fog":"大雾",
+"Snow":"下雪"
+};
+
+desc = weatherMap[desc] || desc;
+
+let icon = "🌤️";
+if(desc.includes("晴")) icon="☀️";
+else if(desc.includes("云")) icon="☁️";
+else if(desc.includes("雨")) icon="🌧️";
+else if(desc.includes("雷")) icon="⛈️";
+else if(desc.includes("雪")) icon="❄️";
+
+document.getElementById("weather").innerText =
+`${icon} ${temp}°C · ${desc}`;
+})
+.catch(()=>{
+document.getElementById("weather").innerText =
+"🌤️ 天气获取失败";
 });
 
-// ===== 一言 =====
+// =========================
+// 一言
+// =========================
 fetch("https://v1.hitokoto.cn/")
-.then(r=>r.json())
+.then(res=>res.json())
 .then(data=>{
 document.getElementById("hitokoto").innerHTML =
-`「${data.hitokoto}」——${data.from}`;
+`「${data.hitokoto}」<br><small>—— ${data.from}</small>`;
+})
+.catch(()=>{
+document.getElementById("hitokoto").innerText =
+"保持热爱，奔赴山海。";
 });
 
-// ===== theme =====
+// =========================
+// 主题切换
+// =========================
 function clearTheme(){
-document.body.classList.remove("transparent-mode","dark-mode","light-mode");
+document.body.classList.remove(
+"transparent-mode",
+"dark-mode",
+"light-mode"
+);
 }
 
 function setTheme(mode){
 clearTheme();
-if(mode==="transparent") document.body.classList.add("transparent-mode");
-if(mode==="dark") document.body.classList.add("dark-mode");
-if(mode==="light") document.body.classList.add("light-mode");
+
+if(mode === "transparent"){
+document.body.classList.add("transparent-mode");
+}
+
+if(mode === "dark"){
+document.body.classList.add("dark-mode");
+}
+
+if(mode === "light"){
+document.body.classList.add("light-mode");
+}
+
 localStorage.setItem("theme",mode);
 }
 
-// ===== runtime =====
+// 自动加载主题
+const savedTheme = localStorage.getItem("theme");
+if(savedTheme){
+setTheme(savedTheme);
+}
+
+// =========================
+// 运行时间
+// =========================
 const startDate = new Date("2026-06-25");
+
 setInterval(()=>{
-const days = Math.floor((new Date()-startDate)/86400000);
-document.getElementById("runtime").innerText = `已运行 ${days} 天`;
+const days = Math.floor((new Date() - startDate)/86400000);
+document.getElementById("runtime").innerText =
+`🚀 已运行 ${days} 天`;
 },1000);
 
-// ===== 折叠 =====
-function bindFold(h,c,a){
-const header=document.getElementById(h);
-const content=document.getElementById(c);
-const arrow=document.getElementById(a);
+// =========================
+// 折叠功能
+// =========================
+function bindFold(headerId, contentId, arrowId){
 
-header.onclick=()=>{
+const header = document.getElementById(headerId);
+const content = document.getElementById(contentId);
+const arrow = document.getElementById(arrowId);
+
+header.onclick = () => {
 content.classList.toggle("show");
+
+if(arrow){
+arrow.classList.toggle("open");
+arrow.innerText = content.classList.contains("show") ? "▼" : "▶";
+}
 };
 }
 
-bindFold("commonHeader","commonContent");
-bindFold("musicHeader","musicContent");
+// 常用网站
+bindFold("commonHeader","commonContent","commonArrow");
 
-// ===== particles =====
+// 音乐区
+bindFold("musicHeader","musicContent","musicArrow");
+
+// =========================
+// 粒子背景
+// =========================
 particlesJS("particles-js",{
 particles:{
-number:{value:60},
+number:{value:60,density:{enable:true,value_area:800}},
 color:{value:"#4fc3f7"},
 shape:{type:"circle"},
 opacity:{value:0.5},
-size:{value:3},
-line_linked:{enable:true,color:"#4fc3f7"},
-move:{enable:true,speed:2}
+size:{value:3,random:true},
+line_linked:{
+enable:true,
+distance:150,
+color:"#4fc3f7",
+opacity:0.35,
+width:1
+},
+move:{
+enable:true,
+speed:2,
+direction:"none",
+out_mode:"out"
 }
+},
+interactivity:{
+events:{
+onhover:{enable:true,mode:"grab"},
+onclick:{enable:true,mode:"push"}
+},
+modes:{
+grab:{distance:180,opacity:0.8},
+push:{particles_nb:4}
+}
+},
+retina_detect:true
 });
