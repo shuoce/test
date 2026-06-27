@@ -220,55 +220,31 @@ border:3px solid rgba(255,255,255,.25);
 /* =========================
    音乐播放器
 ========================= */
-.music-player{
-position:fixed;
-right:24px;
-bottom:24px;
-width:380px;
-padding:22px;
-border-radius:26px;
-background:rgba(10,10,10,.55);
-backdrop-filter:blur(30px);
-border:1px solid rgba(255,255,255,.12);
-z-index:999999;
-}
-
-/* ===== 黑胶 ===== */
-#vinyl{
-width:90px;
-height:90px;
-margin:auto;
-border-radius:50%;
-overflow:hidden;
-}
-/* =========================
-   音乐播放器 V2
-========================= */
 
 .music-player{
     position:fixed;
-    right:24px;
-    bottom:24px;
+    right:35px;
+    bottom:25px;
     width:330px;
     padding:20px;
     border-radius:24px;
-    background:rgba(18,18,18,.65);
-    backdrop-filter:blur(25px);
-    -webkit-backdrop-filter:blur(25px);
+    background:rgba(18,18,18,.68);
+    backdrop-filter:blur(22px);
+    -webkit-backdrop-filter:blur(22px);
     border:1px solid rgba(255,255,255,.12);
     box-shadow:0 15px 40px rgba(0,0,0,.35);
-    z-index:999999;
-    transition:all .35s ease;
+    transition:.35s;
+    z-index:99999;
 }
 
-/* ===== 折叠按钮 ===== */
+/* 折叠按钮 */
 
 .music-fold{
     position:absolute;
-    top:12px;
-    right:12px;
-    width:34px;
-    height:34px;
+    top:10px;
+    right:10px;
+    width:32px;
+    height:32px;
     border:none;
     border-radius:50%;
     background:rgba(255,255,255,.12);
@@ -278,11 +254,11 @@ overflow:hidden;
 }
 
 .music-fold:hover{
-    background:rgba(255,255,255,.22);
     transform:rotate(90deg);
+    background:rgba(255,255,255,.22);
 }
 
-/* ===== 黑胶 ===== */
+/* 黑胶 */
 
 #vinyl{
     width:120px;
@@ -290,7 +266,7 @@ overflow:hidden;
     margin:5px auto 15px;
     border-radius:50%;
     overflow:hidden;
-    box-shadow:0 0 25px rgba(255,255,255,.15);
+    box-shadow:0 0 20px rgba(255,255,255,.18);
 }
 
 #vinyl img{
@@ -305,49 +281,44 @@ overflow:hidden;
 }
 
 @keyframes spin{
-    from{
-        transform:rotate(0deg);
-    }
-    to{
-        transform:rotate(360deg);
-    }
+    from{transform:rotate(0deg);}
+    to{transform:rotate(360deg);}
 }
 
-/* ===== 歌曲 ===== */
+/* 标题 */
 
 .music-title{
     text-align:center;
     font-size:19px;
     font-weight:bold;
-    margin-top:5px;
+    margin-bottom:4px;
 }
 
 .music-artist{
     text-align:center;
     font-size:13px;
-    color:rgba(255,255,255,.7);
-    margin-top:4px;
+    opacity:.75;
     margin-bottom:15px;
 }
 
-/* ===== 进度条 ===== */
+/* 进度 */
 
 .progress{
     width:100%;
     height:6px;
-    cursor:pointer;
     accent-color:#4fc3f7;
+    cursor:pointer;
 }
 
 .music-time{
     display:flex;
     justify-content:space-between;
-    font-size:12px;
-    opacity:.75;
     margin-top:6px;
+    font-size:12px;
+    opacity:.7;
 }
 
-/* ===== 控制按钮 ===== */
+/* 按钮 */
 
 .music-control{
     display:flex;
@@ -375,10 +346,9 @@ overflow:hidden;
 
 .music-btn.play{
     background:#4fc3f7;
-    color:#fff;
 }
 
-/* ===== 音量 ===== */
+/* 音量 */
 
 .volume-slider{
     width:100%;
@@ -386,7 +356,7 @@ overflow:hidden;
     accent-color:#4fc3f7;
 }
 
-/* ===== 频谱 ===== */
+/* 频谱 */
 
 #visualizer{
     width:100%;
@@ -396,17 +366,16 @@ overflow:hidden;
     background:rgba(255,255,255,.05);
 }
 
-/* ===== 折叠 ===== */
+/* 折叠 */
 
 .music-player.folded{
-    width:84px;
-    height:84px;
+    width:82px;
+    height:82px;
     padding:10px;
     border-radius:50%;
     display:flex;
     align-items:center;
     justify-content:center;
-    overflow:visible;
 }
 
 .music-player.folded #vinyl{
@@ -426,18 +395,14 @@ overflow:hidden;
 }
 
 .music-player.folded .music-fold{
-    position:absolute;
-    top:-6px;
-    right:-6px;
-    width:30px;
-    height:30px;
-    border:none;
-    border-radius:50%;
-    font-size:14px;
-    z-index:999999;
+    top:4px;
+    right:4px;
+    width:26px;
+    height:26px;
+    font-size:13px;
 }
 
-/* ===== 防止隐藏 ===== */
+/* 防止隐藏 */
 
 #musicPlayer{
     display:block;
