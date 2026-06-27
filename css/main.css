@@ -408,51 +408,73 @@ border:3px solid rgba(255,255,255,.25);
     display:block;
 }
 
-/* 响应式 */
-@media(max-width:768px){
-.panel{padding:25px;}
-.time{font-size:30px;}
-.header h1{font-size:30px;}
-.search-form{flex-direction:column;}
-.music-player{
-width:92%;
-right:4%;
-bottom:12px;
-}
-}
+/* =========================
+   响应式（手机）
+========================= */
 
-@media(max-width:768px){
+@media (max-width:768px){
 
-.container{
-padding:15px;
-}
+    .container{
+        padding:15px;
+    }
 
-.panel{
-padding:20px;
-border-radius:20px;
-}
+    .panel{
+        padding:20px;
+        border-radius:20px;
+    }
 
-/* 搜索更舒服 */
-.search-box{
-padding:0;
-}
+    .time{
+        font-size:30px;
+    }
 
-.search-form{
-flex-direction:column;
-}
+    .header h1{
+        font-size:30px;
+    }
 
-.search-form input,
-.search-form select,
-.search-form button{
-width:100%;
-}
+    /* 搜索 */
+    .search-box{
+        padding:0;
+    }
 
-/* 播放器 */
-.music-player{
-width:92%;
-right:4%;
-bottom:12px;
-}
+    .search-form{
+        flex-direction:column;
+    }
+
+    .search-form input,
+    .search-form select,
+    .search-form button{
+        width:100%;
+    }
+
+    /* 播放器 */
+    .music-player{
+        width:260px;
+        padding:16px;
+        right:10px;
+        bottom:10px;
+    }
+
+    #vinyl{
+        width:90px;
+        height:90px;
+    }
+
+    .music-btn{
+        width:46px;
+        height:46px;
+        font-size:18px;
+    }
+
+    .music-player.folded{
+        width:70px;
+        height:70px;
+    }
+
+    .music-player.folded #vinyl{
+        width:52px;
+        height:52px;
+    }
+
 }
 
 /* =========================
