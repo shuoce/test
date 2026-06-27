@@ -392,3 +392,56 @@ right:4%;
 bottom:12px;
 }
 }
+
+/* =========================
+   主题效果
+========================= */
+
+/* 透明模式 */
+body.transparent-mode .panel,
+body.transparent-mode .card,
+body.transparent-mode .music-player{
+    background: rgba(255,255,255,.03) !important;
+    backdrop-filter: blur(8px);
+}
+
+/* 深色模式 */
+body.dark-mode::after{
+    background: rgba(0,0,0,.75) !important;
+}
+
+body.dark-mode .panel,
+body.dark-mode .card,
+body.dark-mode .music-player{
+    background: rgba(20,20,20,.75) !important;
+}
+
+/* 浅色模式 */
+body.light-mode{
+    color:#222;
+}
+
+body.light-mode::after{
+    background: rgba(255,255,255,.45) !important;
+}
+
+body.light-mode .panel,
+body.light-mode .card,
+body.light-mode .music-player{
+    background: rgba(255,255,255,.75) !important;
+    color:#222;
+}
+
+body.light-mode .search-form input,
+body.light-mode .search-form select{
+    background: rgba(255,255,255,.8);
+    color:#222;
+}
+
+body.light-mode .search-form input::placeholder{
+    color:#666;
+}
+
+body.light-mode .music-control button{
+    color:#222;
+}
