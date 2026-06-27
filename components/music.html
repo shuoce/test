@@ -1,14 +1,33 @@
+<!-- ===== 音乐播放器 ===== -->
 <div class="music-player" id="musicPlayer">
 
-  <button id="foldBtn" class="music-fold">❌</button>
+<button id="foldBtn" class="music-fold">❌</button>
 
-  <div class="song-info">
-    <div class="title">歌曲名</div>
-    <div class="artist">歌手</div>
-  </div>
+<div class="music-cover" id="musicCover">
+    <img src="Personalization/player icon.png">
+</div>
 
-  <div class="controls">
-    ⏮ ▶ ⏭
-  </div>
+<div class="music-title" id="musicTitle">奶酪</div>
+<div class="music-artist">未知歌手</div>
+
+<input type="range" id="progress" min="0" max="100">
+
+<div class="music-time">
+    <span id="currentTime">00:00</span>
+    <span id="duration">00:00</span>
+</div>
+
+<div class="music-control">
+    <button id="prevBtn">⏮</button>
+    <button id="playBtn">▶</button>
+    <button id="nextBtn">⏭</button>
+</div>
+
+<!-- 🔊 Pro Max新增：音量 -->
+<input id="volume" type="range" min="0" max="1" step="0.01" value="0.8" class="volume">
+
+<canvas id="visualizer"></canvas>
+    
+<audio id="audio"></audio>
 
 </div>
