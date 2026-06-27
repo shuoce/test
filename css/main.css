@@ -1,5 +1,5 @@
 /* =========================
-   全局初始化
+   基础重置
 ========================= */
 *{
 margin:0;
@@ -61,6 +61,7 @@ padding:25px;
 .panel{
 position:relative;
 z-index:2;
+
 background:rgba(255,255,255,.08);
 backdrop-filter:blur(20px);
 border:1px solid rgba(255,255,255,.12);
@@ -119,18 +120,22 @@ display:flex;
 gap:10px;
 }
 
-.search-form select,
+.search-form select{
+padding:15px;
+border:none;
+border-radius:14px;
+background:rgba(255,255,255,.15);
+color:white;
+}
+
 .search-form input{
+flex:1;
 padding:15px;
 border:none;
 border-radius:14px;
 background:rgba(255,255,255,.15);
 color:white;
 outline:none;
-}
-
-.search-form option{
-color:black;
 }
 
 .search-form input::placeholder{
@@ -189,7 +194,7 @@ margin-top:5px;
 }
 
 /* =========================
-   主题切换
+   主题按钮
 ========================= */
 .theme-switch{
 position:fixed;
@@ -216,7 +221,7 @@ background:rgba(255,255,255,.3);
 }
 
 /* =========================
-   Quote
+   一言
 ========================= */
 .quote-box{
 margin-top:25px;
@@ -230,7 +235,7 @@ font-size:15px;
 }
 
 /* =========================
-   Footer
+   footer
 ========================= */
 .footer{
 text-align:center;
@@ -240,7 +245,7 @@ font-size:13px;
 }
 
 /* =========================
-   折叠
+   折叠组件
 ========================= */
 .fold-header{
 display:flex;
@@ -283,10 +288,12 @@ border-radius:50%;
 object-fit:cover;
 border:3px solid rgba(255,255,255,.25);
 box-shadow:0 0 20px rgba(79,195,247,.5);
+transition:.3s;
+cursor:pointer;
 }
 
 /* =========================
-   音乐播放器
+   音乐播放器（完整旧版还原）
 ========================= */
 .music-player{
 position:fixed;
@@ -295,25 +302,46 @@ bottom:24px;
 width:360px;
 padding:22px;
 border-radius:24px;
+
 background:rgba(255,255,255,.08);
 backdrop-filter:blur(30px);
+-webkit-backdrop-filter:blur(30px);
+
 border:1px solid rgba(255,255,255,.18);
+
 box-shadow:0 12px 40px rgba(0,0,0,.35);
+
+overflow:hidden;
 z-index:9999;
+transition:.35s ease;
 }
 
-.music-player.hide{
-transform:translateY(150%);
-opacity:0;
+/* 流光 */
+.music-player::before{
+content:"";
+position:absolute;
+left:-50%;
+top:-50%;
+width:200%;
+height:200%;
+background:linear-gradient(120deg,transparent,rgba(79,195,247,.08),transparent);
+animation:flow 10s linear infinite;
 pointer-events:none;
 }
 
+@keyframes flow{
+from{transform:rotate(0deg);}
+to{transform:rotate(360deg);}
+}
+
+/* 封面旋转 */
 .music-cover{
 width:76px;
 height:76px;
 margin:auto;
 border-radius:50%;
 overflow:hidden;
+box-shadow:0 0 18px rgba(79,195,247,.45);
 margin-bottom:15px;
 }
 
@@ -323,6 +351,16 @@ height:100%;
 object-fit:cover;
 }
 
+.music-cover.playing{
+animation:spin 10s linear infinite;
+}
+
+@keyframes spin{
+from{transform:rotate(0);}
+to{transform:rotate(360deg);}
+}
+
+/* 文本 */
 .music-title{
 text-align:center;
 font-size:18px;
@@ -337,6 +375,7 @@ opacity:.75;
 margin-bottom:15px;
 }
 
+/* 控件 */
 #progress{
 width:100%;
 accent-color:#4fc3f7;
@@ -370,6 +409,7 @@ cursor:pointer;
 transition:.25s;
 }
 
+/* 按钮 */
 .music-fold{
 position:absolute;
 top:10px;
@@ -381,6 +421,7 @@ border-radius:50%;
 background:rgba(255,255,255,.15);
 color:white;
 cursor:pointer;
+font-size:16px;
 }
 
 .music-close{
@@ -397,7 +438,7 @@ cursor:pointer;
 }
 
 /* =========================
-   主题模式
+   主题
 ========================= */
 .transparent-mode .panel,
 .transparent-mode .card,
@@ -439,25 +480,17 @@ color:#222;
 ========================= */
 @media(max-width:768px){
 
-.panel{
-padding:25px;
-}
+.panel{padding:25px;}
 
-.time{
-font-size:30px;
-}
+.time{font-size:30px;}
 
-.header h1{
-font-size:30px;
-}
+.header h1{font-size:30px;}
 
-.search-form{
-flex-direction:column;
-}
+.search-form{flex-direction:column;}
 
 .music-player{
 width:92%;
 right:4%;
 bottom:12px;
 }
-  }
+}
