@@ -295,7 +295,13 @@ body::after{
     width:90px;
     height:90px;
 
-    margin:18px auto;
+    margin:34px auto 18px;
+
+    border-radius:50%;
+    overflow:hidden;
+    box-shadow:0 0 20px rgba(255,255,255,.18);
+    z-index:2;
+}
 
     border-radius:50%;
     overflow:hidden;
@@ -402,7 +408,16 @@ body::after{
 #visualizer{
     position:absolute;
     left:50%;
-    top:32px;
+    top:18px;
+
+    width:240px;
+    height:240px;
+
+    transform:translateX(-50%);
+    pointer-events:none;
+    background:transparent;
+    z-index:1;
+}
 
     width:240px;
     height:240px;
@@ -670,4 +685,4 @@ body::after{
         font-size:8px;
     }
 
-}
+       }
