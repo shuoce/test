@@ -16,8 +16,30 @@ const volume = document.getElementById("volume");
 const canvas = document.getElementById("visualizer");
 const ctx = canvas.getContext("2d");
 
+const foldBtn = document.getElementById("foldBtn"); // ❗关键补上
+
 canvas.width = 320;
 canvas.height = 60;
+
+// =====================
+// 折叠功能（修复核心）
+// =====================
+let folded = false;
+
+if (foldBtn && musicPlayer) {
+    foldBtn.onclick = () => {
+
+        folded = !folded;
+
+        musicPlayer.classList.toggle("folded", folded);
+
+        // 隐藏Pro Max元素
+        if(volume) volume.style.display = folded ? "none" : "block";
+        if(canvas) canvas.style.display = folded ? "none" : "block";
+
+        foldBtn.innerText = folded ? "←" : "❌";
+    };
+}
 
 // =====================
 // 播放列表
