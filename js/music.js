@@ -259,10 +259,15 @@ function draw(){
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    const cx = canvas.width / 2;
-    const cy = canvas.height / 2;
+    // 获取头像中心
+const rectCanvas = canvas.getBoundingClientRect();
+const rectVinyl = vinyl.getBoundingClientRect();
 
-    const radius = Math.min(canvas.width, canvas.height) * 0.30;
+const cx = rectVinyl.left - rectCanvas.left + rectVinyl.width / 2;
+const cy = rectVinyl.top - rectCanvas.top + rectVinyl.height / 2;
+
+// 频谱距离头像边缘 8px
+const radius = rectVinyl.width / 2 + 8;
 
     const count = bufferLength;
 
@@ -272,7 +277,7 @@ function draw(){
 
         const angle = (Math.PI * 2 / count) * i;
 
-        const len = value * (Math.min(canvas.width, canvas.height) * 0.18);
+        const len = 8 + value * 18;
 
         const x1 = cx + Math.cos(angle) * radius;
         const y1 = cy + Math.sin(angle) * radius;
