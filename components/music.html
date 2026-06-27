@@ -1,188 +1,45 @@
-<!-- ===================================================== -->
-<!-- 🎧 MUSIC PLAYER PRO MAX v5 -->
-<!-- ===================================================== -->
+<!-- =========================
+🎧 V6 Stable Music Player
+========================= -->
 
 <div class="music-player" id="musicPlayer">
 
-<button id="foldBtn" class="music-fold">❌</button>
+    <!-- 折叠按钮 -->
+    <button id="foldBtn" class="music-fold">❌</button>
 
-<!-- 黑胶 -->
-<div class="vinyl-wrapper">
-    <div class="vinyl" id="vinyl">
-        <img src="Personalization/player icon.png">
-    </div>
-</div>
-
-<div class="music-title" id="musicTitle">奶酪</div>
-<div class="music-artist">未知歌手</div>
-
-<!-- 歌词 -->
-<div class="lyrics-box" id="lyricsBox"></div>
-
-<!-- 进度 -->
-<input type="range" id="progress" min="0" max="100">
-
-<div class="music-time">
-    <span id="currentTime">00:00</span>
-    <span id="duration">00:00</span>
-</div>
-
-<!-- 控制 -->
-<div class="music-control">
-    <button id="prevBtn">⏮</button>
-    <button id="playBtn"> </button>
-    <button id="nextBtn">⏭</button>
-</div>
-
-<!-- 音量 -->
-<input id="volume" type="range" min="0" max="1" step="0.01" value="0.8" class="volume">
-
-<!-- 频谱 -->
-<canvas id="visualizer"></canvas>
-
-<audio id="audio"></audio>
-
-</div>
-
-<!-- ===================================================== -->
-<!-- 🌌 沉浸模式 -->
-<!-- ===================================================== -->
-
-<div class="immersive" id="immersive">
-
-<div class="immersive-bg"></div>
-
-<div class="immersive-panel">
-
+    <!-- 黑胶 -->
     <div class="vinyl-wrapper">
-        <div class="vinyl" id="vinyl2">
+        <div class="vinyl" id="vinyl">
             <img src="Personalization/player icon.png">
         </div>
     </div>
 
-    <div class="music-title" id="musicTitle2">奶酪</div>
+    <!-- 标题 -->
+    <div class="music-title" id="musicTitle">奶酪</div>
+    <div class="music-artist">未知歌手</div>
 
-    <div class="lyrics-box" id="lyricsBox2"></div>
+    <!-- 进度 -->
+    <input type="range" id="progress" min="0" max="100">
 
-    <canvas id="visualizer2"></canvas>
+    <!-- 时间 -->
+    <div class="music-time">
+        <span id="currentTime">00:00</span>
+        <span id="duration">00:00</span>
+    </div>
 
-    <button id="exitImmersive">退出沉浸模式</button>
+    <!-- 控制 -->
+    <div class="music-control">
+        <button id="prevBtn">⏮</button>
+        <button id="playBtn">▶</button>
+        <button id="nextBtn">⏭</button>
+    </div>
+
+    <!-- 音量 -->
+    <input id="volume" class="volume" type="range" min="0" max="1" step="0.01" value="0.8">
+
+    <!-- 频谱 -->
+    <canvas id="visualizer"></canvas>
+
+    <audio id="audio"></audio>
 
 </div>
-
-</div>
-
-/* =========================
-   V6 音乐播放器稳定核心
-========================= */
-
-.music-player{
-position:fixed;
-right:24px;
-bottom:24px;
-width:380px;
-padding:20px;
-border-radius:24px;
-background:rgba(10,10,10,.55);
-backdrop-filter:blur(30px);
-border:1px solid rgba(255,255,255,.12);
-z-index:9999;
-transition:.3s;
-overflow:hidden;
-}
-
-/* 黑胶 */
-.vinyl-wrapper{
-display:flex;
-justify-content:center;
-margin-bottom:10px;
-}
-
-.vinyl{
-width:90px;
-height:90px;
-border-radius:50%;
-overflow:hidden;
-box-shadow:0 0 20px rgba(79,195,247,.5);
-}
-
-.vinyl img{
-width:100%;
-height:100%;
-object-fit:cover;
-}
-
-/* 播放旋转 */
-.vinyl.playing{
-animation:spin 8s linear infinite;
-}
-
-@keyframes spin{
-from{transform:rotate(0);}
-to{transform:rotate(360deg);}
-}
-
-/* 歌词 */
-.lyrics-box{
-margin:10px 0;
-height:60px;
-overflow:hidden;
-text-align:center;
-font-size:13px;
-opacity:.8;
-}
-
-/* 控制 */
-.music-control{
-display:flex;
-justify-content:center;
-gap:16px;
-margin-top:10px;
-}
-
-.music-control button{
-width:50px;
-height:50px;
-border:none;
-border-radius:50%;
-background:rgba(255,255,255,.12);
-color:#fff;
-cursor:pointer;
-}
-
-/* 折叠按钮 */
-.music-fold{
-position:absolute;
-top:10px;
-left:10px;
-width:30px;
-height:30px;
-border:none;
-border-radius:50%;
-background:rgba(255,255,255,.15);
-color:#fff;
-cursor:pointer;
-z-index:10;
-}
-
-/* 折叠状态（关键修复） */
-.music-player.folded{
-width:80px !important;
-height:80px !important;
-padding:10px !important;
-border-radius:50% !important;
-display:flex;
-align-items:center;
-justify-content:center;
-}
-
-.music-player.folded .music-title,
-.music-player.folded .music-artist,
-.music-player.folded .music-control,
-.music-player.folded #progress,
-.music-player.folded .music-time,
-.music-player.folded .volume,
-.music-player.folded #visualizer,
-.music-player.folded .lyrics-box{
-display:none !important;
-}
