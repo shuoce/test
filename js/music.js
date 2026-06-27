@@ -86,6 +86,12 @@ function loadSong(i){
 
     musicTitle.innerText = playlist[i].title;
 
+    progress.value = 0;
+
+    currentTime.innerText = "00:00";
+
+    duration.innerText = "00:00";
+
     audio.load();
 
 }
@@ -96,15 +102,23 @@ function loadSong(i){
 
 async function startPlay(){
 
-    if(audioCtx.state === "suspended"){
-        await audioCtx.resume();
+    try{
+
+        if(audioCtx.state === "suspended"){
+            await audioCtx.resume();
+        }
+
+        await audio.play();
+
+        playBtn.innerText = "⏸";
+
+        vinyl.classList.add("playing");
+
+    }catch(err){
+
+        console.error(err);
+
     }
-
-    await audio.play();
-
-    playBtn.innerText = "⏸";
-
-    vinyl.classList.add("playing");
 
 }
 
@@ -248,7 +262,7 @@ function draw(){
     const cx = canvas.width / 2;
     const cy = canvas.height / 2;
 
-    const radius = canvas.width * 0.28;
+    const radius = Math.min(canvas.width, canvas.height) * 0.30;
 
     const count = bufferLength;
 
@@ -258,7 +272,7 @@ function draw(){
 
         const angle = (Math.PI * 2 / count) * i;
 
-        const len = value * (canvas.width * 0.12);
+        const len = value * (Math.min(canvas.width, canvas.height) * 0.18);
 
         const x1 = cx + Math.cos(angle) * radius;
         const y1 = cy + Math.sin(angle) * radius;
@@ -304,3 +318,5 @@ audio.volume = 0.8;
 volume.value = 0.8;
 
 playBtn.innerText = "▶";
+
+resizeCanvas();
