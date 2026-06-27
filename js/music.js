@@ -263,7 +263,7 @@ function draw(){
     const cy = canvas.height / 2;
 
     // 头像半径约60，再留一点距离
-    const radius = 70;
+    const radius = 52;
 
     for(let i=0;i<bufferLength;i++){
 
@@ -271,7 +271,7 @@ function draw(){
 
         const angle = i / bufferLength * Math.PI * 2;
 
-        const len = 10 + value * 25;
+        const len = 18 + value * 38;
 
         const x1 = cx + Math.cos(angle) * radius;
         const y1 = cy + Math.sin(angle) * radius;
