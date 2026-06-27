@@ -1,6 +1,3 @@
-// =========================
-// 元素获取（主播放器）
-// =========================
 const musicPlayer = document.getElementById("musicPlayer");
 const audio = document.getElementById("audio");
 
@@ -9,7 +6,6 @@ const prevBtn = document.getElementById("prevBtn");
 const nextBtn = document.getElementById("nextBtn");
 
 const musicTitle = document.getElementById("musicTitle");
-const musicTitle2 = document.getElementById("musicTitle2");
 
 const progress = document.getElementById("progress");
 const currentTime = document.getElementById("currentTime");
@@ -18,41 +14,29 @@ const duration = document.getElementById("duration");
 const volume = document.getElementById("volume");
 
 const vinyl = document.getElementById("vinyl");
-const vinyl2 = document.getElementById("vinyl2");
+const foldBtn = document.getElementById("foldBtn");
 
 const canvas = document.getElementById("visualizer");
 const ctx = canvas.getContext("2d");
 
-// =========================
-// 沉浸模式
-// =========================
-const immersive = document.getElementById("immersive");
-const exitImmersive = document.getElementById("exitImmersive");
+canvas.width = 320;
+canvas.height = 60;
 
-// 双击进入沉浸模式
-musicPlayer.addEventListener("dblclick", () => {
-    immersive.classList.add("active");
-});
-
-// 退出沉浸模式
-exitImmersive.onclick = () => {
-    immersive.classList.remove("active");
-};
-
-// =========================
+// =====================
 // 播放列表
-// =========================
+// =====================
 const playlist = [
-    { title: "奶酪", src: "Personalization/Music/Music/奶酪.mp3" }
+  { title: "奶酪", src: "Personalization/Music/Music/奶酪.mp3" }
 ];
 
 let index = 0;
 
-// =========================
-// Web Audio（频谱）
-// =========================
+// =====================
+// Audio API
+// =====================
 const AudioContext = window.AudioContext || window.webkitAudioContext;
 const audioCtx = new AudioContext();
+
 const source = audioCtx.createMediaElementSource(audio);
 const analyser = audioCtx.createAnalyser();
 
@@ -60,23 +44,21 @@ source.connect(analyser);
 analyser.connect(audioCtx.destination);
 
 analyser.fftSize = 64;
-
 const bufferLength = analyser.frequencyBinCount;
 const dataArray = new Uint8Array(bufferLength);
 
-// =========================
-// 加载歌曲
-// =========================
+// =====================
+// 加载音乐
+// =====================
 function loadSong(i){
     audio.src = playlist[i].src;
     musicTitle.innerText = playlist[i].title;
-    if(musicTitle2) musicTitle2.innerText = playlist[i].title;
     audio.load();
 }
 
-// =========================
-// 时间格式
-// =========================
+// =====================
+// 时间格式化
+// =====================
 function format(t){
     t = Math.floor(t || 0);
     const m = Math.floor(t / 60);
@@ -84,24 +66,29 @@ function format(t){
     return `${String(m).padStart(2,"0")}:${String(s).padStart(2,"0")}`;
 }
 
-// =========================
-// 播放 / 暂停
-// =========================
-playBtn.onclick = () => {
+// =====================
+// 播放控制
+// =====================
+playBtn.onclick = async () => {
+
+    if(audioCtx.state === "suspended"){
+        await audioCtx.resume();
+    }
 
     if(audio.paused){
-        audioCtx.resume();
         audio.play();
         playBtn.innerText = "⏸";
+        vinyl.classList.add("playing");
     }else{
         audio.pause();
         playBtn.innerText = "▶";
+        vinyl.classList.remove("playing");
     }
 };
 
-// =========================
-// 上一首 / 下一首
-// =========================
+// =====================
+// 切歌
+// =====================
 prevBtn.onclick = () => {
     index = (index - 1 + playlist.length) % playlist.length;
     loadSong(index);
@@ -114,117 +101,41 @@ nextBtn.onclick = () => {
     audio.play();
 };
 
-// =========================
-// 进度条
-// =========================
+// =====================
+// 进度
+// =====================
 audio.ontimeupdate = () => {
-
     progress.value = (audio.currentTime / audio.duration) * 100 || 0;
-
     currentTime.innerText = format(audio.currentTime);
-
-    // 歌词同步
-    updateLyrics(audio.currentTime);
 };
 
-// =========================
-// 拖动进度条
-// =========================
 progress.oninput = () => {
     audio.currentTime = (progress.value / 100) * audio.duration;
 };
 
-// =========================
+// =====================
 // 时长
-// =========================
+// =====================
 audio.onloadedmetadata = () => {
     duration.innerText = format(audio.duration);
 };
 
-// =========================
+// =====================
 // 音量
-// =========================
+// =====================
 volume.oninput = () => {
     audio.volume = volume.value;
 };
 
-// =========================
-// 黑胶动画联动
-// =========================
-audio.addEventListener("play", () => {
-    vinyl.classList.add("playing");
-    vinyl2?.classList.add("playing");
-});
-
-audio.addEventListener("pause", () => {
-    vinyl.classList.remove("playing");
-    vinyl2?.classList.remove("playing");
-});
-
-// =========================
-// 播放结束
-// =========================
+// =====================
+// 自动下一首
+// =====================
 audio.onended = () => nextBtn.click();
 
-// =========================
-// 歌词系统（v5）
-// =========================
-const lyricsData = [
-    { time: 0, text: "音乐开始..." },
-    { time: 5, text: "风吹过耳边" },
-    { time: 10, text: "像回忆一样轻" },
-    { time: 15, text: "我们曾经靠近" },
-    { time: 20, text: "又慢慢远离" }
-];
-
-const lyricsBox = document.getElementById("lyricsBox");
-const lyricsBox2 = document.getElementById("lyricsBox2");
-
-// 渲染歌词
-function renderLyrics(){
-    if(lyricsBox){
-        lyricsBox.innerHTML = "";
-        lyricsData.forEach(l => {
-            const div = document.createElement("div");
-            div.className = "lyrics-line";
-            div.innerText = l.text;
-            lyricsBox.appendChild(div);
-        });
-    }
-
-    if(lyricsBox2){
-        lyricsBox2.innerHTML = lyricsBox.innerHTML;
-    }
-}
-renderLyrics();
-
-// 更新歌词
-function updateLyrics(currentTime){
-
-    const lines = document.querySelectorAll(".lyrics-line");
-
-    lyricsData.forEach((l, i) => {
-
-        if(currentTime >= l.time){
-
-            lines.forEach(el => el.classList.remove("active"));
-
-            if(lines[i]){
-                lines[i].classList.add("active");
-                lines[i].scrollIntoView({
-                    behavior:"smooth",
-                    block:"center"
-                });
-            }
-        }
-    });
-}
-
-// =========================
-// 频谱动画
-// =========================
+// =====================
+// 频谱
+// =====================
 function draw(){
-
     requestAnimationFrame(draw);
 
     analyser.getByteFrequencyData(dataArray);
@@ -234,26 +145,30 @@ function draw(){
     let barWidth = canvas.width / bufferLength;
 
     for(let i=0;i<bufferLength;i++){
-
-        let barHeight = dataArray[i];
-
+        let barHeight = dataArray[i] / 2;
         ctx.fillStyle = "#4fc3f7";
-
-        ctx.fillRect(
-            i * barWidth,
-            canvas.height - barHeight/2,
-            barWidth - 2,
-            barHeight
-        );
+        ctx.fillRect(i * barWidth, canvas.height - barHeight, barWidth - 2, barHeight);
     }
 }
 draw();
 
-// =========================
+// =====================
+// 折叠（稳定版）
+// =====================
+document.addEventListener("DOMContentLoaded", () => {
+
+    let folded = false;
+
+    foldBtn.addEventListener("click", () => {
+        folded = !folded;
+        musicPlayer.classList.toggle("folded", folded);
+        foldBtn.innerText = folded ? "←" : "❌";
+    });
+
+});
+
+// =====================
 // 初始化
-// =========================
+// =====================
 loadSong(index);
 audio.volume = 0.8;
-
-// 自动播放（可能被浏览器阻止）
-audio.play().catch(()=>{});
