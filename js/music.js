@@ -16,147 +16,149 @@ const currentTime = document.getElementById("currentTime");
 const duration = document.getElementById("duration");
 
 const avatar = document.getElementById("avatar");
-
 const foldBtn = document.getElementById("foldBtn");
 
 // =========================
 // 播放列表
 // =========================
 const playlist = [
-{
-title: "奶酪",
-src: "Personalization/Music/Music/奶酪.mp3"
-}
+  {
+    title: "奶酪",
+    src: "Personalization/Music/Music/奶酪.mp3"
+  }
 ];
 
 let index = 0;
+let isFolded = false;
 
 // =========================
 // 加载歌曲
 // =========================
 function loadSong(i){
-audio.src = playlist[i].src;
-musicTitle.innerText = playlist[i].title;
-audio.load();
+  const song = playlist[i];
+
+  audio.src = song.src;
+  musicTitle.innerText = song.title;
+
+  audio.load();
 }
 
 // =========================
 // 时间格式化
 // =========================
 function format(t){
-t = Math.floor(t || 0);
-const m = Math.floor(t / 60);
-const s = t % 60;
-return `${String(m).padStart(2,"0")}:${String(s).padStart(2,"0")}`;
+  if(!t || isNaN(t)) return "00:00";
+
+  t = Math.floor(t);
+  const m = Math.floor(t / 60);
+  const s = t % 60;
+
+  return `${String(m).padStart(2,"0")}:${String(s).padStart(2,"0")}`;
+}
+
+// =========================
+// 播放状态统一控制
+// =========================
+function setPlayingUI(isPlaying){
+  playBtn.innerText = isPlaying ? "⏸" : "▶";
+
+  if(isPlaying){
+    musicCover.classList.add("playing");
+  }else{
+    musicCover.classList.remove("playing");
+  }
 }
 
 // =========================
 // 播放 / 暂停
 // =========================
-playBtn.onclick = () => {
-if(audio.paused){
-audio.play();
-playBtn.innerText = "⏸";
-musicCover.classList.add("playing");
-}else{
-audio.pause();
-playBtn.innerText = "▶";
-musicCover.classList.remove("playing");
+playBtn.onclick = async () => {
+  if(audio.paused){
+    try{
+      await audio.play();
+      setPlayingUI(true);
+    }catch(e){
+      console.log("播放失败:", e);
+    }
+  }else{
+    audio.pause();
+    setPlayingUI(false);
+  }
+};
+
+// =========================
+// 上一首 / 下一首
+// =========================
+function changeSong(step){
+  index = (index + step + playlist.length) % playlist.length;
+  loadSong(index);
+
+  audio.play().then(()=>{
+    setPlayingUI(true);
+  });
 }
-};
+
+prevBtn.onclick = () => changeSong(-1);
+nextBtn.onclick = () => changeSong(1);
 
 // =========================
-// 上一首
-// =========================
-prevBtn.onclick = () => {
-index = (index - 1 + playlist.length) % playlist.length;
-loadSong(index);
-audio.play();
-playBtn.innerText = "⏸";
-musicCover.classList.add("playing");
-};
-
-// =========================
-// 下一首
-// =========================
-nextBtn.onclick = () => {
-index = (index + 1) % playlist.length;
-loadSong(index);
-audio.play();
-playBtn.innerText = "⏸";
-musicCover.classList.add("playing");
-};
-
-// =========================
-// 进度条更新
+// 进度条
 // =========================
 audio.ontimeupdate = () => {
-progress.value = (audio.currentTime / audio.duration) * 100 || 0;
-currentTime.innerText = format(audio.currentTime);
+  if(audio.duration){
+    progress.value = (audio.currentTime / audio.duration) * 100;
+  }
+
+  currentTime.innerText = format(audio.currentTime);
 };
 
 // =========================
 // 拖动进度条
 // =========================
 progress.oninput = () => {
-audio.currentTime = (progress.value / 100) * audio.duration;
+  if(audio.duration){
+    audio.currentTime = (progress.value / 100) * audio.duration;
+  }
 };
 
 // =========================
-// 加载时长
+// 时长
 // =========================
 audio.onloadedmetadata = () => {
-duration.innerText = format(audio.duration);
+  duration.innerText = format(audio.duration);
 };
 
 // =========================
 // 自动下一首
 // =========================
 audio.onended = () => {
-nextBtn.click();
+  changeSong(1);
 };
 
 // =========================
-// 封面旋转状态
+// 音频状态同步（防UI错乱）
 // =========================
-audio.addEventListener("play", () => {
-musicCover.classList.add("playing");
-});
-
-audio.addEventListener("pause", () => {
-musicCover.classList.remove("playing");
-});
+audio.addEventListener("play", () => setPlayingUI(true));
+audio.addEventListener("pause", () => setPlayingUI(false));
 
 // =========================
-// 头像控制播放器显示/隐藏
+// 头像：显示 / 隐藏播放器（带状态修复）
 // =========================
 avatar.onclick = () => {
-musicPlayer.classList.toggle("hide");
+  musicPlayer.classList.toggle("hide");
 };
 
 // =========================
-// 播放器折叠 / 展开
+// 折叠 / 展开（强制同步DOM状态）
 // =========================
-let isFolded = false;
-
 foldBtn.onclick = () => {
 
-    isFolded = !isFolded;
+  isFolded = !isFolded;
 
-    if(isFolded){
+  musicPlayer.classList.toggle("folded", isFolded);
 
-        musicPlayer.classList.add("folded");
-        foldBtn.innerText = "←";
-        foldBtn.title = "展开播放器";
-
-    }else{
-
-        musicPlayer.classList.remove("folded");
-        foldBtn.innerText = "❌";
-        foldBtn.title = "折叠播放器";
-
-    }
-
+  foldBtn.innerText = isFolded ? "←" : "❌";
+  foldBtn.title = isFolded ? "展开播放器" : "折叠播放器";
 };
 
 // =========================
@@ -164,10 +166,7 @@ foldBtn.onclick = () => {
 // =========================
 loadSong(index);
 
-// 自动尝试播放（浏览器可能阻止）
-audio.play().then(() => {
-playBtn.innerText = "⏸";
-musicCover.classList.add("playing");
-}).catch(() => {
-console.log("自动播放被浏览器阻止，需要用户点击");
-});
+// 尝试自动播放
+audio.play()
+.then(()=> setPlayingUI(true))
+.catch(()=> console.log("浏览器阻止自动播放"));
