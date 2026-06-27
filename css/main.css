@@ -188,6 +188,36 @@ border:3px solid rgba(255,255,255,.25);
 }
 
 /* =========================
+   主题按钮
+========================= */
+
+.theme-switch{
+    position:fixed;
+    top:20px;
+    right:20px;
+    display:flex;
+    gap:10px;
+    z-index:99999;
+}
+
+.theme-switch button{
+    width:46px;
+    height:46px;
+    border:none;
+    border-radius:50%;
+    background:rgba(255,255,255,.15);
+    backdrop-filter:blur(15px);
+    color:#fff;
+    cursor:pointer;
+    font-size:20px;
+    transition:.3s;
+}
+
+.theme-switch button:hover{
+    transform:scale(1.08);
+}
+
+/* =========================
    音乐播放器
 ========================= */
 .music-player{
