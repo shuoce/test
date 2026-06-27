@@ -241,26 +241,43 @@ function draw(){
 
     analyser.getByteFrequencyData(dataArray);
 
+    function draw(){
+
+    requestAnimationFrame(draw);
+
+    analyser.getByteFrequencyData(dataArray);
+
     ctx.clearRect(0,0,canvas.width,canvas.height);
 
-    const barWidth = canvas.width / bufferLength;
+    const cx = canvas.width / 2;
+    const cy = canvas.height / 2;
 
-    for(let i = 0; i < bufferLength; i++){
+    const radius = 35;
 
-        const barHeight = dataArray[i] / 2;
+    const count = bufferLength;
 
-        ctx.fillStyle = "#4fc3f7";
+    for(let i=0;i<count;i++){
 
-        ctx.fillRect(
-            i * barWidth,
-            canvas.height - barHeight,
-            Math.max(barWidth - 2, 1),
-            barHeight
-        );
+        const value = dataArray[i] / 255;
 
+        const angle = (Math.PI * 2 / count) * i;
+
+        const len = value * 20;
+
+        const x1 = cx + Math.cos(angle) * radius;
+        const y1 = cy + Math.sin(angle) * radius;
+
+        const x2 = cx + Math.cos(angle) * (radius + len);
+        const y2 = cy + Math.sin(angle) * (radius + len);
+
+        ctx.beginPath();
+        ctx.strokeStyle = "#4fc3f7";
+        ctx.lineWidth = 2;
+        ctx.moveTo(x1,y1);
+        ctx.lineTo(x2,y2);
+        ctx.stroke();
     }
-
-}
+    }
 
 draw();
 
