@@ -70,11 +70,14 @@ const analyser = audioCtx.createAnalyser();
 source.connect(analyser);
 analyser.connect(audioCtx.destination);
 
-analyser.fftSize = 64;
+analyser.fftSize = 256;
 
 const bufferLength = analyser.frequencyBinCount;
 
 const dataArray = new Uint8Array(bufferLength);
+
+// 平滑缓存
+const smoothData = new Float32Array(bufferLength);
 
 // ======================
 // Load Song
@@ -259,19 +262,26 @@ function draw(){
 
     ctx.clearRect(0,0,canvas.width,canvas.height);
 
+// 发光效果
+ctx.shadowBlur = 12;
+ctx.shadowColor = "#4fc3f7";
+
     const cx = canvas.width / 2;
     const cy = canvas.height / 2;
 
     // 头像半径约60，再留一点距离
-    const radius = 52;
+    const radius = 56;
 
     for(let i=0;i<bufferLength;i++){
 
-        const value = dataArray[i] / 255;
+        // 平滑过渡
+smoothData[i] += (dataArray[i] - smoothData[i]) * 0.15;
+
+const value = smoothData[i] / 255;
 
         const angle = i / bufferLength * Math.PI * 2;
 
-        const len = 18 + value * 38;
+        const len = 10 + value * 70;
 
         const x1 = cx + Math.cos(angle) * radius;
         const y1 = cy + Math.sin(angle) * radius;
@@ -279,14 +289,25 @@ function draw(){
         const x2 = cx + Math.cos(angle) * (radius + len);
         const y2 = cy + Math.sin(angle) * (radius + len);
 
-        ctx.beginPath();
-        ctx.strokeStyle = "#4fc3f7";
-        ctx.lineWidth = 3;
-        ctx.lineCap = "round";
-        ctx.moveTo(x1,y1);
-        ctx.lineTo(x2,y2);
-        ctx.stroke();
+        // 蓝白渐变
+const gradient = ctx.createLinearGradient(x1, y1, x2, y2);
+gradient.addColorStop(0, "#00e5ff");
+gradient.addColorStop(0.5, "#4fc3f7");
+gradient.addColorStop(1, "#ffffff");
+
+ctx.beginPath();
+ctx.strokeStyle = gradient;
+ctx.lineWidth = 1.8;
+ctx.lineCap = "round";
+
+ctx.moveTo(x1, y1);
+ctx.lineTo(x2, y2);
+
+ctx.stroke();
     }
+    
+ctx.shadowBlur = 0;    
+    
 }
 
 draw();
