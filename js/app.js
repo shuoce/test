@@ -42,6 +42,35 @@ weekday:"long"
 setInterval(updateTime,1000);
 updateTime();
 
+
+// =========================
+// welcome（🔥已修复卡住问题）
+// =========================
+function setWelcome(){
+
+const hour = new Date().getHours();
+let welcomeText = "";
+
+if(hour < 6){
+welcomeText = "🌙 夜深了，早点休息";
+}else if(hour < 12){
+welcomeText = "☀️ 早上好";
+}else if(hour < 18){
+welcomeText = "🌤️ 下午好";
+}else{
+welcomeText = "🌆 晚上好";
+}
+
+const el = document.getElementById("welcome");
+if(el){
+el.innerText = welcomeText;
+}
+
+}
+
+setWelcome();
+
+
 // =========================
 // 天气
 // =========================
@@ -82,6 +111,7 @@ document.getElementById("weather").innerText =
 "🌤️ 天气获取失败";
 });
 
+
 // =========================
 // 一言
 // =========================
@@ -95,6 +125,7 @@ document.getElementById("hitokoto").innerHTML =
 document.getElementById("hitokoto").innerText =
 "保持热爱，奔赴山海。";
 });
+
 
 // =========================
 // 主题切换
@@ -131,16 +162,23 @@ if(savedTheme){
 setTheme(savedTheme);
 }
 
+
 // =========================
 // 运行时间
 // =========================
 const startDate = new Date("2026-06-25");
 
-setInterval(()=>{
+function updateRuntime(){
 const days = Math.floor((new Date() - startDate)/86400000);
-document.getElementById("runtime").innerText =
-`🚀 已运行 ${days} 天`;
-},1000);
+const el = document.getElementById("runtime");
+if(el){
+el.innerText = `🚀 已运行 ${days} 天`;
+}
+}
+
+updateRuntime();
+setInterval(updateRuntime, 1000);
+
 
 // =========================
 // 折叠功能
@@ -151,13 +189,16 @@ const header = document.getElementById(headerId);
 const content = document.getElementById(contentId);
 const arrow = document.getElementById(arrowId);
 
+if(!header || !content) return;
+
 header.onclick = () => {
+
 content.classList.toggle("show");
 
 if(arrow){
-arrow.classList.toggle("open");
 arrow.innerText = content.classList.contains("show") ? "▼" : "▶";
 }
+
 };
 }
 
@@ -167,9 +208,11 @@ bindFold("commonHeader","commonContent","commonArrow");
 // 音乐区
 bindFold("musicHeader","musicContent","musicArrow");
 
+
 // =========================
-// 粒子背景
+// 粒子背景（安全初始化）
 // =========================
+if(typeof particlesJS !== "undefined"){
 particlesJS("particles-js",{
 particles:{
 number:{value:60,density:{enable:true,value_area:800}},
@@ -203,3 +246,4 @@ push:{particles_nb:4}
 },
 retina_detect:true
 });
+}
