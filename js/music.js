@@ -33,8 +33,10 @@ const ctx = canvas.getContext("2d");
 // ======================
 
 function resizeCanvas(){
+
     canvas.width = canvas.offsetWidth;
-    canvas.height = 60;
+    canvas.height = canvas.offsetHeight;
+
 }
 
 window.addEventListener("resize", resizeCanvas);
@@ -232,7 +234,7 @@ audio.onpause = () => {
 };
 
 // ======================
-// Visualizer
+// Visualizer（圆形频谱）
 // ======================
 
 function draw(){
@@ -241,28 +243,22 @@ function draw(){
 
     analyser.getByteFrequencyData(dataArray);
 
-    function draw(){
-
-    requestAnimationFrame(draw);
-
-    analyser.getByteFrequencyData(dataArray);
-
-    ctx.clearRect(0,0,canvas.width,canvas.height);
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     const cx = canvas.width / 2;
     const cy = canvas.height / 2;
 
-    const radius = 35;
+    const radius = canvas.width * 0.28;
 
     const count = bufferLength;
 
-    for(let i=0;i<count;i++){
+    for(let i = 0; i < count; i++){
 
         const value = dataArray[i] / 255;
 
         const angle = (Math.PI * 2 / count) * i;
 
-        const len = value * 20;
+        const len = value * (canvas.width * 0.12);
 
         const x1 = cx + Math.cos(angle) * radius;
         const y1 = cy + Math.sin(angle) * radius;
@@ -273,11 +269,11 @@ function draw(){
         ctx.beginPath();
         ctx.strokeStyle = "#4fc3f7";
         ctx.lineWidth = 2;
-        ctx.moveTo(x1,y1);
-        ctx.lineTo(x2,y2);
+        ctx.moveTo(x1, y1);
+        ctx.lineTo(x2, y2);
         ctx.stroke();
     }
-    }
+}
 
 draw();
 
