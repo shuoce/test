@@ -128,65 +128,33 @@ document.getElementById("hitokoto").innerText =
 
 
 // =========================
-// 🎨 主题系统（修复稳定版）
+// 主题切换
 // =========================
+let transparent = false;
+let darkMode = false;
 
-const themes = ["glass", "dark", "light"];
+const glassBtn = document.getElementById("glassBtn");
+const modeBtn = document.getElementById("modeBtn");
 
-// 当前主题
-let currentTheme = localStorage.getItem("theme") || "glass";
+// 玻璃 ⇄ 透明
+glassBtn.onclick = () => {
+    transparent = !transparent;
 
-// 应用主题
-function applyTheme(theme) {
-    document.body.classList.remove("glass", "dark", "light");
-    document.body.classList.add(theme);
+    document.body.classList.toggle("transparent-mode", transparent);
 
-    localStorage.setItem("theme", theme);
-    currentTheme = theme;
+    glassBtn.innerText = transparent ? "👁️" : "🧊";
+};
 
-    syncThemeButtons();
-}
+// 深色 ⇄ 浅色
+modeBtn.onclick = () => {
+    darkMode = !darkMode;
 
-// 同步按钮状态
-function syncThemeButtons() {
-    const glassBtn = document.getElementById("glassBtn");
-    const modeBtn = document.getElementById("modeBtn");
+    document.body.classList.toggle("dark-mode", darkMode);
+    document.body.classList.toggle("light-mode", !darkMode);
 
-    if (glassBtn) {
-        glassBtn.innerText = currentTheme === "glass" ? "🧊" : "👁️";
-    }
+    modeBtn.innerText = darkMode ? "🌙" : "☀️";
+};
 
-    if (modeBtn) {
-        modeBtn.innerText = currentTheme === "dark" ? "🌙" : "☀️";
-    }
-}
-
-// 初始化（关键：必须等页面加载）
-window.addEventListener("DOMContentLoaded", () => {
-
-    // 1️⃣ 应用默认主题
-    applyTheme(currentTheme);
-
-    const glassBtn = document.getElementById("glassBtn");
-    const modeBtn = document.getElementById("modeBtn");
-
-    // 2️⃣ glassBtn：循环主题
-    if (glassBtn) {
-        glassBtn.addEventListener("click", () => {
-            let i = themes.indexOf(currentTheme);
-            i = (i + 1) % themes.length;
-            applyTheme(themes[i]);
-        });
-    }
-
-    // 3️⃣ modeBtn：暗亮切换
-    if (modeBtn) {
-        modeBtn.addEventListener("click", () => {
-            currentTheme = currentTheme === "dark" ? "light" : "dark";
-            applyTheme(currentTheme);
-        });
-    }
-});
 // =========================
 // 运行时间
 // =========================
@@ -261,3 +229,4 @@ push:{particles_nb:4}
 },
 retina_detect:true
 });
+
