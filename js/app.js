@@ -129,14 +129,15 @@ document.getElementById("hitokoto").innerText =
 
 // =========================
 // 主题切换
+// =========================
 let transparent = false;
-let lightMode = false;
+let darkMode = false;
 
 const glassBtn = document.getElementById("glassBtn");
 const modeBtn = document.getElementById("modeBtn");
 
+// 玻璃 ⇄ 透明
 glassBtn.onclick = () => {
-
     transparent = !transparent;
 
     document.body.classList.toggle("transparent-mode", transparent);
@@ -144,14 +145,14 @@ glassBtn.onclick = () => {
     glassBtn.innerText = transparent ? "👁️" : "🧊";
 };
 
+// 深色 ⇄ 浅色
 modeBtn.onclick = () => {
+    darkMode = !darkMode;
 
-    lightMode = !lightMode;
+    document.body.classList.toggle("dark-mode", darkMode);
+    document.body.classList.toggle("light-mode", !darkMode);
 
-    document.body.classList.toggle("light-mode", lightMode);
-    document.body.classList.toggle("dark-mode", !lightMode);
-
-    modeBtn.innerText = lightMode ? "☀️" : "🌙";
+    modeBtn.innerText = darkMode ? "🌙" : "☀️";
 };
 
 // =========================
