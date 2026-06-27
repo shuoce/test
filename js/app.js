@@ -129,39 +129,30 @@ document.getElementById("hitokoto").innerText =
 
 // =========================
 // 主题切换
-// =========================
-function clearTheme(){
-document.body.classList.remove(
-"transparent-mode",
-"dark-mode",
-"light-mode"
-);
-}
+let transparent = false;
+let lightMode = false;
 
-function setTheme(mode){
-clearTheme();
+const glassBtn = document.getElementById("glassBtn");
+const modeBtn = document.getElementById("modeBtn");
 
-if(mode === "transparent"){
-document.body.classList.add("transparent-mode");
-}
+glassBtn.onclick = () => {
 
-if(mode === "dark"){
-document.body.classList.add("dark-mode");
-}
+    transparent = !transparent;
 
-if(mode === "light"){
-document.body.classList.add("light-mode");
-}
+    document.body.classList.toggle("transparent-mode", transparent);
 
-localStorage.setItem("theme",mode);
-}
+    glassBtn.innerText = transparent ? "👁️" : "🧊";
+};
 
-// 自动加载主题
-const savedTheme = localStorage.getItem("theme");
-if(savedTheme){
-setTheme(savedTheme);
-}
+modeBtn.onclick = () => {
 
+    lightMode = !lightMode;
+
+    document.body.classList.toggle("light-mode", lightMode);
+    document.body.classList.toggle("dark-mode", !lightMode);
+
+    modeBtn.innerText = lightMode ? "☀️" : "🌙";
+};
 
 // =========================
 // 运行时间
