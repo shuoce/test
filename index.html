@@ -22,162 +22,180 @@
             <button id="modeBtn">🌙</button>
         </div>
 
-        <!-- 后面是头像 -->
+        <!-- ===== 头部 ===== -->
         <div class="header">
 
-<!-- ===== 头部 ===== -->
-<div class="header">
-<img id="avatar" src="Personalization/avatar.png">
+            <img id="avatar" src="Personalization/avatar.png" alt="头像">
 
-<h1>硕策 导航页</h1>
+            <h1>硕策 导航页</h1>
 
-<div class="time" id="time">00:00:00</div>
-<div class="date" id="date">加载中...</div>
+            <div class="time" id="time">00:00:00</div>
+            <div class="date" id="date">加载中...</div>
 
-<div id="weather" class="weather">🌤️ 获取天气中...</div>
-<div id="welcome" class="welcome">加载中...</div>
-</div>
+            <div id="weather" class="weather">🌤️ 获取天气中...</div>
+            <div id="welcome" class="welcome">加载中...</div>
 
-<!-- ===== 搜索 ===== -->
-<div class="search-box">
-<form class="search-form" onsubmit="doSearch(event)">
+        </div>
 
-<select id="engine">
-<option value="google">Google</option>
-<option value="bing">Bing</option>
-</select>
+        <!-- ===== 搜索 ===== -->
+        <div class="search-box">
+            <form class="search-form" onsubmit="doSearch(event)">
 
-<input id="keyword" placeholder="输入关键词搜索..." required>
+                <select id="engine">
+                    <option value="google">Google</option>
+                    <option value="bing">Bing</option>
+                </select>
 
-<button type="submit">搜索</button>
+                <input
+                    id="keyword"
+                    placeholder="输入关键词搜索..."
+                    required>
 
-</form>
-</div>
+                <button type="submit">搜索</button>
 
-<!-- ===== 常用网站 ===== -->
-<div class="fold-header" id="commonHeader">
-    <span class="fold-arrow" id="commonArrow">▼</span>
-    <span>常用网站</span>
-</div>
+            </form>
+        </div>
 
-<div class="fold-content show" id="commonContent">
-<div class="grid">
+        <!-- ===== 常用网站 ===== -->
+        <div class="fold-header" id="commonHeader">
+            <span class="fold-arrow" id="commonArrow">▼</span>
+            <span>常用网站</span>
+        </div>
 
-<a class="card" href="https://chatgpt.com" target="_blank">
-<i class="bi bi-robot"></i>
-<div class="card-title">ChatGPT</div>
-<div class="card-desc">AI 助手</div>
-</a>
+        <div class="fold-content show" id="commonContent">
+            <div class="grid">
 
-<a class="card" href="https://www.doubao.com" target="_blank">
-<i class="bi bi-lightning-charge"></i>
-<div class="card-title">豆包</div>
-<div class="card-desc">字节 AI</div>
-</a>
+                <a class="card" href="https://chatgpt.com" target="_blank">
+                    <i class="bi bi-robot"></i>
+                    <div class="card-title">ChatGPT</div>
+                    <div class="card-desc">AI 助手</div>
+                </a>
 
-<a class="card" href="https://www.wenxiaobai.com" target="_blank">
-<i class="bi bi-chat-dots"></i>
-<div class="card-title">问小白</div>
-<div class="card-desc">智能问答</div>
-</a>
+                <a class="card" href="https://www.doubao.com" target="_blank">
+                    <i class="bi bi-lightning-charge"></i>
+                    <div class="card-title">豆包</div>
+                    <div class="card-desc">字节 AI</div>
+                </a>
 
-<a class="card" href="https://www.youtube.com" target="_blank">
-<i class="bi bi-youtube"></i>
-<div class="card-title">YouTube</div>
-<div class="card-desc">视频平台</div>
-</a>
+                <a class="card" href="https://www.wenxiaobai.com" target="_blank">
+                    <i class="bi bi-chat-dots"></i>
+                    <div class="card-title">问小白</div>
+                    <div class="card-desc">智能问答</div>
+                </a>
 
-<a class="card" href="https://www.bilibili.com" target="_blank">
-<i class="bi bi-play-btn"></i>
-<div class="card-title">哔哩哔哩</div>
-<div class="card-desc">Bilibili</div>
-</a>
+                <a class="card" href="https://www.youtube.com" target="_blank">
+                    <i class="bi bi-youtube"></i>
+                    <div class="card-title">YouTube</div>
+                    <div class="card-desc">视频平台</div>
+                </a>
 
-<a class="card" href="https://www.douyin.com" target="_blank">
-<i class="bi bi-music-note-beamed"></i>
-<div class="card-title">抖音</div>
-<div class="card-desc">短视频</div>
-</a>
+                <a class="card" href="https://www.bilibili.com" target="_blank">
+                    <i class="bi bi-play-btn"></i>
+                    <div class="card-title">哔哩哔哩</div>
+                    <div class="card-desc">Bilibili</div>
+                </a>
 
-<a class="card" href="https://x.com" target="_blank">
-<i class="bi bi-twitter-x"></i>
-<div class="card-title">X</div>
-<div class="card-desc">社交平台</div>
-</a>
+                <a class="card" href="https://www.douyin.com" target="_blank">
+                    <i class="bi bi-music-note-beamed"></i>
+                    <div class="card-title">抖音</div>
+                    <div class="card-desc">短视频</div>
+                </a>
 
-</div>
-</div>
+                <a class="card" href="https://x.com" target="_blank">
+                    <i class="bi bi-twitter-x"></i>
+                    <div class="card-title">X</div>
+                    <div class="card-desc">社交平台</div>
+                </a>
 
-<!-- ===== Music ===== -->
-<div class="fold-header" id="musicHeader">
-    <span class="fold-arrow" id="musicArrow">▶</span>
-    <span>Music</span>
-</div>
+            </div>
+        </div>
 
-<div class="fold-content" id="musicContent">
-<div class="grid">
+        <!-- ===== Music ===== -->
+        <div class="fold-header" id="musicHeader">
+            <span class="fold-arrow" id="musicArrow">▶</span>
+            <span>Music</span>
+        </div>
 
-<a class="card" href="https://www.gequbao.com/" target="_blank">
-<i class="bi bi-cloud-download"></i>
-<div class="card-title">歌曲宝</div>
-<div class="card-desc">在线试听 / 下载</div>
-</a>
+        <div class="fold-content" id="musicContent">
+            <div class="grid">
 
-<a class="card" href="https://zz123.com/" target="_blank">
-<i class="bi bi-music-note-list"></i>
-<div class="card-title">种子音乐</div>
-<div class="card-desc">在线听歌</div>
-</a>
+                <a class="card" href="https://www.gequbao.com/" target="_blank">
+                    <i class="bi bi-cloud-download"></i>
+                    <div class="card-title">歌曲宝</div>
+                    <div class="card-desc">在线试听 / 下载</div>
+                </a>
 
-<a class="card" href="https://www.qqmp3.vip/" target="_blank">
-<i class="bi bi-headphones"></i>
-<div class="card-title">米兔音乐</div>
-<div class="card-desc">免费音乐</div>
-</a>
+                <a class="card" href="https://zz123.com/" target="_blank">
+                    <i class="bi bi-music-note-list"></i>
+                    <div class="card-title">种子音乐</div>
+                    <div class="card-desc">在线听歌</div>
+                </a>
 
-</div>
-</div>
+                <a class="card" href="https://www.qqmp3.vip/" target="_blank">
+                    <i class="bi bi-headphones"></i>
+                    <div class="card-title">米兔音乐</div>
+                    <div class="card-desc">免费音乐</div>
+                </a>
 
-<!-- ===== 一言 ===== -->
-<div class="quote-box" id="hitokoto">加载中...</div>
+            </div>
+        </div>
 
-<!-- ===== footer ===== -->
-<div class="footer">
-<div id="runtime">🚀 已运行 0 天</div>
+        <!-- ===== 一言 ===== -->
+        <div class="quote-box" id="hitokoto">
+            加载中...
+        </div>
 
-<br>
+        <!-- ===== Footer ===== -->
+        <div class="footer">
 
-© 2026 shuoce.eu.cc
+            <div id="runtime">
+                🚀 已运行 0 天
+            </div>
 
-<br><br>
+            <br>
 
-<span>
-👀 <span id="busuanzi_value_site_pv"></span> 次访问
-</span>
+            © 2026 shuoce.eu.cc
 
-&nbsp;&nbsp;|&nbsp;&nbsp;
+            <br><br>
 
-<span>
-🌍 <span id="busuanzi_value_site_uv"></span> 位访客
-</span>
-</div>
+            <span>
+                👀 <span id="busuanzi_value_site_pv"></span> 次访问
+            </span>
 
-</div>
+            &nbsp;&nbsp;|&nbsp;&nbsp;
+
+            <span>
+                🌍 <span id="busuanzi_value_site_uv"></span> 位访客
+            </span>
+
+        </div>
+
+    </div>
 </div>
 
 <!-- ===== Music Player ===== -->
 <div class="music-player" id="musicPlayer">
 
-    <button id="foldBtn">❌</button>
+    <button id="foldBtn" class="music-fold">❌</button>
 
     <div id="vinyl">
-        <img src="Personalization/player icon.png">
+        <img src="Personalization/player icon.png" alt="唱片">
     </div>
 
-    <div class="music-title" id="musicTitle">奶酪</div>
-    <div class="music-artist">未知歌手</div>
+    <div class="music-title" id="musicTitle">
+        奶酪
+    </div>
 
-    <input type="range" id="progress" min="0" max="100">
+    <div class="music-artist">
+        未知歌手
+    </div>
+
+    <input
+        id="progress"
+        class="progress"
+        type="range"
+        min="0"
+        max="100">
 
     <div class="music-time">
         <span id="currentTime">00:00</span>
@@ -185,18 +203,43 @@
     </div>
 
     <div class="music-control">
-        <button id="prevBtn">⏮</button>
-        <button id="playBtn">▶</button>
-        <button id="nextBtn">⏭</button>
+
+        <button id="prevBtn" class="music-btn">
+            ⏮
+        </button>
+
+        <button id="playBtn" class="music-btn play">
+            ▶
+        </button>
+
+        <button id="nextBtn" class="music-btn">
+            ⏭
+        </button>
+
     </div>
 
-    <input id="volume" class="volume" type="range" min="0" max="1" step="0.01" value="0.8">
+    <input
+        id="volume"
+        class="volume-slider"
+        type="range"
+        min="0"
+        max="1"
+        step="0.01"
+        value="0.8">
 
-    <canvas id="visualizer"></canvas>
+    <canvas
+        id="visualizer"
+        width="260"
+        height="60">
+    </canvas>
 
-    <audio id="audio"></audio>
+    <audio
+        id="audio"
+        preload="metadata">
+    </audio>
+
 </div>
-    
+
 <!-- ===== JS ===== -->
 <script src="js/app.js"></script>
 <script src="js/music.js"></script>
@@ -209,4 +252,3 @@
 
 </body>
 </html>
-
