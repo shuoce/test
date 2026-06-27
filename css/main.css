@@ -74,8 +74,7 @@ body::after{
 }
 
 #avatar{
-    width:90px;
-    height:90px;
+
     margin:0 auto 18px;
     display:block;
     object-fit:cover;
@@ -285,29 +284,37 @@ body::after{
     transform:rotate(90deg);
 }
 
+
+/* =========================
+   频谱区域
+========================= */
+
+.visual-area{
+    position:relative;
+    width:240px;
+    height:240px;
+    margin:10px auto 20px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+
 /* =========================
    黑胶（支持圆形频谱）
 ========================= */
 
 #vinyl{
-    position:relative;
+    position:absolute;
 
     width:90px;
     height:90px;
 
-    margin:34px auto 18px;
-
-    border-radius:50%;
-    overflow:hidden;
-    box-shadow:0 0 20px rgba(255,255,255,.18);
-    z-index:2;
-}
-
     border-radius:50%;
     overflow:hidden;
 
     box-shadow:0 0 20px rgba(255,255,255,.18);
-
     z-index:2;
 }
 
@@ -408,25 +415,17 @@ body::after{
 #visualizer{
     position:absolute;
     left:50%;
-    top:18px;
+    top:50%;
 
     width:240px;
     height:240px;
 
-    transform:translateX(-50%);
+    transform:translate(-50%,-50%);
     pointer-events:none;
     background:transparent;
     z-index:1;
 }
 
-    width:240px;
-    height:240px;
-
-    transform:translateX(-50%);
-    pointer-events:none;
-    background:transparent;
-    z-index:1;
-}
 
 /* 折叠 */
 
@@ -651,19 +650,6 @@ body::after{
         margin-top:5px;
     }
 
-    #visualizer{
-    position:absolute;
-    left:50%;
-    top:16px;
-
-    width:120px;
-    height:120px;
-
-    transform:translateX(-50%);
-    pointer-events:none;
-    background:transparent;
-}
-
     /* 折叠 */
 
     .music-player.folded{
@@ -684,5 +670,3 @@ body::after{
         right:2px;
         font-size:8px;
     }
-
-       }
