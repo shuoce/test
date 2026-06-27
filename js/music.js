@@ -21,37 +21,36 @@ const foldBtn = document.getElementById("foldBtn"); // ❗关键补上
 canvas.width = 320;
 canvas.height = 60;
 
-//折叠
-window.addEventListener("DOMContentLoaded", () => {
+// =========================
+// ⭐ 稳定版播放器折叠系统
+// =========================
+document.addEventListener("DOMContentLoaded", () => {
 
     const musicPlayer = document.getElementById("musicPlayer");
     const foldBtn = document.getElementById("foldBtn");
 
-    console.log("foldBtn:", foldBtn);
-    console.log("musicPlayer:", musicPlayer);
-
-    if(!musicPlayer || !foldBtn){
-        console.log("❌ 元素没找到（HTML id错误或JS未加载）");
+    if (!musicPlayer || !foldBtn) {
+        console.error("❌ 播放器或折叠按钮未找到");
         return;
     }
 
+    // 防止旧事件冲突（关键）
+    const newBtn = foldBtn.cloneNode(true);
+    foldBtn.parentNode.replaceChild(newBtn, foldBtn);
+
     let folded = false;
 
-    // ❗防止旧onclick冲突（关键！）
-    foldBtn.replaceWith(foldBtn.cloneNode(true));
-
-    const newFoldBtn = document.getElementById("foldBtn");
-
-    newFoldBtn.onclick = () => {
+    // 点击折叠/展开
+    newBtn.addEventListener("click", () => {
 
         folded = !folded;
 
         musicPlayer.classList.toggle("folded", folded);
 
-        console.log("fold状态:", folded);
+        newBtn.innerText = folded ? "←" : "❌";
 
-        newFoldBtn.innerText = folded ? "←" : "❌";
-    };
+        console.log("🎧 播放器折叠状态:", folded);
+    });
 
 });
 
