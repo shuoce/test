@@ -1,15 +1,25 @@
-<!-- ===== 音乐播放器 ===== -->
+<!-- ===================================================== -->
+<!-- 🎧 MUSIC PLAYER PRO MAX v5 -->
+<!-- ===================================================== -->
+
 <div class="music-player" id="musicPlayer">
 
 <button id="foldBtn" class="music-fold">❌</button>
 
-<div class="music-cover" id="musicCover">
-    <img src="Personalization/player icon.png">
+<!-- 黑胶 -->
+<div class="vinyl-wrapper">
+    <div class="vinyl" id="vinyl">
+        <img src="Personalization/player icon.png">
+    </div>
 </div>
 
 <div class="music-title" id="musicTitle">奶酪</div>
 <div class="music-artist">未知歌手</div>
 
+<!-- 歌词 -->
+<div class="lyrics-box" id="lyricsBox"></div>
+
+<!-- 进度 -->
 <input type="range" id="progress" min="0" max="100">
 
 <div class="music-time">
@@ -17,17 +27,47 @@
     <span id="duration">00:00</span>
 </div>
 
+<!-- 控制 -->
 <div class="music-control">
     <button id="prevBtn">⏮</button>
-    <button id="playBtn">▶</button>
+    <button id="playBtn"> </button>
     <button id="nextBtn">⏭</button>
 </div>
 
-<!-- 🔊 Pro Max新增：音量 -->
+<!-- 音量 -->
 <input id="volume" type="range" min="0" max="1" step="0.01" value="0.8" class="volume">
 
+<!-- 频谱 -->
 <canvas id="visualizer"></canvas>
-    
+
 <audio id="audio"></audio>
+
+</div>
+
+<!-- ===================================================== -->
+<!-- 🌌 沉浸模式 -->
+<!-- ===================================================== -->
+
+<div class="immersive" id="immersive">
+
+<div class="immersive-bg"></div>
+
+<div class="immersive-panel">
+
+    <div class="vinyl-wrapper">
+        <div class="vinyl" id="vinyl2">
+            <img src="Personalization/player icon.png">
+        </div>
+    </div>
+
+    <div class="music-title" id="musicTitle2">奶酪</div>
+
+    <div class="lyrics-box" id="lyricsBox2"></div>
+
+    <canvas id="visualizer2"></canvas>
+
+    <button id="exitImmersive">退出沉浸模式</button>
+
+</div>
 
 </div>
