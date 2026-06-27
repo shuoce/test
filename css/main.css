@@ -489,3 +489,131 @@ body::after{
         height:56px;
     }
 }
+
+
+/* =========================
+   🎧 播放器 UI 升级包（不改功能）
+========================= */
+
+.music-player{
+    background: linear-gradient(
+        145deg,
+        rgba(30,30,35,.72),
+        rgba(15,15,18,.55)
+    );
+
+    border: 1px solid rgba(255,255,255,.14);
+
+    box-shadow:
+        0 30px 80px rgba(0,0,0,.55),
+        inset 0 1px 0 rgba(255,255,255,.08);
+
+    backdrop-filter: blur(28px);
+    -webkit-backdrop-filter: blur(28px);
+
+    transform: translateY(0);
+}
+
+/* 悬浮质感 */
+.music-player:hover{
+    transform: translateY(-6px) scale(1.01);
+    box-shadow:
+        0 40px 100px rgba(0,0,0,.65),
+        inset 0 1px 0 rgba(255,255,255,.12);
+}
+
+/* 关闭按钮升级 */
+.music-fold{
+    background: rgba(255,255,255,.08);
+    border: 1px solid rgba(255,255,255,.12);
+    backdrop-filter: blur(20px);
+}
+
+.music-fold:hover{
+    background: rgba(255,255,255,.18);
+    transform: rotate(180deg) scale(1.05);
+}
+
+/* 黑胶升级（更像真实唱片） */
+#vinyl{
+    box-shadow:
+        0 0 0 6px rgba(0,0,0,.25),
+        0 0 25px rgba(255,255,255,.12),
+        inset 0 0 10px rgba(0,0,0,.4);
+}
+
+/* 中心光晕 */
+#vinyl::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    border-radius:50%;
+    background: radial-gradient(
+        circle at center,
+        transparent 30%,
+        rgba(0,0,0,.35) 100%
+    );
+    pointer-events:none;
+}
+
+/* 按钮升级 */
+.music-btn{
+    background: rgba(255,255,255,.08);
+    border: 1px solid rgba(255,255,255,.12);
+    backdrop-filter: blur(18px);
+}
+
+.music-btn:hover{
+    background: rgba(255,255,255,.18);
+    transform: scale(1.12);
+}
+
+/* 播放按钮强化 */
+.music-btn.play{
+    background: linear-gradient(135deg,#4fc3f7,#7c4dff);
+    box-shadow: 0 10px 25px rgba(79,195,247,.25);
+}
+
+/* 进度条高级化 */
+.progress{
+    height: 5px;
+    border-radius: 10px;
+    background: rgba(255,255,255,.08);
+}
+
+/* 滑块圆点（视觉增强） */
+.progress::-webkit-slider-thumb{
+    appearance:none;
+    width:12px;
+    height:12px;
+    border-radius:50%;
+    background:#4fc3f7;
+    box-shadow:0 0 10px rgba(79,195,247,.6);
+}
+
+/* 音量滑块 */
+.volume-slider::-webkit-slider-thumb{
+    appearance:none;
+    width:10px;
+    height:10px;
+    border-radius:50%;
+    background:#4fc3f7;
+}
+
+/* 标题更高级 */
+.music-title{
+    letter-spacing:0.5px;
+    text-shadow:0 2px 10px rgba(0,0,0,.4);
+}
+
+/* 折叠动画优化 */
+.music-player.folded{
+    transition: all .35s cubic-bezier(.4,0,.2,1);
+}
+
+/* 手机端微调（不影响功能） */
+@media (max-width:768px){
+    .music-player:hover{
+        transform:none;
+    }
+}
