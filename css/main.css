@@ -12,7 +12,8 @@ body{
 min-height:100vh;
 color:#fff;
 overflow-x:hidden;
-}
+padding-bottom:120px;
+}   
 
 /* =========================
    背景
@@ -81,7 +82,22 @@ font-size:14px;
 /* =========================
    搜索
 ========================= */
-.search-box{margin:35px auto;max-width:700px;}
+.search-box{
+margin:35px auto;
+width:100%;
+max-width:900px;
+padding:0 20px;
+}
+
+.search-form{
+width:100%;
+display:flex;
+gap:10px;
+}
+
+.search-form input{
+flex:1;
+}
 
 .search-form{
 display:flex;
@@ -267,13 +283,22 @@ background:rgba(255,255,255,.05);
 
 /* 折叠 */
 .music-player.folded{
-width:90px !important;
-height:90px !important;
-padding:10px !important;
+width:80px !important;
+height:80px !important;
+padding:0 !important;
 border-radius:50% !important;
+
 display:flex;
 align-items:center;
 justify-content:center;
+
+right:20px;
+bottom:20px;
+}
+
+.music-player.folded #vinyl{
+width:60px;
+height:60px;
 }
 
 .music-player.folded .music-title,
@@ -297,6 +322,40 @@ display:block !important;
 .time{font-size:30px;}
 .header h1{font-size:30px;}
 .search-form{flex-direction:column;}
+.music-player{
+width:92%;
+right:4%;
+bottom:12px;
+}
+}
+
+@media(max-width:768px){
+
+.container{
+padding:15px;
+}
+
+.panel{
+padding:20px;
+border-radius:20px;
+}
+
+/* 搜索更舒服 */
+.search-box{
+padding:0;
+}
+
+.search-form{
+flex-direction:column;
+}
+
+.search-form input,
+.search-form select,
+.search-form button{
+width:100%;
+}
+
+/* 播放器 */
 .music-player{
 width:92%;
 right:4%;
