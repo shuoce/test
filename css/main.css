@@ -218,132 +218,469 @@ border:3px solid rgba(255,255,255,.25);
 }
 
 /* =========================
-   音乐播放器
+   Music Player Pro Max
 ========================= */
+
 .music-player{
 position:fixed;
-right:24px;
-bottom:24px;
-width:380px;
+right:25px;
+bottom:25px;
+
+width:400px;
+
 padding:22px;
-border-radius:26px;
-background:rgba(10,10,10,.55);
+
+border-radius:28px;
+
+background:rgba(20,20,20,.55);
+
 backdrop-filter:blur(30px);
-border:1px solid rgba(255,255,255,.12);
-z-index:999999;
+
+border:1px solid rgba(255,255,255,.15);
+
+box-shadow:
+0 10px 35px rgba(0,0,0,.35);
+
+z-index:99999;
+
+transition:.35s;
 }
 
-/* ===== 黑胶 ===== */
-#vinyl{
-width:90px;
-height:90px;
-margin:auto;
+/* 顶部 */
+
+.player-top{
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+margin-bottom:15px;
+
+}
+
+.player-title{
+
+font-size:18px;
+
+font-weight:bold;
+
+letter-spacing:1px;
+
+}
+
+.icon-btn{
+
+width:38px;
+
+height:38px;
+
+border:none;
+
 border-radius:50%;
+
+background:rgba(255,255,255,.1);
+
+color:#fff;
+
+cursor:pointer;
+
+transition:.25s;
+
+}
+
+.icon-btn:hover{
+
+transform:scale(1.08);
+
+background:rgba(255,255,255,.18);
+
+}
+
+/* 黑胶 */
+
+.vinyl{
+
+width:140px;
+
+height:140px;
+
+margin:15px auto;
+
+border-radius:50%;
+
 overflow:hidden;
+
+box-shadow:
+
+0 0 25px rgba(79,195,247,.35);
+
 }
 
-#vinyl img{
+.vinyl img{
+
 width:100%;
+
 height:100%;
+
 object-fit:cover;
+
 }
 
-/* 旋转 */
 #vinyl.playing{
+
 animation:spin 8s linear infinite;
+
 }
 
 @keyframes spin{
-from{transform:rotate(0);}
-to{transform:rotate(360deg);}
+
+from{
+
+transform:rotate(0deg);
+
 }
 
-/* 文本 */
-.music-title{text-align:center;font-size:18px;font-weight:bold;margin-top:10px;}
-.music-artist{text-align:center;font-size:13px;opacity:.7;margin-bottom:10px;}
+to{
 
-/* 控件 */
-.music-control{
-display:flex;
-justify-content:center;
-gap:16px;
-margin-top:15px;
+transform:rotate(360deg);
+
 }
 
-.music-control button{
-width:50px;
-height:50px;
-border:none;
-border-radius:50%;
-background:rgba(255,255,255,.12);
-color:white;
-cursor:pointer;
+}
+
+/* 信息 */
+
+.music-info{
+
+text-align:center;
+
+margin-bottom:15px;
+
+}
+
+.music-title{
+
+font-size:22px;
+
+font-weight:bold;
+
+}
+
+.music-artist{
+
+margin-top:5px;
+
+opacity:.75;
+
+font-size:14px;
+
 }
 
 /* 进度 */
+
 #progress{
+
 width:100%;
+
 accent-color:#4fc3f7;
+
 }
 
 /* 时间 */
+
 .music-time{
+
 display:flex;
+
 justify-content:space-between;
-font-size:12px;
-opacity:.75;
+
 margin-top:5px;
+
+font-size:12px;
+
+opacity:.75;
+
+}
+
+/* 控制 */
+
+.music-control{
+
+display:flex;
+
+justify-content:center;
+
+gap:12px;
+
+margin:18px 0;
+
+}
+
+.music-control button{
+
+width:50px;
+
+height:50px;
+
+border:none;
+
+border-radius:50%;
+
+background:rgba(255,255,255,.1);
+
+color:#fff;
+
+cursor:pointer;
+
+font-size:20px;
+
+transition:.25s;
+
+}
+
+.music-control button:hover{
+
+transform:scale(1.08);
+
+background:rgba(255,255,255,.18);
+
+}
+
+/* 播放键 */
+
+.play-btn{
+
+width:62px !important;
+
+height:62px !important;
+
+font-size:24px !important;
+
+background:#4fc3f7 !important;
+
+color:#111 !important;
+
 }
 
 /* 音量 */
-.volume{
-width:100%;
-margin-top:10px;
-accent-color:#4fc3f7;
-}
 
-/* 频谱 */
-#visualizer{
-width:100%;
-height:60px;
-margin-top:10px;
-border-radius:12px;
-background:rgba(255,255,255,.05);
-}
-
-/* 折叠 */
-.music-player.folded{
-width:80px !important;
-height:80px !important;
-padding:0 !important;
-border-radius:50% !important;
+.volume-box{
 
 display:flex;
+
 align-items:center;
+
+gap:10px;
+
+margin-top:10px;
+
+}
+
+.volume{
+
+flex:1;
+
+accent-color:#4fc3f7;
+
+}
+
+/* =========================
+   歌词
+========================= */
+
+.lyric-box{
+
+height:90px;
+
+margin-top:18px;
+
+padding:12px;
+
+border-radius:16px;
+
+background:rgba(255,255,255,.05);
+
+overflow:auto;
+
+text-align:center;
+
+font-size:14px;
+
+line-height:1.8;
+
+scrollbar-width:none;
+
+}
+
+.lyric-box::-webkit-scrollbar{
+
+display:none;
+
+}
+
+#lyric{
+
+opacity:.85;
+
+}
+
+
+/* =========================
+   播放列表
+========================= */
+
+.playlist-panel{
+
+margin-top:18px;
+
+padding:15px;
+
+border-radius:18px;
+
+background:rgba(255,255,255,.05);
+
+display:none;
+
+max-height:220px;
+
+overflow-y:auto;
+
+}
+
+.playlist-panel.show{
+
+display:block;
+
+}
+
+.playlist-title{
+
+font-size:16px;
+
+font-weight:bold;
+
+margin-bottom:10px;
+
+}
+
+.playlist-item{
+
+padding:10px 12px;
+
+border-radius:12px;
+
+cursor:pointer;
+
+transition:.25s;
+
+}
+
+.playlist-item:hover{
+
+background:rgba(255,255,255,.08);
+
+}
+
+.playlist-item.active{
+
+background:#4fc3f7;
+
+color:#111;
+
+font-weight:bold;
+
+}
+
+
+/* =========================
+   频谱
+========================= */
+
+#visualizer{
+
+width:100%;
+
+height:70px;
+
+margin-top:18px;
+
+border-radius:16px;
+
+background:rgba(255,255,255,.05);
+
+}
+
+
+/* =========================
+   折叠
+========================= */
+
+.music-player.folded{
+
+width:90px;
+
+height:90px;
+
+padding:0;
+
+border-radius:50%;
+
+display:flex;
+
 justify-content:center;
 
-right:20px;
-bottom:20px;
+align-items:center;
+
+overflow:hidden;
+
 }
 
-.music-player.folded #vinyl{
-width:60px;
-height:60px;
+.music-player.folded>*:not(.vinyl){
+
+display:none;
+
 }
 
-.music-player.folded .music-title,
-.music-player.folded .music-artist,
-.music-player.folded .music-control,
-.music-player.folded #progress,
-.music-player.folded .music-time,
-.music-player.folded .volume,
-.music-player.folded #visualizer{
-display:none !important;
+.music-player.folded .vinyl{
+
+width:70px;
+
+height:70px;
+
+margin:0;
+
 }
+
+
+/* =========================
+   手机
+========================= */
+
+@media(max-width:768px){
+
+.music-player{
+
+width:92%;
+
+left:4%;
+
+right:auto;
+
+bottom:12px;
+
+}
+
+}
+
 
 /* 防消失 */
+
 #musicPlayer{
+
 display:block !important;
+
 }
 
 /* 响应式 */
