@@ -128,30 +128,27 @@ document.getElementById("hitokoto").innerText =
 
 
 // =========================
-// 🎨 主题系统（稳定升级版）
+// 🎨 主题系统（修复稳定版）
 // =========================
 
-const THEMES = ["glass", "dark", "light"];
+const themes = ["glass", "dark", "light"];
 
-// 读取主题
+// 当前主题
 let currentTheme = localStorage.getItem("theme") || "glass";
 
 // 应用主题
 function applyTheme(theme) {
-    const body = document.body;
-
-    // 防止重复 class
-    body.classList.remove("glass", "dark", "light");
-    body.classList.add(theme);
+    document.body.classList.remove("glass", "dark", "light");
+    document.body.classList.add(theme);
 
     localStorage.setItem("theme", theme);
     currentTheme = theme;
 
-    syncButtons();
+    syncThemeButtons();
 }
 
-// 按钮同步（防止 null 报错）
-function syncButtons() {
+// 同步按钮状态
+function syncThemeButtons() {
     const glassBtn = document.getElementById("glassBtn");
     const modeBtn = document.getElementById("modeBtn");
 
@@ -164,28 +161,28 @@ function syncButtons() {
     }
 }
 
-// 初始化（关键）
+// 初始化（关键：必须等页面加载）
 window.addEventListener("DOMContentLoaded", () => {
 
-    // 应用默认主题
+    // 1️⃣ 应用默认主题
     applyTheme(currentTheme);
 
     const glassBtn = document.getElementById("glassBtn");
     const modeBtn = document.getElementById("modeBtn");
 
-    // 按钮1：glass / dark / light 循环
+    // 2️⃣ glassBtn：循环主题
     if (glassBtn) {
         glassBtn.addEventListener("click", () => {
-            let index = THEMES.indexOf(currentTheme);
-            index = (index + 1) % THEMES.length;
-            applyTheme(THEMES[index]);
+            let i = themes.indexOf(currentTheme);
+            i = (i + 1) % themes.length;
+            applyTheme(themes[i]);
         });
     }
 
-    // 按钮2：dark / light 快捷切换
+    // 3️⃣ modeBtn：暗亮切换
     if (modeBtn) {
         modeBtn.addEventListener("click", () => {
-            currentTheme = (currentTheme === "dark") ? "light" : "dark";
+            currentTheme = currentTheme === "dark" ? "light" : "dark";
             applyTheme(currentTheme);
         });
     }
