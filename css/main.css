@@ -494,3 +494,40 @@ right:4%;
 bottom:12px;
 }
 }
+
+.music-player.folded{
+    width:90px !important;
+    height:90px !important;
+    padding:10px !important;
+    border-radius:50% !important;
+    overflow:hidden !important;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+/* 折叠后强制隐藏所有内容 */
+.music-player.folded .music-title,
+.music-player.folded .music-artist,
+.music-player.folded .music-control,
+.music-player.folded .music-time,
+.music-player.folded #progress{
+    display:none !important;
+    opacity:0 !important;
+    pointer-events:none !important;
+}
+
+/* 封面缩小 */
+.music-player.folded .music-cover{
+    width:60px !important;
+    height:60px !important;
+    margin:0 !important;
+}
+
+/* 折叠按钮居中 */
+.music-player.folded .music-fold{
+    top:50% !important;
+    left:50% !important;
+    transform:translate(-50%,-50%) !important;
+}
+
