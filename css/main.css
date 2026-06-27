@@ -406,7 +406,7 @@ overflow:hidden;
     display:flex;
     align-items:center;
     justify-content:center;
-    overflow:hidden;
+    overflow:visible;
 }
 
 .music-player.folded #vinyl{
@@ -426,11 +426,15 @@ overflow:hidden;
 }
 
 .music-player.folded .music-fold{
-    top:-8px;
-    right:-8px;
-    width:26px;
-    height:26px;
-    font-size:12px;
+    position:absolute;
+    top:-6px;
+    right:-6px;
+    width:30px;
+    height:30px;
+    border:none;
+    border-radius:50%;
+    font-size:14px;
+    z-index:999999;
 }
 
 /* ===== 防止隐藏 ===== */
