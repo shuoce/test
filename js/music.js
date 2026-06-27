@@ -535,3 +535,846 @@ listBtn.onclick=()=>{
 
 updatePlaylist();
 
+// ======================================================
+// Part 5 / 8
+// 随机 + 循环 + 折叠
+// ======================================================
+
+
+// ======================
+// 随机播放
+// ======================
+
+randomBtn.onclick=()=>{
+
+    isRandom=!isRandom;
+
+    randomBtn.classList.toggle("active",isRandom);
+
+};
+
+
+// ======================
+// 播放模式
+// list → one → list
+// ======================
+
+modeBtn.onclick=()=>{
+
+    if(playMode==="list"){
+
+        playMode="one";
+
+        modeBtn.innerText="🔂";
+
+    }else{
+
+        playMode="list";
+
+        modeBtn.innerText="🔁";
+
+    }
+
+};
+
+
+// ======================
+// 折叠播放器
+// ======================
+
+foldBtn.onclick=()=>{
+
+    folded=!folded;
+
+    musicPlayer.classList.toggle(
+
+        "folded",
+
+        folded
+
+    );
+
+    foldBtn.innerText=
+
+    folded?"←":"❌";
+
+};
+
+
+// ======================
+// 双击播放器展开
+// ======================
+
+musicPlayer.ondblclick=()=>{
+
+    if(!folded)return;
+
+    folded=false;
+
+    musicPlayer.classList.remove(
+
+        "folded"
+
+    );
+
+    foldBtn.innerText="❌";
+
+};
+
+
+// ======================
+// ESC展开
+// ======================
+
+document.addEventListener(
+
+"keydown",
+
+e=>{
+
+    if(
+
+        e.key==="Escape"
+
+    ){
+
+        folded=false;
+
+        musicPlayer.classList.remove(
+
+            "folded"
+
+        );
+
+        foldBtn.innerText="❌";
+
+    }
+
+});
+
+// ======================================================
+// Part 6 / 8
+// Apple Music 频谱
+// ======================================================
+
+
+// ======================
+// 频谱动画
+// ======================
+
+function drawVisualizer(){
+
+    requestAnimationFrame(drawVisualizer);
+
+    analyser.getByteFrequencyData(dataArray);
+
+    ctx.clearRect(
+
+        0,
+
+        0,
+
+        canvas.width,
+
+        canvas.height
+
+    );
+
+    const barCount=bufferLength;
+
+    const barWidth=
+
+    canvas.width/barCount;
+
+    for(
+
+        let i=0;
+
+        i<barCount;
+
+        i++
+
+    ){
+
+        const value=
+
+        dataArray[i];
+
+        const h=
+
+        value/255*
+
+        canvas.height;
+
+        const x=
+
+        i*barWidth;
+
+        const y=
+
+        canvas.height-h;
+
+        const color=
+
+        ctx.createLinearGradient(
+
+            0,
+
+            y,
+
+            0,
+
+            canvas.height
+
+        );
+
+        color.addColorStop(
+
+            0,
+
+            "#00E5FF"
+
+        );
+
+        color.addColorStop(
+
+            0.5,
+
+            "#4FC3F7"
+
+        );
+
+        color.addColorStop(
+
+            1,
+
+            "#1565C0"
+
+        );
+
+        ctx.fillStyle=color;
+
+        ctx.beginPath();
+
+        ctx.roundRect(
+
+            x,
+
+            y,
+
+            barWidth-2,
+
+            h,
+
+            3
+
+        );
+
+        ctx.fill();
+
+    }
+
+}
+
+drawVisualizer();
+
+
+// ======================
+// 播放时发光
+// ======================
+
+audio.addEventListener(
+
+"play",
+
+()=>{
+
+    vinyl.style.boxShadow=
+
+    "0 0 35px rgba(79,195,247,.7)";
+
+}
+
+);
+
+
+// ======================
+// 暂停取消发光
+// ======================
+
+audio.addEventListener(
+
+"pause",
+
+()=>{
+
+    vinyl.style.boxShadow=
+
+    "0 0 0 rgba(0,0,0,0)";
+
+}
+
+);
+
+
+// ======================
+// 鼠标悬停缩放
+// ======================
+
+vinyl.onmouseenter=()=>{
+
+    vinyl.style.transform=
+
+    "scale(1.06)";
+
+};
+
+vinyl.onmouseleave=()=>{
+
+    vinyl.style.transform=
+
+    "scale(1)";
+
+};
+
+
+// ======================
+// 页面隐藏暂停动画
+// ======================
+
+document.addEventListener(
+
+"visibilitychange",
+
+()=>{
+
+    if(document.hidden){
+
+        vinyl.style.animationPlayState=
+
+        "paused";
+
+    }else{
+
+        vinyl.style.animationPlayState=
+
+        "running";
+
+    }
+
+});
+
+// ======================================================
+// Part 7 / 8
+// 本地记忆（LocalStorage）
+// ======================================================
+
+
+// ======================
+// 保存播放器状态
+// ======================
+
+function savePlayerState(){
+
+    localStorage.setItem(
+        "music_index",
+        currentIndex
+    );
+
+    localStorage.setItem(
+        "music_time",
+        audio.currentTime
+    );
+
+    localStorage.setItem(
+        "music_random",
+        isRandom
+    );
+
+    localStorage.setItem(
+        "music_mode",
+        playMode
+    );
+
+    localStorage.setItem(
+        "music_folded",
+        folded
+    );
+
+}
+
+
+// ======================
+// 每5秒自动保存
+// ======================
+
+setInterval(
+
+savePlayerState,
+
+5000
+
+);
+
+
+// ======================
+// 切歌保存
+// ======================
+
+audio.addEventListener(
+
+"loadedmetadata",
+
+()=>{
+
+    savePlayerState();
+
+}
+
+);
+
+
+// ======================
+// 恢复歌曲
+// ======================
+
+const saveIndex=
+
+parseInt(
+
+localStorage.getItem(
+
+"music_index"
+
+)
+
+);
+
+if(
+
+!isNaN(saveIndex)&&
+
+saveIndex<playlist.length
+
+){
+
+    currentIndex=saveIndex;
+
+    loadSong(currentIndex);
+
+}
+
+
+// ======================
+// 恢复播放位置
+// ======================
+
+audio.addEventListener(
+
+"loadedmetadata",
+
+()=>{
+
+    const t=
+
+    parseFloat(
+
+        localStorage.getItem(
+
+        "music_time"
+
+        )
+
+    );
+
+    if(!isNaN(t)){
+
+        audio.currentTime=t;
+
+    }
+
+});
+
+
+// ======================
+// 恢复随机播放
+// ======================
+
+const saveRandom=
+
+localStorage.getItem(
+
+"music_random"
+
+);
+
+if(saveRandom==="true"){
+
+    isRandom=true;
+
+    randomBtn.classList.add(
+
+        "active"
+
+    );
+
+}
+
+
+// ======================
+// 恢复播放模式
+// ======================
+
+const saveMode=
+
+localStorage.getItem(
+
+"music_mode"
+
+);
+
+if(saveMode){
+
+    playMode=saveMode;
+
+}
+
+if(playMode==="one"){
+
+    modeBtn.innerText="🔂";
+
+}else{
+
+    modeBtn.innerText="🔁";
+
+}
+
+
+// ======================
+// 恢复折叠
+// ======================
+
+const saveFold=
+
+localStorage.getItem(
+
+"music_folded"
+
+);
+
+if(saveFold==="true"){
+
+    folded=true;
+
+    musicPlayer.classList.add(
+
+        "folded"
+
+    );
+
+    foldBtn.innerText="←";
+
+}
+
+
+// ======================
+// 页面关闭保存
+// ======================
+
+window.addEventListener(
+
+"beforeunload",
+
+()=>{
+
+    savePlayerState();
+
+});
+
+// ======================================================
+// Part 8 / 8
+// Ultimate Finish
+// ======================================================
+
+
+// ======================
+// 音量淡入
+// ======================
+
+function fadeIn(){
+
+    audio.volume=0;
+
+    const target=
+
+    parseFloat(volume.value);
+
+    const timer=
+
+    setInterval(()=>{
+
+        if(audio.volume>=target){
+
+            clearInterval(timer);
+
+            audio.volume=target;
+
+            return;
+
+        }
+
+        audio.volume+=0.02;
+
+    },30);
+
+}
+
+
+// ======================
+// 音量淡出
+// ======================
+
+function fadeOut(callback){
+
+    const timer=
+
+    setInterval(()=>{
+
+        if(audio.volume<=0.02){
+
+            clearInterval(timer);
+
+            audio.pause();
+
+            audio.volume=
+
+            parseFloat(volume.value);
+
+            if(callback){
+
+                callback();
+
+            }
+
+            return;
+
+        }
+
+        audio.volume-=0.02;
+
+    },30);
+
+}
+
+
+// ======================
+// 双击进度条回到开始
+// ======================
+
+progress.ondblclick=()=>{
+
+    audio.currentTime=0;
+
+};
+
+
+// ======================
+// 双击时间切换
+// ======================
+
+let showRemain=false;
+
+document.querySelector(
+
+".music-time"
+
+).ondblclick=()=>{
+
+    showRemain=!showRemain;
+
+};
+
+
+audio.addEventListener(
+
+"timeupdate",
+
+()=>{
+
+    if(
+
+        !audio.duration
+
+    )return;
+
+    if(showRemain){
+
+        currentTime.innerText=
+
+        "-"+
+
+        formatTime(
+
+            audio.duration-
+
+            audio.currentTime
+
+        );
+
+    }
+
+});
+
+
+// ======================
+// Ctrl + ←
+// 上一首
+// ======================
+
+document.addEventListener(
+
+"keydown",
+
+e=>{
+
+    if(
+
+        e.ctrlKey&&
+
+        e.key==="ArrowLeft"
+
+    ){
+
+        prevBtn.click();
+
+    }
+
+});
+
+
+// ======================
+// Ctrl + →
+// 下一首
+// ======================
+
+document.addEventListener(
+
+"keydown",
+
+e=>{
+
+    if(
+
+        e.ctrlKey&&
+
+        e.key==="ArrowRight"
+
+    ){
+
+        nextBtn.click();
+
+    }
+
+});
+
+
+// ======================
+// Ctrl + ↑
+// 音量增加
+// ======================
+
+document.addEventListener(
+
+"keydown",
+
+e=>{
+
+    if(
+
+        e.ctrlKey&&
+
+        e.key==="ArrowUp"
+
+    ){
+
+        audio.volume=
+
+        Math.min(
+
+            1,
+
+            audio.volume+0.05
+
+        );
+
+        volume.value=
+
+        audio.volume;
+
+    }
+
+});
+
+
+// ======================
+// Ctrl + ↓
+// 音量降低
+// ======================
+
+document.addEventListener(
+
+"keydown",
+
+e=>{
+
+    if(
+
+        e.ctrlKey&&
+
+        e.key==="ArrowDown"
+
+    ){
+
+        audio.volume=
+
+        Math.max(
+
+            0,
+
+            audio.volume-0.05
+
+        );
+
+        volume.value=
+
+        audio.volume;
+
+    }
+
+});
+
+
+// ======================
+// 初始化
+// ======================
+
+loadSong(currentIndex);
+
+updatePlaylist();
+
+resizeCanvas();
+
+drawVisualizer();
+
+
+// ======================
+// 控制台
+// ======================
+
+console.log(
+
+"%c🎵 Music Player Ultimate Pro Max 已启动",
+
+"color:#4FC3F7;font-size:16px;font-weight:bold;"
+
+);
