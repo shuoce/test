@@ -128,32 +128,58 @@ document.getElementById("hitokoto").innerText =
 
 
 // =========================
-// 主题切换
+// 🎨 主题系统（升级版）
 // =========================
-let transparent = false;
-let darkMode = false;
 
-const glassBtn = document.getElementById("glassBtn");
-const modeBtn = document.getElementById("modeBtn");
-
-// 玻璃 ⇄ 透明
-glassBtn.onclick = () => {
-    transparent = !transparent;
-
-    document.body.classList.toggle("transparent-mode", transparent);
-
-    glassBtn.innerText = transparent ? "👁️" : "🧊";
+const themes = {
+    glass: "glass",
+    dark: "dark",
+    light: "light"
 };
 
-// 深色 ⇄ 浅色
-modeBtn.onclick = () => {
-    darkMode = !darkMode;
+// 读取本地主题
+let currentTheme = localStorage.getItem("theme") || "glass";
 
-    document.body.classList.toggle("dark-mode", darkMode);
-    document.body.classList.toggle("light-mode", !darkMode);
+// 应用主题
+function applyTheme(theme){
+    document.body.classList.remove("glass","dark","light");
+    document.body.classList.add(theme);
+    localStorage.setItem("theme", theme);
 
-    modeBtn.innerText = darkMode ? "🌙" : "☀️";
+    updateButtons(theme);
+}
+
+// 按钮状态同步
+function updateButtons(theme){
+    const glassBtn = document.getElementById("glassBtn");
+    const modeBtn = document.getElementById("modeBtn");
+
+    if(!glassBtn || !modeBtn) return;
+
+    glassBtn.innerText = (theme === "glass") ? "🧊" : "👁️";
+    modeBtn.innerText = (theme === "dark") ? "🌙" : "☀️";
+}
+
+// 玻璃 / 透明切换（升级为循环）
+document.getElementById("glassBtn").onclick = () => {
+    if(currentTheme === "glass"){
+        currentTheme = "dark";
+    }else if(currentTheme === "dark"){
+        currentTheme = "light";
+    }else{
+        currentTheme = "glass";
+    }
+    applyTheme(currentTheme);
 };
+
+// 明暗切换（快捷键）
+document.getElementById("modeBtn").onclick = () => {
+    currentTheme = (currentTheme === "dark") ? "light" : "dark";
+    applyTheme(currentTheme);
+};
+
+// 初始化
+applyTheme(currentTheme);
 
 // =========================
 // 运行时间
