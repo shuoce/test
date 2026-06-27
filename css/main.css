@@ -15,7 +15,7 @@ overflow-x:hidden;
 }
 
 /* =========================
-   背景
+   背景系统
 ========================= */
 body::before{
 content:"";
@@ -36,9 +36,7 @@ background:rgba(0,0,0,.45);
 z-index:-1;
 }
 
-/* =========================
-   粒子背景
-========================= */
+/* 粒子 */
 #particles-js{
 position:fixed;
 inset:0;
@@ -47,7 +45,7 @@ pointer-events:none;
 }
 
 /* =========================
-   布局
+   主容器
 ========================= */
 .container{
 max-width:1100px;
@@ -59,11 +57,11 @@ padding:25px;
 position:relative;
 z-index:2;
 background:rgba(255,255,255,.08);
-backdrop-filter:blur(20px);
+backdrop-filter:blur(22px);
 border:1px solid rgba(255,255,255,.12);
 border-radius:30px;
 padding:40px;
-box-shadow:0 8px 40px rgba(0,0,0,.25);
+box-shadow:0 10px 50px rgba(0,0,0,.35);
 }
 
 /* =========================
@@ -113,10 +111,6 @@ color:white;
 outline:none;
 }
 
-.search-form input::placeholder{
-color:#ddd;
-}
-
 .search-form button{
 padding:15px 25px;
 border:none;
@@ -127,7 +121,7 @@ background:#4fc3f7;
 }
 
 /* =========================
-   卡片
+   卡片系统
 ========================= */
 .grid{
 display:grid;
@@ -190,7 +184,7 @@ font-size:18px;
 }
 
 /* =========================
-   一言 + footer
+   一言 & footer
 ========================= */
 .quote-box{
 margin-top:25px;
@@ -208,7 +202,7 @@ font-size:13px;
 }
 
 /* =========================
-   折叠（稳定版）
+   折叠系统（稳定核心）
 ========================= */
 .fold-header{
 display:flex;
@@ -249,32 +243,32 @@ border:3px solid rgba(255,255,255,.25);
 }
 
 /* =========================
-   音乐播放器（最终稳定修复 Pro版）
+   音乐播放器 V5（终极沉浸）
 ========================= */
 .music-player{
 position:fixed;
 right:24px;
 bottom:24px;
-width:360px;
+width:380px;
 padding:22px;
-border-radius:24px;
-background:rgba(255,255,255,.08);
+border-radius:26px;
+background:rgba(10,10,10,.55);
 backdrop-filter:blur(30px);
-border:1px solid rgba(255,255,255,.18);
+border:1px solid rgba(255,255,255,.12);
 z-index:9999;
-transition:.3s;
+transition:.35s;
 overflow:hidden;
-display:block;
 }
 
-/* 封面 */
+/* 黑胶视觉中心 */
 .music-cover{
-width:76px;
-height:76px;
+width:90px;
+height:90px;
 margin:auto;
 border-radius:50%;
 overflow:hidden;
-margin-bottom:15px;
+box-shadow:0 0 25px rgba(79,195,247,.5);
+position:relative;
 }
 
 .music-cover img{
@@ -283,11 +277,22 @@ height:100%;
 object-fit:cover;
 }
 
-/* 文本 */
+/* 黑胶旋转（播放时） */
+.music-cover.playing{
+animation:spin 8s linear infinite;
+}
+
+@keyframes spin{
+from{transform:rotate(0);}
+to{transform:rotate(360deg);}
+}
+
+/* 标题 */
 .music-title{
 text-align:center;
 font-size:18px;
 font-weight:bold;
+margin-top:10px;
 }
 
 .music-artist{
@@ -297,149 +302,61 @@ opacity:.7;
 margin-bottom:10px;
 }
 
-/* 控件 */
+/* 进度条 */
+#progress{
+width:100%;
+accent-color:#4fc3f7;
+}
+
+/* 时间 */
+.music-time{
+display:flex;
+justify-content:space-between;
+font-size:12px;
+opacity:.75;
+margin-top:5px;
+}
+
+/* 控制区 */
 .music-control{
 display:flex;
 justify-content:center;
-gap:18px;
+gap:16px;
 margin-top:15px;
 }
 
 .music-control button{
-width:52px;
-height:52px;
+width:50px;
+height:50px;
 border:none;
 border-radius:50%;
 background:rgba(255,255,255,.12);
 color:white;
 cursor:pointer;
+transition:.2s;
 }
 
-/* =========================
-   ⭐ 折叠（最终稳定版）
-========================= */
-.music-player.folded{
-width:90px !important;
-height:90px !important;
-padding:10px !important;
-border-radius:50% !important;
-
-/* ⭐关键修复：避免 flex 破坏布局 */
-display:flex !important;
-align-items:center !important;
-justify-content:center !important;
-
-overflow:hidden !important;
+.music-control button:hover{
+transform:scale(1.1);
 }
 
-/* 隐藏内容（更彻底） */
-.music-player.folded .music-title,
-.music-player.folded .music-artist,
-.music-player.folded .music-control,
-.music-player.folded #progress,
-.music-player.folded .music-time,
-.music-player.folded #volume,
-.music-player.folded #visualizer{
-display:none !important;
-opacity:0 !important;
-pointer-events:none !important;
-}
-
-/* 封面 mini优化 */
-.music-player.folded .music-cover{
-width:60px !important;
-height:60px !important;
-margin:0 !important;
-}
-
-/* =========================
-   Pro Max 音量
-========================= */
+/* 音量 + 频谱 */
 .volume{
 width:100%;
 margin-top:10px;
 accent-color:#4fc3f7;
 }
 
-/* =========================
-   频谱
-========================= */
 #visualizer{
 width:100%;
 height:60px;
 margin-top:10px;
-border-radius:10px;
-background:rgba(255,255,255,0.05);
+border-radius:12px;
+background:rgba(255,255,255,.05);
 }
 
 /* =========================
-   响应式修复加强版
-========================= */
-@media(max-width:768px){
-
-.music-player{
-width:92%;
-right:4%;
-bottom:12px;
-}
-
-/* folded 在手机端也必须稳定 */
-.music-player.folded{
-width:80px !important;
-height:80px !important;
-}
-}
-
-/* 封面 */
-.music-cover{
-width:76px;
-height:76px;
-margin:auto;
-border-radius:50%;
-overflow:hidden;
-margin-bottom:15px;
-}
-
-.music-cover img{
-width:100%;
-height:100%;
-object-fit:cover;
-}
-
-/* 文本 */
-.music-title{
-text-align:center;
-font-size:18px;
-font-weight:bold;
-}
-
-.music-artist{
-text-align:center;
-font-size:13px;
-opacity:.7;
-margin-bottom:10px;
-}
-
-/* 控件 */
-.music-control{
-display:flex;
-justify-content:center;
-gap:18px;
-margin-top:15px;
-}
-
-.music-control button{
-width:52px;
-height:52px;
-border:none;
-border-radius:50%;
-background:rgba(255,255,255,.12);
-color:white;
-cursor:pointer;
-}
-
-/* =========================
-   折叠播放器（最终稳定修复）
+   折叠播放器（关键修复）
 ========================= */
 .music-player.folded{
 width:90px !important;
@@ -455,7 +372,9 @@ justify-content:center;
 .music-player.folded .music-artist,
 .music-player.folded .music-control,
 .music-player.folded #progress,
-.music-player.folded .music-time{
+.music-player.folded .music-time,
+.music-player.folded .volume,
+.music-player.folded #visualizer{
 display:none !important;
 }
 
@@ -466,26 +385,14 @@ margin:0;
 }
 
 /* =========================
-   主题
+   主题系统
 ========================= */
-.light-mode{ color:#222; }
+.light-mode{color:#222;}
+.light-mode .panel{background:rgba(255,255,255,.75);}
+.light-mode .card{background:rgba(255,255,255,.65);color:#222;}
 
-.light-mode .panel{
-background:rgba(255,255,255,.75);
-}
-
-.light-mode .card{
-background:rgba(255,255,255,.65);
-color:#222;
-}
-
-.dark-mode .panel{
-background:rgba(0,0,0,.55);
-}
-
-.transparent-mode .panel{
-background:rgba(255,255,255,.03);
-}
+.dark-mode .panel{background:rgba(0,0,0,.55);}
+.transparent-mode .panel{background:rgba(255,255,255,.03);}
 
 /* =========================
    响应式
@@ -495,29 +402,11 @@ background:rgba(255,255,255,.03);
 .time{font-size:30px;}
 .header h1{font-size:30px;}
 
-.search-form{
-flex-direction:column;
-}
+.search-form{flex-direction:column;}
 
 .music-player{
 width:92%;
 right:4%;
 bottom:12px;
 }
-}
-
-/* ===== Pro Max 音量 ===== */
-.volume{
-width:100%;
-margin-top:10px;
-accent-color:#4fc3f7;
-}
-
-/* ===== 频谱 ===== */
-#visualizer{
-width:100%;
-height:60px;
-margin-top:10px;
-border-radius:10px;
-background:rgba(255,255,255,0.05);
 }
