@@ -135,16 +135,28 @@ musicPlayer.classList.toggle("hide");
 };
 
 // =========================
-// 折叠按钮（展开/收起播放器）
+// 播放器折叠 / 展开
 // =========================
-foldBtn.onclick = () => {
-musicPlayer.classList.toggle("folded");
+let isFolded = false;
 
-if(musicPlayer.classList.contains("folded")){
-foldBtn.innerText = "←";
-}else{
-foldBtn.innerText = "❌";
-}
+foldBtn.onclick = () => {
+
+    isFolded = !isFolded;
+
+    if(isFolded){
+
+        musicPlayer.classList.add("folded");
+        foldBtn.innerText = "←";
+        foldBtn.title = "展开播放器";
+
+    }else{
+
+        musicPlayer.classList.remove("folded");
+        foldBtn.innerText = "❌";
+        foldBtn.title = "折叠播放器";
+
+    }
+
 };
 
 // =========================
