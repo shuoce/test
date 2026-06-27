@@ -133,4 +133,3 @@ document.addEventListener("DOMContentLoaded", () => {
 
 loadSong(index);
 audio.volume = 0.8;
-
