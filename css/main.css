@@ -257,7 +257,11 @@ body::after{
     box-shadow:0 15px 40px rgba(0,0,0,.35);
     transition:all .35s ease;
     z-index:99999;
+    
+    overflow:hidden;
 }
+
+
 
 /* 关闭按钮 */
 
@@ -281,22 +285,31 @@ body::after{
     transform:rotate(90deg);
 }
 
-/* 黑胶 */
+/* =========================
+   黑胶（支持圆形频谱）
+========================= */
 
 #vinyl{
+    position:relative;
+
     width:120px;
     height:120px;
-    margin:5px auto 15px;
+
+    margin:18px auto;
+
     border-radius:50%;
     overflow:hidden;
+
     box-shadow:0 0 20px rgba(255,255,255,.18);
+
+    z-index:2;
 }
 
 #vinyl img{
     width:100%;
     height:100%;
-    display:block;
     object-fit:cover;
+    display:block;
 }
 
 #vinyl.playing{
@@ -304,9 +317,14 @@ body::after{
 }
 
 @keyframes spin{
-    from{transform:rotate(0);}
-    to{transform:rotate(360deg);}
+    from{
+        transform:rotate(0deg);
+    }
+    to{
+        transform:rotate(360deg);
+    }
 }
+
 
 /* 标题 */
 
@@ -377,14 +395,22 @@ body::after{
     accent-color:#4fc3f7;
 }
 
-/* 频谱 */
+/* =========================
+   圆形频谱 Canvas
+========================= */
 
 #visualizer{
-    width:100%;
-    height:60px;
-    margin-top:12px;
-    border-radius:10px;
-    background:rgba(255,255,255,.05);
+    position:absolute;
+    left:50%;
+    top:72px;
+
+    width:180px;
+    height:180px;
+
+    transform:translateX(-50%);
+    pointer-events:none;
+    background:transparent;
+    z-index:1;
 }
 
 /* 折叠 */
@@ -492,10 +518,6 @@ body::after{
         margin-top:6px;
     }
 
-    #visualizer{
-        height:22px;
-        margin-top:6px;
-    }
 
     .music-player.folded{
         width:52px;
@@ -615,9 +637,19 @@ body::after{
     }
 
     #visualizer{
-        height:18px;
-        margin-top:5px;
-    }
+    position:absolute;
+
+    left:50%;
+    top:40px;
+
+    width:90px;
+    height:90px;
+
+    transform:translateX(-50%);
+
+    pointer-events:none;
+    background:transparent;
+}
 
     /* 折叠 */
 
@@ -641,3 +673,4 @@ body::after{
     }
 
 }
+
