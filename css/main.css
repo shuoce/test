@@ -402,10 +402,10 @@ body::after{
 #visualizer{
     position:absolute;
     left:50%;
-    top:72px;
+    top:32px;
 
-    width:180px;
-    height:180px;
+    width:240px;
+    height:240px;
 
     transform:translateX(-50%);
     pointer-events:none;
@@ -638,15 +638,13 @@ body::after{
 
     #visualizer{
     position:absolute;
-
     left:50%;
-    top:40px;
+    top:16px;
 
-    width:90px;
-    height:90px;
+    width:120px;
+    height:120px;
 
     transform:translateX(-50%);
-
     pointer-events:none;
     background:transparent;
 }
@@ -673,4 +671,3 @@ body::after{
     }
 
 }
-
