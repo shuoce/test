@@ -9,27 +9,25 @@
 }
 
 /* =========================
-   🌍 BODY 基础（主题核心）
+   BODY
 ========================= */
 body{
     min-height:100vh;
     color:#fff;
     overflow-x:hidden;
     padding-bottom:120px;
-
     background:#000;
-    transition:background .4s ease, color .4s ease;
+    transition:background .4s ease,color .4s ease;
 }
 
 /* =========================
-   背景层
+   背景
 ========================= */
 body::before{
     content:"";
     position:fixed;
     inset:0;
-    background:url("../background.jpg") center center no-repeat;
-    background-size:cover;
+    background:url("../background.jpg") center/cover no-repeat;
     filter:blur(12px);
     transform:scale(1.08);
     z-index:-2;
@@ -41,7 +39,6 @@ body::after{
     inset:0;
     background:rgba(0,0,0,.45);
     z-index:-1;
-    transition:background .4s ease;
 }
 
 /* =========================
@@ -70,7 +67,6 @@ body::after{
     border:1px solid rgba(255,255,255,.12);
     border-radius:30px;
     padding:30px;
-    transition:all .4s ease;
 }
 
 /* =========================
@@ -86,13 +82,12 @@ body::after{
     height:90px;
     margin:0 auto 18px;
     display:block;
-    object-fit:cover;
     border-radius:50%;
-    border:3px solid rgba(255,255,255,.25);
+    object-fit:cover;
 }
 
 /* =========================
-   主题按钮（优化对称）
+   主题按钮
 ========================= */
 .theme-switch{
     position:absolute;
@@ -100,7 +95,6 @@ body::after{
     right:20px;
     display:flex;
     gap:10px;
-    z-index:10000;
 }
 
 .theme-switch button{
@@ -114,32 +108,34 @@ body::after{
 }
 
 /* =========================
-   🔥 搜索（最终稳定版）
+   🔥 搜索（彻底修复不挤）
 ========================= */
 .search-box{
     max-width:900px;
     margin:30px auto;
-    padding:0;
+    padding:0 10px;
 }
 
 .search-form{
     display:flex;
     gap:10px;
     align-items:center;
-    flex-wrap:wrap;
+    flex-wrap:nowrap;   /* ❗关键：不换行避免错位 */
 }
 
 .search-form select{
-    flex:0 0 120px;
+    width:120px;
+    flex-shrink:0;
 }
 
 .search-form input{
     flex:1;
-    min-width:180px;
+    min-width:0;
 }
 
 .search-form button{
-    flex:0 0 90px;
+    width:90px;
+    flex-shrink:0;
 }
 
 .search-form select,
@@ -152,30 +148,6 @@ body::after{
     color:#fff;
     outline:none;
     font-size:14px;
-}
-
-/* =========================
-   折叠
-========================= */
-.fold-header{
-    display:flex;
-    align-items:center;
-    gap:10px;
-    margin:20px 0;
-    font-size:20px;
-    font-weight:bold;
-    cursor:pointer;
-    user-select:none;
-}
-
-.fold-content{
-    overflow:hidden;
-    max-height:0;
-    transition:max-height .35s ease;
-}
-
-.fold-content.show{
-    max-height:2000px;
 }
 
 /* =========================
@@ -194,28 +166,28 @@ body::after{
     border-radius:20px;
     padding:22px;
     text-align:center;
-    transition:.25s;
-}
-
-.card:hover{
-    transform:translateY(-6px);
-    background:rgba(255,255,255,.15);
 }
 
 /* =========================
-   🌙 深色
+   折叠
+========================= */
+.fold-header{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin:20px 0;
+    font-size:20px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+/* =========================
+   🌙 主题
 ========================= */
 body.dark-mode .panel{
     background:rgba(0,0,0,.45);
 }
 
-body.dark-mode .card{
-    background:rgba(255,255,255,.06);
-}
-
-/* =========================
-   ☀️ 浅色（修复对比）
-========================= */
 body.light-mode{
     color:#111;
     background:#f5f7fb;
@@ -226,11 +198,6 @@ body.light-mode .panel{
     color:#111;
 }
 
-body.light-mode .card{
-    background:rgba(255,255,255,.95);
-    color:#111;
-}
-
 body.light-mode .search-form input,
 body.light-mode .search-form select{
     background:rgba(0,0,0,.05);
@@ -238,24 +205,7 @@ body.light-mode .search-form select{
 }
 
 /* =========================
-   👁️ 透明模式
-========================= */
-body.transparent-mode::after{
-    background:rgba(0,0,0,.15);
-}
-
-body.transparent-mode .panel{
-    background:rgba(255,255,255,.03);
-    backdrop-filter:none;
-    border:1px solid rgba(255,255,255,.05);
-}
-
-body.transparent-mode .card{
-    background:rgba(255,255,255,.05);
-}
-
-/* =========================
-   🎵 音乐播放器（保持不动）
+   🎵 音乐播放器（核心修复）
 ========================= */
 .music-player{
     position:fixed;
@@ -266,101 +216,75 @@ body.transparent-mode .card{
     border-radius:18px;
     background:rgba(18,18,18,.72);
     backdrop-filter:blur(20px);
-    border:1px solid rgba(255,255,255,.10);
-    box-shadow:0 10px 26px rgba(0,0,0,.35);
-    z-index:9998;
+    transition:.3s;
     overflow:hidden;
-    transition:all .3s ease;
 }
 
+/* 折叠 */
 .music-player.folded{
     width:72px;
     height:72px;
-    padding:5px;
+    padding:6px;
     border-radius:50%;
 }
 
+/* 隐藏 */
 .music-player.folded .music-title,
 .music-player.folded .music-time,
 .music-player.folded .music-control,
 .music-player.folded .progress,
 .music-player.folded .volume-slider{
-    display:none !important;
+    display:none;
 }
 
-.music-fold{
-    position:absolute;
-    top:6px;
-    right:6px;
-    width:24px;
-    height:24px;
-    border:none;
-    border-radius:50%;
-    background:rgba(255,255,255,.18);
-    color:#fff;
-    cursor:pointer;
-}
-
+/* 关键修复：视觉区域 */
 .visual-area{
     position:relative;
     width:200px;
     height:200px;
-    margin:5px auto 10px;
+    margin:10px auto;
+    display:flex;
+    align-items:center;
+    justify-content:center;
 }
 
 .music-player.folded .visual-area{
-    width:62px;
-    height:62px;
+    width:60px;
+    height:60px;
 }
 
+/* canvas */
 #visualizer{
     position:absolute;
     inset:0;
-    width:100%;
-    height:100%;
 }
 
-.music-player.folded #visualizer{
-    opacity:0;
-}
-
+/* ⭐ 修复核心：vinyl 改成相对流式居中 */
 #vinyl{
-    position:absolute;
-    left:50%;
-    top:50%;
-    transform:translate(-50%,-50%);
-    width:74px;
-    height:74px;
+    width:80px;
+    height:80px;
     border-radius:50%;
     overflow:hidden;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    position:relative;
+    z-index:2;
 }
 
 .music-player.folded #vinyl{
-    width:52px;
-    height:52px;
+    width:50px;
+    height:50px;
 }
 
+/* 图片 */
 #vinyl img{
     width:100%;
     height:100%;
     object-fit:cover;
 }
 
-#vinyl.playing img{
-    animation:spin 8s linear infinite;
-}
-
-@keyframes spin{
-    from{transform:rotate(0deg);}
-    to{transform:rotate(360deg);}
-}
-
-.music-title{
-    text-align:center;
-    font-size:15px;
-    margin-top:6px;
-}
-
+/* 控制 */
 .music-control{
     display:flex;
     justify-content:center;
@@ -373,10 +297,9 @@ body.transparent-mode .card{
     border:none;
     border-radius:50%;
     background:rgba(255,255,255,.15);
-    color:#fff;
-    cursor:pointer;
 }
 
+/* 进度 */
 .progress{
     width:100%;
     margin:10px 0;
@@ -388,64 +311,42 @@ body.transparent-mode .card{
     font-size:12px;
 }
 
-.volume-slider{
-    width:100%;
-    margin-top:10px;
-}
-
-/* =========================
-   📱 手机优化（彻底防挤）
-========================= */
+/* 手机 */
 @media (max-width:768px){
 
-    .search-form{
-        flex-direction:column;
-        align-items:stretch;
-    }
+.search-form{
+    flex-wrap:wrap;
+}
 
-    .search-form select,
-    .search-form input,
-    .search-form button{
-        width:100%;
-    }
+.search-form select,
+.search-form input,
+.search-form button{
+    width:100%;
+}
 
-    .music-player{
-        width:135px;
-        right:6px;
-        bottom:6px;
-        padding:6px;
-        border-radius:12px;
-    }
+.music-player{
+    width:135px;
+    right:6px;
+    bottom:6px;
+}
 
-    .visual-area{
-        width:100px;
-        height:100px;
-    }
+.visual-area{
+    width:100px;
+    height:100px;
+}
 
-    #vinyl{
-        width:44px;
-        height:44px;
-    }
+#vinyl{
+    width:44px;
+    height:44px;
+}
 
-    .music-player.folded{
-        width:60px;
-        height:60px;
-    }
+.music-player.folded{
+    width:60px;
+    height:60px;
+}
 
-    .music-player.folded #vinyl{
-        width:42px;
-        height:42px;
-    }
-
-    .music-title{
-        font-size:10px;
-        white-space:nowrap;
-        overflow:hidden;
-        text-overflow:ellipsis;
-    }
-
-    .music-btn{
-        width:28px;
-        height:28px;
-    }
+.music-player.folded #vinyl{
+    width:42px;
+    height:42px;
+}
 }
