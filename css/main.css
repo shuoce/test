@@ -13,6 +13,10 @@ body{
     color:#fff;
     overflow-x:hidden;
     padding-bottom:120px;
+
+    /* ✅ 默认主题变量 */
+    background: #000;
+    transition: background .3s ease, color .3s ease;
 }
 
 /* =========================
@@ -35,6 +39,7 @@ body::after{
     inset:0;
     background:rgba(0,0,0,.45);
     z-index:-1;
+    transition: background .3s ease;
 }
 
 /* =========================
@@ -63,6 +68,7 @@ body::after{
     border:1px solid rgba(255,255,255,.12);
     border-radius:30px;
     padding:40px;
+    transition: all .3s ease;
 }
 
 /* =========================
@@ -204,6 +210,53 @@ body::after{
 }
 
 /* =========================
+   🎯 主题系统（新增核心）
+========================= */
+
+/* 🌙 深色模式 */
+body.dark-mode{
+    color:#fff;
+}
+
+body.dark-mode .panel{
+    background:rgba(0,0,0,.45);
+}
+
+body.dark-mode .card{
+    background:rgba(0,0,0,.35);
+}
+
+/* ☀️ 浅色模式 */
+body.light-mode{
+    color:#111;
+}
+
+body.light-mode .panel{
+    background:rgba(255,255,255,.75);
+    color:#111;
+}
+
+body.light-mode .card{
+    background:rgba(255,255,255,.6);
+    color:#111;
+}
+
+/* 👁️ 透明模式（玻璃强度关闭） */
+body.transparent-mode::after{
+    background:rgba(0,0,0,.15);
+}
+
+body.transparent-mode .panel{
+    background:rgba(255,255,255,0.03);
+    backdrop-filter:none;
+    border:1px solid rgba(255,255,255,.05);
+}
+
+body.transparent-mode .card{
+    background:rgba(255,255,255,0.05);
+}
+
+/* =========================
    音乐播放器
 ========================= */
 .music-player{
@@ -222,9 +275,7 @@ body::after{
     transition:all .3s ease;
 }
 
-/* =========================
-   折叠状态
-========================= */
+/* 折叠状态 */
 .music-player.folded{
     width:72px;
     height:72px;
@@ -233,7 +284,7 @@ body::after{
     overflow:hidden;
 }
 
-/* 隐藏其它内容 */
+/* 隐藏内容 */
 .music-player.folded .music-title,
 .music-player.folded .music-artist,
 .music-player.folded .progress,
@@ -243,9 +294,7 @@ body::after{
     display:none !important;
 }
 
-/* =========================
-   折叠按钮
-========================= */
+/* 折叠按钮 */
 .music-fold{
     position:absolute;
     top:6px;
@@ -261,9 +310,7 @@ body::after{
     z-index:1000;
 }
 
-/* =========================
-   黑胶区域
-========================= */
+/* 黑胶区域 */
 .visual-area{
     position:relative;
     width:200px;
@@ -271,33 +318,25 @@ body::after{
     margin:5px auto 10px;
 }
 
-/* 折叠时缩小黑胶区域 */
 .music-player.folded .visual-area{
     width:62px;
     height:62px;
-    margin:0 auto;
 }
 
-/* =========================
-   频谱
-========================= */
+/* 频谱 */
 #visualizer{
     position:absolute;
     inset:0;
     width:100%;
     height:100%;
     pointer-events:none;
-    z-index:1;
 }
 
-/* 折叠后仅隐藏频谱，不移除 */
 .music-player.folded #visualizer{
     opacity:0;
 }
 
-/* =========================
-   黑胶
-========================= */
+/* 黑胶 */
 #vinyl{
     position:absolute;
     left:50%;
@@ -307,54 +346,36 @@ body::after{
     height:74px;
     border-radius:50%;
     overflow:hidden;
-    z-index:2;
 }
 
-/* 折叠后的黑胶 */
 .music-player.folded #vinyl{
     width:52px;
     height:52px;
 }
 
 #vinyl img{
-    display:block;
     width:100%;
     height:100%;
     object-fit:cover;
 }
 
-/* 旋转 */
 #vinyl.playing img{
     animation:spin 8s linear infinite;
 }
 
 @keyframes spin{
-    from{
-        transform:rotate(0deg);
-    }
-    to{
-        transform:rotate(360deg);
-    }
+    from{transform:rotate(0deg);}
+    to{transform:rotate(360deg);}
 }
 
-/* =========================
-   标题
-========================= */
+/* 标题 */
 .music-title{
     text-align:center;
     font-size:15px;
     margin-top:6px;
 }
 
-.music-artist{
-    text-align:center;
-    font-size:10px;
-    opacity:.7;
-}
-
-/* =========================
-   控制按钮
-========================= */
+/* 控制 */
 .music-control{
     display:flex;
     justify-content:center;
@@ -369,16 +390,9 @@ body::after{
     background:rgba(255,255,255,.15);
     color:#fff;
     cursor:pointer;
-    transition:.2s;
 }
 
-.music-btn:hover{
-    background:rgba(255,255,255,.25);
-}
-
-/* =========================
-   进度条
-========================= */
+/* 进度 */
 .progress{
     width:100%;
     margin:10px 0;
@@ -388,12 +402,9 @@ body::after{
     display:flex;
     justify-content:space-between;
     font-size:12px;
-    opacity:.75;
 }
 
-/* =========================
-   音量
-========================= */
+/* 音量 */
 .volume-slider{
     width:100%;
     margin-top:10px;
@@ -430,7 +441,6 @@ body::after{
 
     .music-player.folded .visual-area{
         width:52px;
-        height:52px;
     }
 
     .music-player.folded #vinyl{
@@ -443,10 +453,6 @@ body::after{
         white-space:nowrap;
         overflow:hidden;
         text-overflow:ellipsis;
-    }
-
-    .music-artist{
-        font-size:8px;
     }
 
     .music-control{
