@@ -1,5 +1,5 @@
 /* =========================
-   RESET
+   基础重置
 ========================= */
 *{
     margin:0;
@@ -8,26 +8,26 @@
     font-family:"Microsoft YaHei",sans-serif;
 }
 
-/* =========================
-   BODY
-========================= */
 body{
     min-height:100vh;
     color:#fff;
     overflow-x:hidden;
     padding-bottom:120px;
-    background:#000;
-    transition:all .4s ease;
+
+    /* ✅ 默认主题变量 */
+    background: #000;
+    transition: background .3s ease, color .3s ease;
 }
 
 /* =========================
-   BACKGROUND
+   背景
 ========================= */
 body::before{
     content:"";
     position:fixed;
     inset:0;
-    background:url("../background.jpg") center/cover no-repeat;
+    background:url("../background.jpg") center center no-repeat;
+    background-size:cover;
     filter:blur(12px);
     transform:scale(1.08);
     z-index:-2;
@@ -39,10 +39,11 @@ body::after{
     inset:0;
     background:rgba(0,0,0,.45);
     z-index:-1;
+    transition: background .3s ease;
 }
 
 /* =========================
-   PARTICLES
+   粒子
 ========================= */
 #particles-js{
     position:fixed;
@@ -52,7 +53,7 @@ body::after{
 }
 
 /* =========================
-   LAYOUT
+   主体
 ========================= */
 .container{
     max-width:1100px;
@@ -66,11 +67,12 @@ body::after{
     backdrop-filter:blur(22px);
     border:1px solid rgba(255,255,255,.12);
     border-radius:30px;
-    padding:30px;
+    padding:40px;
+    transition: all .3s ease;
 }
 
 /* =========================
-   HEADER
+   头部
 ========================= */
 .header{
     text-align:center;
@@ -80,71 +82,88 @@ body::after{
 #avatar{
     width:90px;
     height:90px;
-    border-radius:50%;
+    margin:0 auto 18px;
+    display:block;
     object-fit:cover;
+    border-radius:50%;
     border:3px solid rgba(255,255,255,.25);
 }
 
-/* =========================
-   THEME BUTTON
-========================= */
-.theme-switch{
-    position:absolute;
-    top:20px;
-    right:20px;
-    display:flex;
-    gap:10px;
-}
-
-.theme-switch button{
-    width:46px;
-    height:46px;
-    border:none;
-    border-radius:50%;
-    background:rgba(255,255,255,.15);
-    color:#fff;
+@media (max-width:768px){
+    #avatar{
+        width:70px;
+        height:70px;
+    }
 }
 
 /* =========================
-   SEARCH（彻底修复挤压）
+   搜索
 ========================= */
 .search-box{
     max-width:900px;
-    margin:30px auto;
+    margin:35px auto;
+    padding:0 20px;
 }
 
 .search-form{
     display:flex;
     gap:10px;
     align-items:center;
-    flex-wrap:wrap;
-}
-
-.search-form select{
-    width:120px;
 }
 
 .search-form input{
     flex:1;
-    min-width:200px;
-}
-
-.search-form button{
-    width:90px;
 }
 
 .search-form select,
-.search-form input,
-.search-form button{
+.search-form input{
     padding:15px;
     border:none;
     border-radius:14px;
     background:rgba(255,255,255,.15);
     color:#fff;
+    outline:none;
+    font-size:14px;
+    min-width:0;
+}
+
+.search-form button{
+    padding:15px 22px;
+    border:none;
+    border-radius:14px;
+    background:#4fc3f7;
+    color:#fff;
+    cursor:pointer;
+    transition:.2s;
+    font-size:14px;
 }
 
 /* =========================
-   GRID
+   折叠
+========================= */
+.fold-header{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin:20px 0;
+    font-size:20px;
+    font-weight:bold;
+    cursor:pointer;
+    user-select:none;
+}
+
+.fold-content{
+    overflow:hidden;
+    max-height:0;
+    transition:max-height .35s ease;
+}
+
+.fold-content.show{
+    max-height:2000px;
+}
+
+/* =========================
+   卡片
 ========================= */
 .grid{
     display:grid;
@@ -159,10 +178,86 @@ body::after{
     border-radius:20px;
     padding:22px;
     text-align:center;
+    transition:.25s;
+}
+
+.card:hover{
+    transform:translateY(-6px);
+    background:rgba(255,255,255,.15);
 }
 
 /* =========================
-   MUSIC PLAYER（核心修复）
+   主题按钮
+========================= */
+.theme-switch{
+    position:absolute;
+    top:25px;
+    right:25px;
+    display:flex;
+    gap:10px;
+    z-index:10000;
+}
+
+.theme-switch button{
+    width:46px;
+    height:46px;
+    border:none;
+    border-radius:50%;
+    background:rgba(255,255,255,.15);
+    backdrop-filter:blur(15px);
+    color:#fff;
+    cursor:pointer;
+}
+
+/* =========================
+   🎯 主题系统（新增核心）
+========================= */
+
+/* 🌙 深色模式 */
+body.dark-mode{
+    color:#fff;
+}
+
+body.dark-mode .panel{
+    background:rgba(0,0,0,.45);
+}
+
+body.dark-mode .card{
+    background:rgba(0,0,0,.35);
+}
+
+/* ☀️ 浅色模式 */
+body.light-mode{
+    color:#111;
+}
+
+body.light-mode .panel{
+    background:rgba(255,255,255,.75);
+    color:#111;
+}
+
+body.light-mode .card{
+    background:rgba(255,255,255,.6);
+    color:#111;
+}
+
+/* 👁️ 透明模式（玻璃强度关闭） */
+body.transparent-mode::after{
+    background:rgba(0,0,0,.15);
+}
+
+body.transparent-mode .panel{
+    background:rgba(255,255,255,0.03);
+    backdrop-filter:none;
+    border:1px solid rgba(255,255,255,.05);
+}
+
+body.transparent-mode .card{
+    background:rgba(255,255,255,0.05);
+}
+
+/* =========================
+   音乐播放器
 ========================= */
 .music-player{
     position:fixed;
@@ -173,78 +268,86 @@ body::after{
     border-radius:18px;
     background:rgba(18,18,18,.72);
     backdrop-filter:blur(20px);
+    border:1px solid rgba(255,255,255,.10);
+    box-shadow:0 10px 26px rgba(0,0,0,.35);
+    z-index:9998;
     overflow:hidden;
     transition:all .3s ease;
 }
 
-/* fold */
+/* 折叠状态 */
 .music-player.folded{
     width:72px;
     height:72px;
+    padding:5px;
     border-radius:50%;
-    padding:0;
-    display:flex;
-    align-items:center;
-    justify-content:center;
+    overflow:hidden;
 }
 
-/* fold隐藏 */
+/* 隐藏内容 */
 .music-player.folded .music-title,
+.music-player.folded .music-artist,
+.music-player.folded .progress,
 .music-player.folded .music-time,
 .music-player.folded .music-control,
-.music-player.folded .progress,
 .music-player.folded .volume-slider{
     display:none !important;
 }
 
-/* fold按钮 */
+/* 折叠按钮 */
 .music-fold{
     position:absolute;
     top:6px;
     right:6px;
     width:24px;
     height:24px;
+    border:none;
     border-radius:50%;
+    background:rgba(255,255,255,.18);
+    color:#fff;
+    cursor:pointer;
+    font-size:12px;
+    z-index:1000;
 }
 
-/* 视觉区统一居中（关键修复） */
+/* 黑胶区域 */
 .visual-area{
+    position:relative;
     width:200px;
     height:200px;
-    margin:0 auto;
-    position:relative;
-    display:flex;
-    align-items:center;
-    justify-content:center;
+    margin:5px auto 10px;
 }
 
-/* fold状态视觉区 */
 .music-player.folded .visual-area{
-    width:60px;
-    height:60px;
+    width:62px;
+    height:62px;
 }
 
-/* canvas */
+/* 频谱 */
 #visualizer{
     position:absolute;
     inset:0;
     width:100%;
     height:100%;
+    pointer-events:none;
 }
 
-/* vinyl（关键修复：绝对居中 + 不变形） */
+.music-player.folded #visualizer{
+    opacity:0;
+}
+
+/* 黑胶 */
 #vinyl{
     position:absolute;
+    left:50%;
+    top:50%;
+    transform:translate(-50%,-50%);
     width:74px;
     height:74px;
     border-radius:50%;
     overflow:hidden;
-    display:flex;
-    align-items:center;
-    justify-content:center;
 }
 
-/* fold状态 */
 .music-player.folded #vinyl{
     width:52px;
     height:52px;
@@ -256,17 +359,23 @@ body::after{
     object-fit:cover;
 }
 
-/* spinning */
 #vinyl.playing img{
     animation:spin 8s linear infinite;
 }
 
 @keyframes spin{
-    from{transform:rotate(0);}
+    from{transform:rotate(0deg);}
     to{transform:rotate(360deg);}
 }
 
-/* controls */
+/* 标题 */
+.music-title{
+    text-align:center;
+    font-size:15px;
+    margin-top:6px;
+}
+
+/* 控制 */
 .music-control{
     display:flex;
     justify-content:center;
@@ -279,27 +388,39 @@ body::after{
     border:none;
     border-radius:50%;
     background:rgba(255,255,255,.15);
+    color:#fff;
+    cursor:pointer;
+}
+
+/* 进度 */
+.progress{
+    width:100%;
+    margin:10px 0;
+}
+
+.music-time{
+    display:flex;
+    justify-content:space-between;
+    font-size:12px;
+}
+
+/* 音量 */
+.volume-slider{
+    width:100%;
+    margin-top:10px;
 }
 
 /* =========================
-   MOBILE
+   手机端
 ========================= */
 @media (max-width:768px){
 
-    .search-form{
-        flex-direction:column;
-    }
-
-    .search-form input,
-    .search-form select,
-    .search-form button{
-        width:100%;
-    }
-
     .music-player{
-        width:140px;
+        width:135px;
         right:6px;
         bottom:6px;
+        padding:6px;
+        border-radius:12px;
     }
 
     .visual-area{
@@ -311,4 +432,36 @@ body::after{
         width:44px;
         height:44px;
     }
-   }
+
+    .music-player.folded{
+        width:60px;
+        height:60px;
+        padding:4px;
+    }
+
+    .music-player.folded .visual-area{
+        width:52px;
+    }
+
+    .music-player.folded #vinyl{
+        width:42px;
+        height:42px;
+    }
+
+    .music-title{
+        font-size:10px;
+        white-space:nowrap;
+        overflow:hidden;
+        text-overflow:ellipsis;
+    }
+
+    .music-control{
+        gap:5px;
+    }
+
+    .music-btn{
+        width:28px;
+        height:28px;
+    }
+}
+
