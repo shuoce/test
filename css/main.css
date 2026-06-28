@@ -4,7 +4,6 @@
 *{
     margin:0;
     padding:0;
-    padding:0;
     box-sizing:border-box;
     font-family:"Microsoft YaHei",sans-serif;
 }
@@ -84,8 +83,15 @@ body::after{
     border:3px solid rgba(255,255,255,.25);
 }
 
+@media (max-width:768px){
+    #avatar{
+        width:70px;
+        height:70px;
+    }
+}
+
 /* =========================
-   搜索（不动）
+   搜索
 ========================= */
 .search-box{
     max-width:900px;
@@ -99,9 +105,7 @@ body::after{
     align-items:center;
 }
 
-.search-form input{
-    flex:1;
-}
+.search-form input{ flex:1; }
 
 .search-form select,
 .search-form input{
@@ -122,10 +126,12 @@ body::after{
     background:#4fc3f7;
     color:#fff;
     cursor:pointer;
+    transition:.2s;
+    font-size:14px;
 }
 
 /* =========================
-   折叠（不动）
+   折叠
 ========================= */
 .fold-header{
     display:flex;
@@ -149,7 +155,7 @@ body::after{
 }
 
 /* =========================
-   卡片（不动）
+   卡片
 ========================= */
 .grid{
     display:grid;
@@ -157,8 +163,23 @@ body::after{
     gap:18px;
 }
 
+.card{
+    text-decoration:none;
+    color:#fff;
+    background:rgba(255,255,255,.08);
+    border-radius:20px;
+    padding:22px;
+    text-align:center;
+    transition:.25s;
+}
+
+.card:hover{
+    transform:translateY(-6px);
+    background:rgba(255,255,255,.15);
+}
+
 /* =========================
-   主题按钮（关键修复：提高层级）
+   主题按钮（关键修复：防遮挡）
 ========================= */
 .theme-switch{
     position:absolute;
@@ -166,7 +187,7 @@ body::after{
     right:25px;
     display:flex;
     gap:10px;
-    z-index:9999; /* ⭐防止被播放器盖住 */
+    z-index:10000;
 }
 
 .theme-switch button{
@@ -199,7 +220,7 @@ body::after{
 }
 
 /* =========================
-   折叠按钮（⭐关键修复）
+   ⭐折叠按钮（核心修复）
 ========================= */
 .music-fold{
     position:absolute;
@@ -213,11 +234,11 @@ body::after{
     color:#fff;
     font-size:12px;
     cursor:pointer;
-    z-index:99999;   /* ⭐确保永远可见 */
+    z-index:999999;
 }
 
 /* =========================
-   频谱 + 黑胶（只修复不改结构）
+   频谱 + 黑胶（不改布局）
 ========================= */
 .visual-area{
     position:relative;
@@ -226,16 +247,16 @@ body::after{
     margin:5px auto 10px;
 }
 
-/* canvas */
 #visualizer{
     position:absolute;
     inset:0;
     width:100%;
     height:100%;
     pointer-events:none;
+    z-index:1;
 }
 
-/* 黑胶（修复：避免播放“跑偏”） */
+/* ⭐关键修复：防止播放“跑位” */
 #vinyl{
     position:absolute;
     top:50%;
@@ -246,17 +267,15 @@ body::after{
     border-radius:50%;
     overflow:hidden;
     z-index:2;
-    box-shadow:0 0 14px rgba(255,255,255,.16);
 }
 
-/* ⭐关键修复：只旋转 img，不动外层 */
 #vinyl img{
     width:100%;
     height:100%;
     object-fit:cover;
-    display:block;
 }
 
+/* ⭐只旋转 img，避免位移bug */
 #vinyl.playing img{
     animation:spin 8s linear infinite;
 }
@@ -267,8 +286,19 @@ body::after{
 }
 
 /* =========================
-   控制区（不动）
+   控制区
 ========================= */
+.music-title{
+    text-align:center;
+    font-size:15px;
+}
+
+.music-artist{
+    text-align:center;
+    font-size:10px;
+    opacity:.7;
+}
+
 .music-control{
     display:flex;
     justify-content:center;
@@ -276,7 +306,7 @@ body::after{
 }
 
 /* =========================
-   手机端（不动结构）
+   手机端
 ========================= */
 @media (max-width:768px){
 
@@ -298,7 +328,18 @@ body::after{
         height:44px;
     }
 
-    .music-fold{
-        z-index:99999; /* ⭐移动端也保证可点 */
+    .music-title{
+        font-size:10px;
+        white-space:nowrap;
+        overflow:hidden;
+        text-overflow:ellipsis;
+    }
+
+    .music-artist{
+        font-size:8px;
+    }
+
+    .music-control{
+        gap:5px;
     }
 }
