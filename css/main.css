@@ -69,7 +69,7 @@ body::after{
     backdrop-filter:blur(22px);
     border:1px solid rgba(255,255,255,.12);
     border-radius:30px;
-    padding:40px;
+    padding:30px;
     transition:all .4s ease;
 }
 
@@ -91,32 +91,42 @@ body::after{
     border:3px solid rgba(255,255,255,.25);
 }
 
-@media (max-width:768px){
-    #avatar{
-        width:70px;
-        height:70px;
-    }
-}
-
 /* =========================
-   搜索
+   搜索（🔥 已修复不挤问题）
 ========================= */
 .search-box{
     max-width:900px;
-    margin:35px auto;
-    padding:0 20px;
+    margin:30px auto;
+    padding:0;
 }
 
 .search-form{
     display:flex;
     gap:10px;
     align-items:center;
+    flex-wrap:wrap; /* ⭐ 防止挤爆 */
+}
+
+.search-form select{
+    flex:0 0 120px;
 }
 
 .search-form input{
     flex:1;
+    min-width:180px;
 }
 
+.search-form button{
+    flex:0 0 90px;
+    padding:15px 18px;
+    border:none;
+    border-radius:14px;
+    background:#4fc3f7;
+    color:#fff;
+    cursor:pointer;
+}
+
+/* 输入统一 */
 .search-form select,
 .search-form input{
     padding:15px;
@@ -126,15 +136,6 @@ body::after{
     color:#fff;
     outline:none;
     font-size:14px;
-}
-
-.search-form button{
-    padding:15px 22px;
-    border:none;
-    border-radius:14px;
-    background:#4fc3f7;
-    color:#fff;
-    cursor:pointer;
 }
 
 /* =========================
@@ -208,15 +209,10 @@ body::after{
 }
 
 /* =========================
-   🌙 深色模式
+   🌙 深色
 ========================= */
-body.dark-mode{
-    color:#fff;
-}
-
 body.dark-mode .panel{
     background:rgba(0,0,0,.45);
-    border:1px solid rgba(255,255,255,.08);
 }
 
 body.dark-mode .card{
@@ -224,7 +220,7 @@ body.dark-mode .card{
 }
 
 /* =========================
-   ☀️ 浅色模式
+   ☀️ 浅色（重点修复对比）
 ========================= */
 body.light-mode{
     color:#111;
@@ -232,12 +228,12 @@ body.light-mode{
 }
 
 body.light-mode .panel{
-    background:rgba(255,255,255,.75);
+    background:rgba(255,255,255,.85);
     color:#111;
 }
 
 body.light-mode .card{
-    background:rgba(255,255,255,.9);
+    background:rgba(255,255,255,.95);
     color:#111;
 }
 
@@ -265,7 +261,7 @@ body.transparent-mode .card{
 }
 
 /* =========================
-   🎵 音乐播放器（适配HTML）
+   🎵 音乐播放器（保留你原逻辑）
 ========================= */
 .music-player{
     position:fixed;
@@ -283,7 +279,6 @@ body.transparent-mode .card{
     transition:all .3s ease;
 }
 
-/* 折叠 */
 .music-player.folded{
     width:72px;
     height:72px;
@@ -291,7 +286,6 @@ body.transparent-mode .card{
     border-radius:50%;
 }
 
-/* 隐藏 */
 .music-player.folded .music-title,
 .music-player.folded .music-time,
 .music-player.folded .music-control,
@@ -300,7 +294,6 @@ body.transparent-mode .card{
     display:none !important;
 }
 
-/* 折叠按钮 */
 .music-fold{
     position:absolute;
     top:6px;
@@ -314,7 +307,6 @@ body.transparent-mode .card{
     cursor:pointer;
 }
 
-/* 视觉区 */
 .visual-area{
     position:relative;
     width:200px;
@@ -327,7 +319,6 @@ body.transparent-mode .card{
     height:62px;
 }
 
-/* canvas */
 #visualizer{
     position:absolute;
     inset:0;
@@ -339,7 +330,6 @@ body.transparent-mode .card{
     opacity:0;
 }
 
-/* 黑胶 */
 #vinyl{
     position:absolute;
     left:50%;
@@ -371,14 +361,12 @@ body.transparent-mode .card{
     to{transform:rotate(360deg);}
 }
 
-/* 标题 */
 .music-title{
     text-align:center;
     font-size:15px;
     margin-top:6px;
 }
 
-/* 控制 */
 .music-control{
     display:flex;
     justify-content:center;
@@ -395,29 +383,37 @@ body.transparent-mode .card{
     cursor:pointer;
 }
 
-/* 进度 */
 .progress{
     width:100%;
     margin:10px 0;
 }
 
-/* 时间 */
 .music-time{
     display:flex;
     justify-content:space-between;
     font-size:12px;
 }
 
-/* 音量 */
 .volume-slider{
     width:100%;
     margin-top:10px;
 }
 
 /* =========================
-   手机适配
+   📱 手机优化（修复挤压）
 ========================= */
 @media (max-width:768px){
+
+    .search-form{
+        flex-direction:column;
+        align-items:stretch;
+    }
+
+    .search-form select,
+    .search-form input,
+    .search-form button{
+        width:100%;
+    }
 
     .music-player{
         width:135px;
@@ -440,11 +436,6 @@ body.transparent-mode .card{
     .music-player.folded{
         width:60px;
         height:60px;
-        padding:4px;
-    }
-
-    .music-player.folded .visual-area{
-        width:52px;
     }
 
     .music-player.folded #vinyl{
@@ -459,12 +450,8 @@ body.transparent-mode .card{
         text-overflow:ellipsis;
     }
 
-    .music-control{
-        gap:5px;
-    }
-
     .music-btn{
         width:28px;
         height:28px;
     }
-   }
+}
