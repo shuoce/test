@@ -1,6 +1,5 @@
 // ======================================================
-// Music Player V2
-// Part 1
+// Music Player V2 - FIXED VERSION
 // ======================================================
 
 // ======================
@@ -29,18 +28,38 @@ const canvas = document.getElementById("visualizer");
 const ctx = canvas.getContext("2d");
 
 // ======================
-// Canvas
+// Audio Context（延迟初始化优化）
+// ======================
+
+const AudioContext = window.AudioContext || window.webkitAudioContext;
+const audioCtx = new AudioContext();
+
+const analyser = audioCtx.createAnalyser();
+analyser.fftSize = 256;
+
+const bufferLength = analyser.frequencyBinCount;
+const dataArray = new Uint8Array(bufferLength);
+const smoothData = new Float32Array(bufferLength);
+
+let sourceCreated = false;
+
+// ======================
+// Canvas（关键修复）
 // ======================
 
 function resizeCanvas(){
 
-    canvas.width = canvas.offsetWidth;
-    canvas.height = canvas.offsetHeight;
+    const dpr = window.devicePixelRatio || 1;
 
+    const rect = canvas.getBoundingClientRect();
+
+    canvas.width = rect.width * dpr;
+    canvas.height = rect.height * dpr;
+
+    ctx.setTransform(dpr,0,0,dpr,0,0);
 }
 
 window.addEventListener("resize", resizeCanvas);
-resizeCanvas();
 
 // ======================
 // Playlist
@@ -56,28 +75,20 @@ const playlist = [
 let index = 0;
 
 // ======================
-// Audio API
+// 创建 audio source（只执行一次）
 // ======================
 
-const AudioContext = window.AudioContext || window.webkitAudioContext;
+function ensureAudioGraph(){
 
-const audioCtx = new AudioContext();
+    if(sourceCreated) return;
 
-const source = audioCtx.createMediaElementSource(audio);
+    const source = audioCtx.createMediaElementSource(audio);
 
-const analyser = audioCtx.createAnalyser();
+    source.connect(analyser);
+    analyser.connect(audioCtx.destination);
 
-source.connect(analyser);
-analyser.connect(audioCtx.destination);
-
-analyser.fftSize = 256;
-
-const bufferLength = analyser.frequencyBinCount;
-
-const dataArray = new Uint8Array(bufferLength);
-
-// 平滑缓存
-const smoothData = new Float32Array(bufferLength);
+    sourceCreated = true;
+}
 
 // ======================
 // Load Song
@@ -86,26 +97,24 @@ const smoothData = new Float32Array(bufferLength);
 function loadSong(i){
 
     audio.src = playlist[i].src;
-
     musicTitle.innerText = playlist[i].title;
 
     progress.value = 0;
-
     currentTime.innerText = "00:00";
-
     duration.innerText = "00:00";
 
     audio.load();
-
 }
 
 // ======================
-// Start Play
+// Play
 // ======================
 
 async function startPlay(){
 
     try{
+
+        ensureAudioGraph();
 
         if(audioCtx.state === "suspended"){
             await audioCtx.resume();
@@ -114,19 +123,15 @@ async function startPlay(){
         await audio.play();
 
         playBtn.innerText = "⏸";
-
         vinyl.classList.add("playing");
 
     }catch(err){
-
         console.error(err);
-
     }
-
 }
 
 // ======================
-// Time
+// Format Time
 // ======================
 
 function format(t){
@@ -134,53 +139,36 @@ function format(t){
     t = Math.floor(t || 0);
 
     const m = Math.floor(t / 60);
-
     const s = t % 60;
 
     return `${String(m).padStart(2,"0")}:${String(s).padStart(2,"0")}`;
-
 }
 
 // ======================
-// Buttons
+// Controls
 // ======================
 
 playBtn.onclick = async ()=>{
 
     if(audio.paused){
-
         await startPlay();
-
     }else{
-
         audio.pause();
-
-        playBtn.innerText = "▶";
-
-        vinyl.classList.remove("playing");
-
     }
-
 };
 
 prevBtn.onclick = ()=>{
 
     index = (index - 1 + playlist.length) % playlist.length;
-
     loadSong(index);
-
     startPlay();
-
 };
 
 nextBtn.onclick = ()=>{
 
     index = (index + 1) % playlist.length;
-
     loadSong(index);
-
     startPlay();
-
 };
 
 // ======================
@@ -194,64 +182,49 @@ audio.ontimeupdate = ()=>{
         : 0;
 
     currentTime.innerText = format(audio.currentTime);
-
 };
 
 progress.oninput = ()=>{
 
     if(audio.duration){
-
-        audio.currentTime =
-            (progress.value / 100) * audio.duration;
-
+        audio.currentTime = (progress.value / 100) * audio.duration;
     }
-
 };
 
 audio.onloadedmetadata = ()=>{
 
     duration.innerText = format(audio.duration);
-
 };
 
 // ======================
 // Volume
 // ======================
 
-volume.oninput = () => {
+volume.oninput = ()=>{
 
     audio.volume = Number(volume.value);
-
 };
 
 // ======================
 // Events
 // ======================
 
-audio.onended = () => {
+audio.onended = ()=> nextBtn.click();
 
-    nextBtn.click();
-
-};
-
-audio.onplay = () => {
+audio.onplay = ()=>{
 
     playBtn.innerText = "⏸";
-
     vinyl.classList.add("playing");
-
 };
 
-audio.onpause = () => {
+audio.onpause = ()=>{
 
     playBtn.innerText = "▶";
-
     vinyl.classList.remove("playing");
-
 };
 
 // ======================
-// Visualizer（圆形频谱）
+// Visualizer（稳定修复版）
 // ======================
 
 function draw(){
@@ -262,26 +235,25 @@ function draw(){
 
     ctx.clearRect(0,0,canvas.width,canvas.height);
 
-// 发光效果
-ctx.shadowBlur = 12;
-ctx.shadowColor = "#4fc3f7";
+    const rect = canvas.getBoundingClientRect();
 
-    const cx = canvas.width / 2;
-    const cy = canvas.height / 2;
+    const cx = rect.width / 2;
+    const cy = rect.height / 2;
 
-    // 头像半径约60，再留一点距离
-    const radius = 56;
+    const radius = rect.width * 0.28; // ⭐关键：跟随容器比例
+
+    ctx.shadowBlur = 10;
+    ctx.shadowColor = "#4fc3f7";
 
     for(let i=0;i<bufferLength;i++){
 
-        // 平滑过渡
-smoothData[i] += (dataArray[i] - smoothData[i]) * 0.15;
+        smoothData[i] += (dataArray[i] - smoothData[i]) * 0.18;
 
-const value = smoothData[i] / 255;
+        const value = smoothData[i] / 255;
 
-        const angle = i / bufferLength * Math.PI * 2;
+        const angle = (i / bufferLength) * Math.PI * 2;
 
-        const len = 10 + value * 70;
+        const len = 8 + value * radius;
 
         const x1 = cx + Math.cos(angle) * radius;
         const y1 = cy + Math.sin(angle) * radius;
@@ -289,25 +261,23 @@ const value = smoothData[i] / 255;
         const x2 = cx + Math.cos(angle) * (radius + len);
         const y2 = cy + Math.sin(angle) * (radius + len);
 
-        // 蓝白渐变
-const gradient = ctx.createLinearGradient(x1, y1, x2, y2);
-gradient.addColorStop(0, "#00e5ff");
-gradient.addColorStop(0.5, "#4fc3f7");
-gradient.addColorStop(1, "#ffffff");
+        const gradient = ctx.createLinearGradient(x1,y1,x2,y2);
+        gradient.addColorStop(0,"#00e5ff");
+        gradient.addColorStop(0.5,"#4fc3f7");
+        gradient.addColorStop(1,"#ffffff");
 
-ctx.beginPath();
-ctx.strokeStyle = gradient;
-ctx.lineWidth = 1.8;
-ctx.lineCap = "round";
+        ctx.beginPath();
+        ctx.strokeStyle = gradient;
+        ctx.lineWidth = 2;
+        ctx.lineCap = "round";
 
-ctx.moveTo(x1, y1);
-ctx.lineTo(x2, y2);
+        ctx.moveTo(x1,y1);
+        ctx.lineTo(x2,y2);
 
-ctx.stroke();
+        ctx.stroke();
     }
-    
-ctx.shadowBlur = 0;    
-    
+
+    ctx.shadowBlur = 0;
 }
 
 draw();
@@ -318,15 +288,14 @@ draw();
 
 let folded = false;
 
-foldBtn.addEventListener("click", () => {
+foldBtn.onclick = ()=>{
 
     folded = !folded;
 
     musicPlayer.classList.toggle("folded", folded);
 
     foldBtn.innerText = folded ? "←" : "❌";
-
-});
+};
 
 // ======================
 // Init
@@ -335,9 +304,7 @@ foldBtn.addEventListener("click", () => {
 loadSong(index);
 
 audio.volume = 0.8;
-
 volume.value = 0.8;
-
 playBtn.innerText = "▶";
 
 resizeCanvas();
