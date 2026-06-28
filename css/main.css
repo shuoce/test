@@ -8,19 +8,21 @@
     font-family:"Microsoft YaHei",sans-serif;
 }
 
+/* =========================
+   🌍 BODY 基础（主题核心）
+========================= */
 body{
     min-height:100vh;
     color:#fff;
     overflow-x:hidden;
     padding-bottom:120px;
 
-    /* ✅ 默认主题变量 */
-    background: #000;
-    transition: background .3s ease, color .3s ease;
+    background:#000;
+    transition:background .4s ease, color .4s ease;
 }
 
 /* =========================
-   背景
+   背景层
 ========================= */
 body::before{
     content:"";
@@ -39,7 +41,7 @@ body::after{
     inset:0;
     background:rgba(0,0,0,.45);
     z-index:-1;
-    transition: background .3s ease;
+    transition:background .4s ease;
 }
 
 /* =========================
@@ -68,7 +70,7 @@ body::after{
     border:1px solid rgba(255,255,255,.12);
     border-radius:30px;
     padding:40px;
-    transition: all .3s ease;
+    transition:all .4s ease;
 }
 
 /* =========================
@@ -124,7 +126,6 @@ body::after{
     color:#fff;
     outline:none;
     font-size:14px;
-    min-width:0;
 }
 
 .search-form button{
@@ -134,8 +135,6 @@ body::after{
     background:#4fc3f7;
     color:#fff;
     cursor:pointer;
-    transition:.2s;
-    font-size:14px;
 }
 
 /* =========================
@@ -204,31 +203,32 @@ body::after{
     border:none;
     border-radius:50%;
     background:rgba(255,255,255,.15);
-    backdrop-filter:blur(15px);
     color:#fff;
     cursor:pointer;
 }
 
 /* =========================
-   🎯 主题系统（新增核心）
+   🌙 深色模式
 ========================= */
-
-/* 🌙 深色模式 */
 body.dark-mode{
     color:#fff;
 }
 
 body.dark-mode .panel{
     background:rgba(0,0,0,.45);
+    border:1px solid rgba(255,255,255,.08);
 }
 
 body.dark-mode .card{
-    background:rgba(0,0,0,.35);
+    background:rgba(255,255,255,.06);
 }
 
-/* ☀️ 浅色模式 */
+/* =========================
+   ☀️ 浅色模式
+========================= */
 body.light-mode{
     color:#111;
+    background:#f5f7fb;
 }
 
 body.light-mode .panel{
@@ -237,27 +237,35 @@ body.light-mode .panel{
 }
 
 body.light-mode .card{
-    background:rgba(255,255,255,.6);
+    background:rgba(255,255,255,.9);
     color:#111;
 }
 
-/* 👁️ 透明模式（玻璃强度关闭） */
+body.light-mode .search-form input,
+body.light-mode .search-form select{
+    background:rgba(0,0,0,.05);
+    color:#111;
+}
+
+/* =========================
+   👁️ 透明模式
+========================= */
 body.transparent-mode::after{
     background:rgba(0,0,0,.15);
 }
 
 body.transparent-mode .panel{
-    background:rgba(255,255,255,0.03);
+    background:rgba(255,255,255,.03);
     backdrop-filter:none;
     border:1px solid rgba(255,255,255,.05);
 }
 
 body.transparent-mode .card{
-    background:rgba(255,255,255,0.05);
+    background:rgba(255,255,255,.05);
 }
 
 /* =========================
-   音乐播放器
+   🎵 音乐播放器（适配HTML）
 ========================= */
 .music-player{
     position:fixed;
@@ -275,21 +283,19 @@ body.transparent-mode .card{
     transition:all .3s ease;
 }
 
-/* 折叠状态 */
+/* 折叠 */
 .music-player.folded{
     width:72px;
     height:72px;
     padding:5px;
     border-radius:50%;
-    overflow:hidden;
 }
 
-/* 隐藏内容 */
+/* 隐藏 */
 .music-player.folded .music-title,
-.music-player.folded .music-artist,
-.music-player.folded .progress,
 .music-player.folded .music-time,
 .music-player.folded .music-control,
+.music-player.folded .progress,
 .music-player.folded .volume-slider{
     display:none !important;
 }
@@ -306,11 +312,9 @@ body.transparent-mode .card{
     background:rgba(255,255,255,.18);
     color:#fff;
     cursor:pointer;
-    font-size:12px;
-    z-index:1000;
 }
 
-/* 黑胶区域 */
+/* 视觉区 */
 .visual-area{
     position:relative;
     width:200px;
@@ -323,13 +327,12 @@ body.transparent-mode .card{
     height:62px;
 }
 
-/* 频谱 */
+/* canvas */
 #visualizer{
     position:absolute;
     inset:0;
     width:100%;
     height:100%;
-    pointer-events:none;
 }
 
 .music-player.folded #visualizer{
@@ -398,6 +401,7 @@ body.transparent-mode .card{
     margin:10px 0;
 }
 
+/* 时间 */
 .music-time{
     display:flex;
     justify-content:space-between;
@@ -411,7 +415,7 @@ body.transparent-mode .card{
 }
 
 /* =========================
-   手机端
+   手机适配
 ========================= */
 @media (max-width:768px){
 
@@ -463,4 +467,4 @@ body.transparent-mode .card{
         width:28px;
         height:28px;
     }
-}
+   }
