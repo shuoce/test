@@ -4,6 +4,7 @@
 *{
     margin:0;
     padding:0;
+    padding:0;
     box-sizing:border-box;
     font-family:"Microsoft YaHei",sans-serif;
 }
@@ -73,8 +74,18 @@ body::after{
     margin-bottom:30px;
 }
 
+#avatar{
+    width:90px;
+    height:90px;
+    margin:0 auto 18px;
+    display:block;
+    object-fit:cover;
+    border-radius:50%;
+    border:3px solid rgba(255,255,255,.25);
+}
+
 /* =========================
-   搜索（稳定版）
+   搜索（不动）
 ========================= */
 .search-box{
     max-width:900px;
@@ -101,6 +112,72 @@ body::after{
     color:#fff;
     outline:none;
     font-size:14px;
+    min-width:0;
+}
+
+.search-form button{
+    padding:15px 22px;
+    border:none;
+    border-radius:14px;
+    background:#4fc3f7;
+    color:#fff;
+    cursor:pointer;
+}
+
+/* =========================
+   折叠（不动）
+========================= */
+.fold-header{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin:20px 0;
+    font-size:20px;
+    font-weight:bold;
+    cursor:pointer;
+    user-select:none;
+}
+
+.fold-content{
+    overflow:hidden;
+    max-height:0;
+    transition:max-height .35s ease;
+}
+
+.fold-content.show{
+    max-height:2000px;
+}
+
+/* =========================
+   卡片（不动）
+========================= */
+.grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+    gap:18px;
+}
+
+/* =========================
+   主题按钮（关键修复：提高层级）
+========================= */
+.theme-switch{
+    position:absolute;
+    top:25px;
+    right:25px;
+    display:flex;
+    gap:10px;
+    z-index:9999; /* ⭐防止被播放器盖住 */
+}
+
+.theme-switch button{
+    width:46px;
+    height:46px;
+    border:none;
+    border-radius:50%;
+    background:rgba(255,255,255,.15);
+    backdrop-filter:blur(15px);
+    color:#fff;
+    cursor:pointer;
 }
 
 /* =========================
@@ -117,12 +194,12 @@ body::after{
     backdrop-filter:blur(20px);
     border:1px solid rgba(255,255,255,.10);
     box-shadow:0 10px 26px rgba(0,0,0,.35);
-    z-index:99999;
+    z-index:9998;
     overflow:hidden;
 }
 
 /* =========================
-   ⭐关键修复：折叠按钮永远在最上层
+   折叠按钮（⭐关键修复）
 ========================= */
 .music-fold{
     position:absolute;
@@ -132,15 +209,15 @@ body::after{
     height:26px;
     border:none;
     border-radius:50%;
-    background:rgba(255,255,255,.12);
+    background:rgba(255,255,255,.18);
     color:#fff;
     font-size:12px;
     cursor:pointer;
-    z-index:999999; /* ⭐核心 */
+    z-index:99999;   /* ⭐确保永远可见 */
 }
 
 /* =========================
-   频谱区域
+   频谱 + 黑胶（只修复不改结构）
 ========================= */
 .visual-area{
     position:relative;
@@ -156,10 +233,9 @@ body::after{
     width:100%;
     height:100%;
     pointer-events:none;
-    z-index:1;
 }
 
-/* 黑胶 */
+/* 黑胶（修复：避免播放“跑偏”） */
 #vinyl{
     position:absolute;
     top:50%;
@@ -170,15 +246,17 @@ body::after{
     border-radius:50%;
     overflow:hidden;
     z-index:2;
+    box-shadow:0 0 14px rgba(255,255,255,.16);
 }
 
+/* ⭐关键修复：只旋转 img，不动外层 */
 #vinyl img{
     width:100%;
     height:100%;
     object-fit:cover;
+    display:block;
 }
 
-/* 旋转（修复 transform 冲突） */
 #vinyl.playing img{
     animation:spin 8s linear infinite;
 }
@@ -189,7 +267,7 @@ body::after{
 }
 
 /* =========================
-   控制区
+   控制区（不动）
 ========================= */
 .music-control{
     display:flex;
@@ -198,43 +276,7 @@ body::after{
 }
 
 /* =========================
-   ⭐关键修复：折叠状态彻底不干扰按钮
-========================= */
-.music-player.folded{
-    width:72px;
-    height:72px;
-    padding:5px;
-    border-radius:50%;
-}
-
-/* 隐藏内容，但保留按钮 */
-.music-player.folded .music-title,
-.music-player.folded .music-artist,
-.music-player.folded .progress,
-.music-player.folded .music-time,
-.music-player.folded .music-control,
-.music-player.folded .volume-slider,
-.music-player.folded #visualizer{
-    display:none;
-}
-
-/* 黑胶仍居中 */
-.music-player.folded #vinyl{
-    width:52px;
-    height:52px;
-}
-
-/* ⭐关键：按钮不被挤压 */
-.music-player.folded .music-fold{
-    top:6px;
-    right:6px;
-    width:20px;
-    height:20px;
-    font-size:10px;
-}
-
-/* =========================
-   手机端
+   手机端（不动结构）
 ========================= */
 @media (max-width:768px){
 
@@ -254,5 +296,9 @@ body::after{
     #vinyl{
         width:44px;
         height:44px;
+    }
+
+    .music-fold{
+        z-index:99999; /* ⭐移动端也保证可点 */
     }
 }
