@@ -109,7 +109,7 @@ body::after{
 }
 
 /* =========================
-   搜索（优化最终稳定版）
+   搜索（稳定版）
 ========================= */
 
 .search-box{
@@ -137,7 +137,7 @@ body::after{
     color:#fff;
     outline:none;
     font-size:14px;
-    min-width:0; /* ⭐防止手机溢出关键 */
+    min-width:0;
 }
 
 .search-form button{
@@ -157,7 +157,7 @@ body::after{
 }
 
 /* =========================
-   手机端（彻底防溢出优化）
+   手机搜索优化（只保留一份！）
 ========================= */
 
 @media (max-width:768px){
@@ -182,12 +182,7 @@ body::after{
         font-size:13px;
         border-radius:10px;
     }
-
-    .search-form button{
-        padding:10px 12px;
-    }
 }
-
 
 /* =========================
    折叠栏目
@@ -282,7 +277,7 @@ body::after{
 }
 
 /* =========================
-   音乐播放器（最终稳定版）
+   音乐播放器
 ========================= */
 
 .music-player{
@@ -318,17 +313,10 @@ body::after{
     color:#fff;
     font-size:12px;
     cursor:pointer;
-    transition:.2s;
-    z-index:10;
-}
-
-.music-fold:hover{
-    transform:rotate(90deg);
-    background:rgba(255,255,255,.22);
 }
 
 /* =========================
-   频谱区域（稳定居中版）
+   频谱区域（核心稳定版）
 ========================= */
 
 .visual-area{
@@ -336,44 +324,29 @@ body::after{
     width:200px;
     height:200px;
     margin:5px auto 10px;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
 }
 
-/* =========================
-   canvas（完全锁定中心）
-========================= */
-
+/* canvas（JS统一控制） */
 #visualizer{
     position:absolute;
-    top:50%;
-    left:50%;
-    width:200px;
-    height:200px;
-
-    transform:translate(-50%,-50%);
+    inset:0;
+    width:100%;
+    height:100%;
     pointer-events:none;
     z-index:1;
 }
 
-/* =========================
-   黑胶（绝对中心锁定版）
-========================= */
-
+/* 黑胶（和频谱统一比例） */
 #vinyl{
     position:absolute;
     top:50%;
     left:50%;
-    width:74px;
-    height:74px;
-
+    width:38%;
+    height:38%;
+    transform:translate(-50%,-50%);
     border-radius:50%;
     overflow:hidden;
     box-shadow:0 0 14px rgba(255,255,255,.16);
-
-    transform:translate(-50%,-50%);
     z-index:2;
 }
 
@@ -381,21 +354,10 @@ body::after{
     width:100%;
     height:100%;
     object-fit:cover;
-    display:block;
-}
-
-/* 旋转动画（修复 transform 冲突风险） */
-#vinyl.playing{
-    animation:spin 8s linear infinite;
-}
-
-@keyframes spin{
-    from{ transform:rotate(0deg); }
-    to{ transform:rotate(360deg); }
 }
 
 /* =========================
-   标题区（更紧凑）
+   标题区
 ========================= */
 
 .music-title{
@@ -434,7 +396,7 @@ body::after{
 }
 
 /* =========================
-   控制区（压缩间距）
+   控制
 ========================= */
 
 .music-control{
@@ -453,12 +415,6 @@ body::after{
     color:#fff;
     font-size:14px;
     cursor:pointer;
-    transition:.18s;
-}
-
-.music-btn:hover{
-    transform:scale(1.05);
-    background:rgba(255,255,255,.22);
 }
 
 .music-btn.play{
@@ -476,7 +432,7 @@ body::after{
 }
 
 /* =========================
-   折叠模式（稳定不跳动）
+   折叠模式
 ========================= */
 
 .music-player.folded{
@@ -513,15 +469,7 @@ body::after{
 }
 
 /* =========================
-   防闪烁
-========================= */
-
-#musicPlayer{
-    display:block;
-}
-
-/* =========================
-   手机端（重点修复频谱贴合）
+   手机端（最终统一版）
 ========================= */
 
 @media (max-width:768px){
@@ -534,23 +482,14 @@ body::after{
         border-radius:12px;
     }
 
-    /* ⭐关键：统一频谱容器 */
     .visual-area{
         width:100px;
         height:100px;
-        margin:4px auto 6px;
     }
 
-    /* ⭐关键：canvas必须100%跟随容器 */
-    #visualizer{
-        width:100%;
-        height:100%;
-    }
-
-    /* ⭐关键：黑胶跟随缩放中心 */
     #vinyl{
-        width:44px;
-        height:44px;
+        width:38%;
+        height:38%;
     }
 
     .music-title{
