@@ -92,7 +92,29 @@ body::after{
 }
 
 /* =========================
-   搜索（🔥 已修复不挤问题）
+   主题按钮（优化对称）
+========================= */
+.theme-switch{
+    position:absolute;
+    top:20px;
+    right:20px;
+    display:flex;
+    gap:10px;
+    z-index:10000;
+}
+
+.theme-switch button{
+    width:46px;
+    height:46px;
+    border:none;
+    border-radius:50%;
+    background:rgba(255,255,255,.15);
+    color:#fff;
+    cursor:pointer;
+}
+
+/* =========================
+   🔥 搜索（最终稳定版）
 ========================= */
 .search-box{
     max-width:900px;
@@ -104,7 +126,7 @@ body::after{
     display:flex;
     gap:10px;
     align-items:center;
-    flex-wrap:wrap; /* ⭐ 防止挤爆 */
+    flex-wrap:wrap;
 }
 
 .search-form select{
@@ -118,17 +140,11 @@ body::after{
 
 .search-form button{
     flex:0 0 90px;
-    padding:15px 18px;
-    border:none;
-    border-radius:14px;
-    background:#4fc3f7;
-    color:#fff;
-    cursor:pointer;
 }
 
-/* 输入统一 */
 .search-form select,
-.search-form input{
+.search-form input,
+.search-form button{
     padding:15px;
     border:none;
     border-radius:14px;
@@ -187,28 +203,6 @@ body::after{
 }
 
 /* =========================
-   主题按钮
-========================= */
-.theme-switch{
-    position:absolute;
-    top:25px;
-    right:25px;
-    display:flex;
-    gap:10px;
-    z-index:10000;
-}
-
-.theme-switch button{
-    width:46px;
-    height:46px;
-    border:none;
-    border-radius:50%;
-    background:rgba(255,255,255,.15);
-    color:#fff;
-    cursor:pointer;
-}
-
-/* =========================
    🌙 深色
 ========================= */
 body.dark-mode .panel{
@@ -220,7 +214,7 @@ body.dark-mode .card{
 }
 
 /* =========================
-   ☀️ 浅色（重点修复对比）
+   ☀️ 浅色（修复对比）
 ========================= */
 body.light-mode{
     color:#111;
@@ -261,7 +255,7 @@ body.transparent-mode .card{
 }
 
 /* =========================
-   🎵 音乐播放器（保留你原逻辑）
+   🎵 音乐播放器（保持不动）
 ========================= */
 .music-player{
     position:fixed;
@@ -400,7 +394,7 @@ body.transparent-mode .card{
 }
 
 /* =========================
-   📱 手机优化（修复挤压）
+   📱 手机优化（彻底防挤）
 ========================= */
 @media (max-width:768px){
 
