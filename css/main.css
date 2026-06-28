@@ -233,15 +233,32 @@ body::after{
     justify-content:center;
 }
 
-/* 折叠后隐藏内容 */
-.music-player.folded .visual-area,
+/* 折叠后隐藏其它内容，但保留黑胶 */
 .music-player.folded .music-title,
 .music-player.folded .music-artist,
 .music-player.folded .music-control,
 .music-player.folded .progress,
 .music-player.folded .music-time,
-.music-player.folded .volume-slider{
+.music-player.folded .volume-slider,
+.music-player.folded #visualizer{
     display:none !important;
+}
+
+/* 保留黑胶区域 */
+.music-player.folded .visual-area{
+    width:60px;
+    height:60px;
+    margin:0;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+/* 黑胶大小 */
+.music-player.folded #vinyl{
+    width:52px;
+    height:52px;
+    display:block;
 }
 
 /* =========================
