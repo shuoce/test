@@ -1,5 +1,5 @@
 // ======================================================
-// Music Player V2 - FIXED VERSION
+// Music Player V2 - FINAL FIXED (CSS Adapted)
 // ======================================================
 
 // ======================
@@ -28,7 +28,7 @@ const canvas = document.getElementById("visualizer");
 const ctx = canvas.getContext("2d");
 
 // ======================
-// Audio Context（延迟初始化优化）
+// Audio Context
 // ======================
 
 const AudioContext = window.AudioContext || window.webkitAudioContext;
@@ -44,24 +44,6 @@ const smoothData = new Float32Array(bufferLength);
 let sourceCreated = false;
 
 // ======================
-// Canvas（关键修复）
-// ======================
-
-function resizeCanvas(){
-
-    const dpr = window.devicePixelRatio || 1;
-
-    const rect = canvas.getBoundingClientRect();
-
-    canvas.width = rect.width * dpr;
-    canvas.height = rect.height * dpr;
-
-    ctx.setTransform(dpr,0,0,dpr,0,0);
-}
-
-window.addEventListener("resize", resizeCanvas);
-
-// ======================
 // Playlist
 // ======================
 
@@ -75,7 +57,24 @@ const playlist = [
 let index = 0;
 
 // ======================
-// 创建 audio source（只执行一次）
+// Canvas Resize（稳定版）
+// ======================
+
+function resizeCanvas(){
+
+    const rect = canvas.getBoundingClientRect();
+    const dpr = window.devicePixelRatio || 1;
+
+    canvas.width = rect.width * dpr;
+    canvas.height = rect.height * dpr;
+
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+}
+
+window.addEventListener("resize", resizeCanvas);
+
+// ======================
+// Audio Graph（只创建一次）
 // ======================
 
 function ensureAudioGraph(){
@@ -224,7 +223,7 @@ audio.onpause = ()=>{
 };
 
 // ======================
-// Visualizer（稳定修复版）
+// Visualizer（CSS完全适配版）
 // ======================
 
 function draw(){
@@ -233,19 +232,19 @@ function draw(){
 
     analyser.getByteFrequencyData(dataArray);
 
-    ctx.clearRect(0,0,canvas.width,canvas.height);
-
     const rect = canvas.getBoundingClientRect();
+
+    ctx.clearRect(0, 0, rect.width, rect.height);
 
     const cx = rect.width / 2;
     const cy = rect.height / 2;
 
-    const radius = rect.width * 0.28; // ⭐关键：跟随容器比例
+    const radius = rect.width * 0.28;
 
     ctx.shadowBlur = 10;
     ctx.shadowColor = "#4fc3f7";
 
-    for(let i=0;i<bufferLength;i++){
+    for(let i = 0; i < bufferLength; i++){
 
         smoothData[i] += (dataArray[i] - smoothData[i]) * 0.18;
 
@@ -261,18 +260,18 @@ function draw(){
         const x2 = cx + Math.cos(angle) * (radius + len);
         const y2 = cy + Math.sin(angle) * (radius + len);
 
-        const gradient = ctx.createLinearGradient(x1,y1,x2,y2);
-        gradient.addColorStop(0,"#00e5ff");
-        gradient.addColorStop(0.5,"#4fc3f7");
-        gradient.addColorStop(1,"#ffffff");
+        const gradient = ctx.createLinearGradient(x1, y1, x2, y2);
+        gradient.addColorStop(0, "#00e5ff");
+        gradient.addColorStop(0.5, "#4fc3f7");
+        gradient.addColorStop(1, "#ffffff");
 
         ctx.beginPath();
         ctx.strokeStyle = gradient;
         ctx.lineWidth = 2;
         ctx.lineCap = "round";
 
-        ctx.moveTo(x1,y1);
-        ctx.lineTo(x2,y2);
+        ctx.moveTo(x1, y1);
+        ctx.lineTo(x2, y2);
 
         ctx.stroke();
     }
@@ -283,7 +282,7 @@ function draw(){
 draw();
 
 // ======================
-// Fold
+// Fold（核心修复）
 // ======================
 
 let folded = false;
@@ -294,7 +293,15 @@ foldBtn.onclick = ()=>{
 
     musicPlayer.classList.toggle("folded", folded);
 
+    // ⭐关键：防止按钮状态错乱
     foldBtn.innerText = folded ? "←" : "❌";
+
+    // ⭐关键：折叠时停止动画（省性能）
+    if(folded){
+        vinyl.style.animationPlayState = "paused";
+    }else{
+        vinyl.style.animationPlayState = "running";
+    }
 };
 
 // ======================
