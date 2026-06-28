@@ -282,24 +282,24 @@ function draw(){
 draw();
 
 // ======================
-// Fold（核心修复）
+// Fold（修复版）
 // ======================
 
 let folded = false;
 
-foldBtn.onclick = ()=>{
+foldBtn.onclick = () => {
 
     folded = !folded;
 
     musicPlayer.classList.toggle("folded", folded);
 
-    // ⭐关键：防止按钮状态错乱
+    // 按钮状态
     foldBtn.innerText = folded ? "←" : "❌";
 
-    // ⭐关键：折叠时停止动画（省性能）
-    if(folded){
+    // 防止动画异常（只暂停视觉，不影响播放）
+    if (folded) {
         vinyl.style.animationPlayState = "paused";
-    }else{
+    } else {
         vinyl.style.animationPlayState = "running";
     }
 };
