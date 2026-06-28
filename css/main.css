@@ -228,9 +228,11 @@ body::after{
     height:72px;
     padding:5px;
     border-radius:50%;
+    overflow:visible;
+
     display:flex;
-    align-items:center;
     justify-content:center;
+    align-items:center;
 }
 
 /* 折叠后隐藏其它内容，但保留黑胶 */
