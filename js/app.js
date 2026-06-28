@@ -127,34 +127,78 @@ document.getElementById("hitokoto").innerText =
 });
 
 
-// =========================
-// 主题切换
-// =========================
+/* =========================================================
+   🎨 主题系统 FINAL（适配当前HTML）
+========================================================= */
+
 let transparent = false;
 let darkMode = false;
 
-const glassBtn = document.getElementById("glassBtn");
-const modeBtn = document.getElementById("modeBtn");
+// =========================
+// 🚀 初始化（系统 + 记忆）
+// =========================
+(function initTheme(){
 
-// 玻璃 ⇄ 透明
-glassBtn.onclick = () => {
-    transparent = !transparent;
+    const saved = localStorage.getItem("theme");
 
-    document.body.classList.toggle("transparent-mode", transparent);
+    if(saved === "dark"){
+        darkMode = true;
+    }else if(saved === "light"){
+        darkMode = false;
+    }else{
+        // 跟随系统
+        darkMode = window.matchMedia &&
+        window.matchMedia("(prefers-color-scheme: dark)").matches;
+    }
 
-    glassBtn.innerText = transparent ? "👁️" : "🧊";
-};
+    applyTheme();
+})();
 
-// 深色 ⇄ 浅色
-modeBtn.onclick = () => {
-    darkMode = !darkMode;
+// =========================
+// 🎯 应用主题（核心函数）
+// =========================
+function applyTheme(){
 
     document.body.classList.toggle("dark-mode", darkMode);
     document.body.classList.toggle("light-mode", !darkMode);
+    document.body.classList.toggle("transparent-mode", transparent);
 
-    modeBtn.innerText = darkMode ? "🌙" : "☀️";
-};
+    const modeBtn = document.getElementById("modeBtn");
+    const glassBtn = document.getElementById("glassBtn");
 
+    // 防止null报错（很重要）
+    if(modeBtn){
+        modeBtn.innerText = darkMode ? "🌙" : "☀️";
+    }
+
+    if(glassBtn){
+        glassBtn.innerText = transparent ? "👁️" : "🧊";
+    }
+}
+
+// =========================
+// 🧊 透明模式
+// =========================
+document.addEventListener("DOMContentLoaded", () => {
+
+    const glassBtn = document.getElementById("glassBtn");
+    const modeBtn = document.getElementById("modeBtn");
+
+    if(glassBtn){
+        glassBtn.onclick = () => {
+            transparent = !transparent;
+            applyTheme();
+        };
+    }
+
+    if(modeBtn){
+        modeBtn.onclick = () => {
+            darkMode = !darkMode;
+            localStorage.setItem("theme", darkMode ? "dark" : "light");
+            applyTheme();
+        };
+    }
+});
 // =========================
 // 运行时间
 // =========================
