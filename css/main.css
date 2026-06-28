@@ -105,7 +105,9 @@ body::after{
     align-items:center;
 }
 
-.search-form input{ flex:1; }
+.search-form input{
+    flex:1;
+}
 
 .search-form select,
 .search-form input{
@@ -217,72 +219,50 @@ body::after{
     box-shadow:0 10px 26px rgba(0,0,0,.35);
     z-index:9998;
     overflow:hidden;
-    transition:all .25s ease;
+    transition:all .3s ease;
 }
 
 /* =========================
-   ⭐折叠核心修复（关键）
+   折叠状态
 ========================= */
 .music-player.folded{
     width:72px;
     height:72px;
     padding:5px;
     border-radius:50%;
-    overflow:visible;
-
-    display:flex;
-    justify-content:center;
-    align-items:center;
+    overflow:hidden;
 }
 
-/* 折叠后隐藏其它内容，但保留黑胶 */
+/* 隐藏其它内容 */
 .music-player.folded .music-title,
 .music-player.folded .music-artist,
-.music-player.folded .music-control,
 .music-player.folded .progress,
 .music-player.folded .music-time,
-.music-player.folded .volume-slider,
-.music-player.folded #visualizer{
+.music-player.folded .music-control,
+.music-player.folded .volume-slider{
     display:none !important;
 }
 
-/* 保留黑胶区域 */
-.music-player.folded .visual-area{
-    width:60px;
-    height:60px;
-    margin:0;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-}
-
-/* 黑胶大小 */
-.music-player.folded #vinyl{
-    width:52px;
-    height:52px;
-    display:block;
-}
-
 /* =========================
-   折叠按钮（永远可见）
+   折叠按钮
 ========================= */
 .music-fold{
     position:absolute;
-    top:7px;
-    right:7px;
-    width:26px;
-    height:26px;
+    top:6px;
+    right:6px;
+    width:24px;
+    height:24px;
     border:none;
     border-radius:50%;
     background:rgba(255,255,255,.18);
     color:#fff;
-    font-size:12px;
     cursor:pointer;
-    z-index:999999;
+    font-size:12px;
+    z-index:1000;
 }
 
 /* =========================
-   频谱 + 黑胶（不改结构）
+   黑胶区域
 ========================= */
 .visual-area{
     position:relative;
@@ -291,6 +271,16 @@ body::after{
     margin:5px auto 10px;
 }
 
+/* 折叠时缩小黑胶区域 */
+.music-player.folded .visual-area{
+    width:62px;
+    height:62px;
+    margin:0 auto;
+}
+
+/* =========================
+   频谱
+========================= */
 #visualizer{
     position:absolute;
     inset:0;
@@ -300,19 +290,34 @@ body::after{
     z-index:1;
 }
 
+/* 折叠后仅隐藏频谱，不移除 */
+.music-player.folded #visualizer{
+    opacity:0;
+}
+
+/* =========================
+   黑胶
+========================= */
 #vinyl{
     position:absolute;
-    top:50%;
     left:50%;
+    top:50%;
+    transform:translate(-50%,-50%);
     width:74px;
     height:74px;
-    transform:translate(-50%,-50%);
     border-radius:50%;
     overflow:hidden;
     z-index:2;
 }
 
+/* 折叠后的黑胶 */
+.music-player.folded #vinyl{
+    width:52px;
+    height:52px;
+}
+
 #vinyl img{
+    display:block;
     width:100%;
     height:100%;
     object-fit:cover;
@@ -324,8 +329,12 @@ body::after{
 }
 
 @keyframes spin{
-    from{transform:rotate(0deg);}
-    to{transform:rotate(360deg);}
+    from{
+        transform:rotate(0deg);
+    }
+    to{
+        transform:rotate(360deg);
+    }
 }
 
 /* =========================
@@ -334,6 +343,7 @@ body::after{
 .music-title{
     text-align:center;
     font-size:15px;
+    margin-top:6px;
 }
 
 .music-artist{
@@ -343,12 +353,50 @@ body::after{
 }
 
 /* =========================
-   控制
+   控制按钮
 ========================= */
 .music-control{
     display:flex;
     justify-content:center;
     gap:10px;
+}
+
+.music-btn{
+    width:36px;
+    height:36px;
+    border:none;
+    border-radius:50%;
+    background:rgba(255,255,255,.15);
+    color:#fff;
+    cursor:pointer;
+    transition:.2s;
+}
+
+.music-btn:hover{
+    background:rgba(255,255,255,.25);
+}
+
+/* =========================
+   进度条
+========================= */
+.progress{
+    width:100%;
+    margin:10px 0;
+}
+
+.music-time{
+    display:flex;
+    justify-content:space-between;
+    font-size:12px;
+    opacity:.75;
+}
+
+/* =========================
+   音量
+========================= */
+.volume-slider{
+    width:100%;
+    margin-top:10px;
 }
 
 /* =========================
@@ -358,9 +406,9 @@ body::after{
 
     .music-player{
         width:135px;
-        padding:6px;
         right:6px;
         bottom:6px;
+        padding:6px;
         border-radius:12px;
     }
 
@@ -372,6 +420,22 @@ body::after{
     #vinyl{
         width:44px;
         height:44px;
+    }
+
+    .music-player.folded{
+        width:60px;
+        height:60px;
+        padding:4px;
+    }
+
+    .music-player.folded .visual-area{
+        width:52px;
+        height:52px;
+    }
+
+    .music-player.folded #vinyl{
+        width:42px;
+        height:42px;
     }
 
     .music-title{
@@ -388,4 +452,9 @@ body::after{
     .music-control{
         gap:5px;
     }
-   }
+
+    .music-btn{
+        width:28px;
+        height:28px;
+    }
+}
