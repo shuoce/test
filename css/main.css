@@ -179,7 +179,7 @@ body::after{
 }
 
 /* =========================
-   主题按钮（关键修复：防遮挡）
+   主题按钮
 ========================= */
 .theme-switch{
     position:absolute;
@@ -217,10 +217,35 @@ body::after{
     box-shadow:0 10px 26px rgba(0,0,0,.35);
     z-index:9998;
     overflow:hidden;
+    transition:all .25s ease;
 }
 
 /* =========================
-   ⭐折叠按钮（核心修复）
+   ⭐折叠核心修复（关键）
+========================= */
+.music-player.folded{
+    width:72px;
+    height:72px;
+    padding:5px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+/* 折叠后隐藏内容 */
+.music-player.folded .visual-area,
+.music-player.folded .music-title,
+.music-player.folded .music-artist,
+.music-player.folded .music-control,
+.music-player.folded .progress,
+.music-player.folded .music-time,
+.music-player.folded .volume-slider{
+    display:none !important;
+}
+
+/* =========================
+   折叠按钮（永远可见）
 ========================= */
 .music-fold{
     position:absolute;
@@ -238,7 +263,7 @@ body::after{
 }
 
 /* =========================
-   频谱 + 黑胶（不改布局）
+   频谱 + 黑胶（不改结构）
 ========================= */
 .visual-area{
     position:relative;
@@ -256,7 +281,6 @@ body::after{
     z-index:1;
 }
 
-/* ⭐关键修复：防止播放“跑位” */
 #vinyl{
     position:absolute;
     top:50%;
@@ -275,18 +299,18 @@ body::after{
     object-fit:cover;
 }
 
-/* ⭐只旋转 img，避免位移bug */
+/* 旋转 */
 #vinyl.playing img{
     animation:spin 8s linear infinite;
 }
 
 @keyframes spin{
-    from{ transform:rotate(0deg); }
-    to{ transform:rotate(360deg); }
+    from{transform:rotate(0deg);}
+    to{transform:rotate(360deg);}
 }
 
 /* =========================
-   控制区
+   标题
 ========================= */
 .music-title{
     text-align:center;
@@ -299,6 +323,9 @@ body::after{
     opacity:.7;
 }
 
+/* =========================
+   控制
+========================= */
 .music-control{
     display:flex;
     justify-content:center;
@@ -342,4 +369,4 @@ body::after{
     .music-control{
         gap:5px;
     }
-}
+   }
